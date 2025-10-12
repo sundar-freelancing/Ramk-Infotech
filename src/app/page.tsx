@@ -1,103 +1,114 @@
+"use client";
+
 import Image from "next/image";
+import { images } from "@/constant/images";
+import { useWindowSize } from "@/hooks/useWindowSize";
+import { useEffect, useRef } from "react";
+import Typewriter, { TypewriterClass } from "typewriter-effect";
+import { DigitalAcademy } from "@/components/sections/DigitalAcademy";
+import { PrimaryButton } from "@/components/ui/button";
+import { pageLink } from "@/constant/pageURL";
+import { CategoriesSection } from "@/components/sections/CategoriesSection";
+import { FeaturesSection } from "@/components/sections/FeaturesSection";
+import { CoursesSection } from "@/components/sections/CoursesSection";
+import { Container } from "@/components/ui/Container";
+import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
+import { WhyChooseUsSection } from "@/components/sections/WhyChooseUsSection";
+import { FooterSection } from "@/components/sections/FooterSection";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const { isTablet } = useWindowSize();
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (ref.current && !isTablet) {
+      ref.current.style.transform = `translateY(-${ref.current.offsetTop}px)`;
+    } else if (ref.current && isTablet) {
+      ref.current.style.transform = `translateY(-70px)`;
+    }
+  }, [isTablet]);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+  const handleInit = (typewriter: TypewriterClass) => {
+    typewriter
+      .typeString("Online")
+      .pauseFor(1500)
+      .deleteAll()
+      .typeString("Offline")
+      .pauseFor(1500)
+      .deleteAll()
+      .typeString("Everywhere")
+      .pauseFor(1500)
+      .deleteAll()
+      .start();
+  };
+
+  return (
+    <>
+      <div
+        ref={ref}
+        className="min-h-[600px] dark:bg-gray-900 h-screen flex items-center lg:items-end justify-center main-hero relative !max-h-[800px]"
+      >
+        <Container>
+          <div className="grid lg:grid-cols-2 gap-12 items-center pt-20">
+            {/* Left Side - Content */}
+            <div className="text-left space-y-8">
+              {/* Decorative Plus Signs */}
+              <div className="flex items-center space-x-2 mb-4">
+                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+              </div>
+
+              {/* Main Headline */}
+              <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
+                Best{" "}
+                <div className="bg-yellow-400  px-3 py-1 rounded-lg inline-block">
+                  <Typewriter
+                    onInit={handleInit}
+                    options={{
+                      delay: 50,
+                      loop: true,
+                      wrapperClassName: "bg-transparent",
+                    }}
+                  />
+                </div>{" "}
+                <br />
+                Platform to Learn Everything
+              </h1>
+
+              {/* Description */}
+              <p className="text-lg text-gray-600 dark:text-gray-300 max-w-lg leading-relaxed">
+                Excedteur sint occaecat cupidatat non proident sunt in culpa qui
+                officia deserunt mollit.
+              </p>
+
+              {/* Call-to-Action Button */}
+              <PrimaryButton href={pageLink.courses}>
+                Find Courses
+              </PrimaryButton>
+            </div>
+
+            {/* Right Side - Image Placeholder */}
+            {!isTablet && (
+              <div className="flex justify-center lg:justify-end hero-image relative overflow-hidden">
+                <Image
+                  src={images.heroimg}
+                  alt="Hero Image"
+                  width={500}
+                  height={500}
+                  className="z-2 relative"
+                />
+              </div>
+            )}
+          </div>
+        </Container>
+      </div>
+
+      <DigitalAcademy />
+      <CategoriesSection />
+      <FeaturesSection />
+      <CoursesSection />
+      <WhyChooseUsSection />
+      <TestimonialsSection />
+      <FooterSection />
+    </>
   );
 }
