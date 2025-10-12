@@ -68,6 +68,8 @@ export const DynamicPage: React.FC<DynamicPageProps> = ({ pageData }) => {
   const [openFAQIndex, setOpenFAQIndex] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
+  console.log(searchQuery)
+
   const toggleFAQ = (index: number) => {
     setOpenFAQIndex(openFAQIndex === index ? null : index);
   };
