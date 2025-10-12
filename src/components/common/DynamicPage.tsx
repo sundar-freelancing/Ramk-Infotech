@@ -2,18 +2,17 @@
 
 import React, { useState } from "react";
 import { Container } from "@/components/ui/Container";
-import { 
-  PageHeader, 
-  SearchBar, 
-  PageSection, 
-  ContactInfo, 
+import {
+  PageHeader,
+  SearchBar,
+  PageSection,
+  ContactInfo,
   FooterNote,
   FAQItem,
   ContactMethod,
   ResourceCard,
-  QuickActions
+  QuickActions,
 } from "@/components/common/PageComponents";
-import { AppIcon } from "@/components/ui/Icon";
 
 interface DynamicPageProps {
   pageData: {
@@ -204,9 +203,7 @@ export const DynamicPage: React.FC<DynamicPageProps> = ({ pageData }) => {
           )}
 
           {/* Footer Note */}
-          {pageData.footerNote && (
-            <FooterNote content={pageData.footerNote} />
-          )}
+          {pageData.footerNote && <FooterNote content={pageData.footerNote} />}
         </div>
       </Container>
     </div>
