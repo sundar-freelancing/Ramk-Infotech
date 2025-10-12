@@ -245,7 +245,7 @@ export default function CareerGuidancePage() {
                     <p className="text-blue-600 font-medium">{story.role}</p>
                     <p className="text-gray-600 text-sm">{story.company}</p>
                   </div>
-                  <p className="text-gray-600 text-sm italic">"{story.story}"</p>
+                  <p className="text-gray-600 text-sm italic">{story.story}</p>
                 </div>
               ))}
             </div>
