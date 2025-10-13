@@ -171,8 +171,8 @@ const Below = () => {
           className="animate-shape-2 z-10"
         />
       </div>
-      <div className="bg-[#543ee8] flex h-full rounded-md p-5">
-        <div className="w-1/2 relative">
+      <div className="bg-[#543ee8] flex flex-col lg:flex-row h-full rounded-md p-5 gap-5">
+        <div className="lg:w-1/2 relative">
           <Image
             src={images.funfactimg}
             alt="her"
@@ -186,8 +186,8 @@ const Below = () => {
             />
           </div>
         </div>
-        <div className="w-1/2 flex items-center justify-center">
-          <div className="grid grid-cols-2 gap-15 items-center justify-center">
+        <div className="lg:w-1/2 flex items-center justify-center">
+          <div className="grid grid-cols-2 gap-10 lg:gap-15 items-center justify-center">
             {educationStats.map((item, index) => (
               <div key={index} className="space-y-2">
                 <h3 className="text-4xl font-bold text-white">{item.count}+</h3>

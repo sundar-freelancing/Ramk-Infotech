@@ -2,7 +2,6 @@
 
 import React, { useState, useCallback } from "react";
 import Link from "next/link";
-import Image from "next/image";
 
 import {
   NavigationMenu,
@@ -14,8 +13,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { courses as staticCourses } from "@/constant/staticCourse";
-import { pageLink, pageURL } from "@/constant/pageURL";
-import { images } from "@/constant/images";
+import { pageURL } from "@/constant/pageURL";
 import { publicPageURL } from "@/constant/public_PageURL";
 import {
   Select,
@@ -46,6 +44,7 @@ import {
 } from "../ui/sheet";
 import { AppIcon } from "../ui/Icon";
 import ModeToggleV2 from "./ModeToggleV2";
+import { AppLogo } from "./AppLogo";
 
 // Types
 interface Course {
@@ -75,11 +74,6 @@ interface SidebarWrapperProps {
   children: React.ReactNode;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-}
-
-interface ImageLogoProps {
-  width?: number;
-  height?: number;
 }
 
 const CourseItem = ({ course }: CourseItemProps) => (
@@ -123,19 +117,6 @@ const CollegeStudentsButton = ({ onClick }: CollegeStudentsButtonProps) => (
     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 animate-shine"></div>
   </Button>
 );
-
-const ImageLogo = ({ height }: ImageLogoProps) => {
-  return (
-    <Link href={pageLink.home} aria-label="RamK Infotech Home">
-      <Image
-        src={images.mainlogo}
-        alt="RamK Infotech"
-        height={height || 40}
-        // width={width || 120}
-      />
-    </Link>
-  );
-};
 
 export const Navbar = () => {
   const { isTablet, low200px } = useWindowSize();
@@ -295,7 +276,7 @@ const Navbar1 = () => {
       className="py-5 relative z-10"
     >
       <div className="flex justify-between items-center gap-10 xl:gap-15">
-        <ImageLogo />
+        <AppLogo />
         <div className="bg-white dark:bg-gray-800 flex items-center flex-1 gap-2 shadow border border-gray-400 rounded-full p-1 h-full">
           <CategorySelect />
           <Separator
@@ -357,8 +338,8 @@ const SidebarWrapper = ({
   );
 
   return isTablet ? (
-    <div className="flex justify-between">
-      <ImageLogo />
+    <div className="flex justify-between items-center">
+      <AppLogo />
       <Sheet open={isOpen} onOpenChange={handleOpenChange}>
         <SheetTrigger asChild>
           <Button
@@ -373,7 +354,7 @@ const SidebarWrapper = ({
         <SheetContent>
           <SheetHeader className="bg-gray-100 shadow">
             <SheetTitle>
-              <ImageLogo />
+              <AppLogo />
             </SheetTitle>
           </SheetHeader>
           {children}
