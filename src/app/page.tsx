@@ -45,7 +45,7 @@ export default function Home() {
     <>
       <div
         ref={ref}
-        className="min-h-[600px] dark:bg-gray-900 h-screen flex items-center lg:items-end justify-center main-hero relative !max-h-[800px]"
+        className="lg:min-h-[750px] dark:bg-gray-900 h-screen flex items-center lg:items-end justify-center main-hero relative !max-h-[800px]"
       >
         <Container>
           <div
@@ -61,7 +61,7 @@ export default function Home() {
               </div>
 
               {/* Main Headline */}
-              <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
+              <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
                 Best{" "}
                 <div className="bg-yellow-400  px-3 py-1 rounded-lg inline-block">
                   <Typewriter

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Title1, Title2 } from "../helper/Titles";
-import { Container } from "../ui/Container";
+import { Container, Wrapper } from "../ui/Container";
 import { AppIcon } from "../ui/Icon";
 import Image from "next/image";
 import { images } from "@/constant/images";
@@ -10,7 +10,7 @@ import { Card } from "../ui/card";
 
 export const WhyChooseUsSection = () => {
   return (
-    <div className="pt-25">
+    <Wrapper wrapperClassName="pt-25">
       <div
         className="min-h-screen w-full relative overflow-hidden bg-green-50 dark:bg-gray-900"
         data-aos="fade"
@@ -145,7 +145,7 @@ export const WhyChooseUsSection = () => {
         <span className="w-full h-full absolute -translate-y-1/2 bg-green-50 dark:bg-gray-900"></span>
         <Below />
       </div>
-    </div>
+    </Wrapper>
   );
 };
 

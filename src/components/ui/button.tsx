@@ -89,7 +89,7 @@ function PrimaryButton({
     dataAosDelay?: string;
   }) {
   const { children, srContent, dataAos, dataAosDelay, ...rest } = props;
-  const defaultClass = `cursor-pointer ${primaryBtn} ${cn(className)}`;
+  const defaultClass = `cursor-pointer relative z-10 ${primaryBtn} ${cn(className)}`;
   return href ? (
     <Link
       href={href}
