@@ -9,14 +9,22 @@ const FeatureCard = ({
   description,
   icon,
   color,
+  dataAos,
+  dataAosDelay,
 }: {
   title: string;
   description: string;
   icon: string;
   color: string;
+  dataAos: string;
+  dataAosDelay: number;
 }) => {
   return (
-    <div className="flex gap-4">
+    <div
+      className="flex gap-4"
+      data-aos={dataAos}
+      data-aos-delay={dataAosDelay}
+    >
       {/* Icon */}
       <div
         className={`w-15 h-15 rounded-full flex items-center justify-center shrink-0`}
@@ -39,7 +47,11 @@ const FeatureCard = ({
 
 export const FeaturesSection = () => {
   return (
-    <div className="py-25 bg-[#011c1a] relative overflow-hidden">
+    <div
+      className="py-25 bg-[#011c1a] relative overflow-hidden"
+      data-aos="fade"
+      data-aos-delay="100"
+    >
       {/* Background decorative elements */}
       <div className="absolute top-1/2 -translate-y-1/2 left-1/12">
         <Image
@@ -61,13 +73,15 @@ export const FeaturesSection = () => {
 
       <Container>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-evenly">
-          {featuresData.map((feature) => (
+          {featuresData.map((feature, index) => (
             <FeatureCard
               key={feature.id}
               title={feature.title}
               description={feature.description}
               icon={feature.icon}
               color={feature.color}
+              dataAos="zoom-out"
+              dataAosDelay={(index + 3) * 100}
             />
           ))}
         </div>

@@ -48,7 +48,10 @@ export default function Home() {
         className="min-h-[600px] dark:bg-gray-900 h-screen flex items-center lg:items-end justify-center main-hero relative !max-h-[800px]"
       >
         <Container>
-          <div className="grid lg:grid-cols-2 gap-12 items-center pt-20">
+          <div
+            className="grid lg:grid-cols-2 gap-12 items-center pt-20"
+            data-aos="fade-up"
+          >
             {/* Left Side - Content */}
             <div className="text-left space-y-8">
               {/* Decorative Plus Signs */}

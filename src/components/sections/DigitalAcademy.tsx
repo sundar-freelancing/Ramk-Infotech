@@ -5,13 +5,13 @@ import React from "react";
 import Image from "next/image";
 import { Container } from "../ui/Container";
 import { GraduationCap } from "lucide-react";
-import { Title1 } from "../helper/Titles";
+import { Title1, Title2 } from "../helper/Titles";
 
 export const DigitalAcademy = () => {
   return (
     <Container className="pb-28">
       <div className="grid lg:grid-cols-2 gap-12 items-center relative">
-        <div className="relative">
+        <div className="relative" data-aos="zoom-out">
           <Image
             src={images.digitalacademy}
             alt="Student Learning"
@@ -40,12 +40,15 @@ export const DigitalAcademy = () => {
           <Title1>Welcome to Ramk Infotech</Title1>
 
           {/* Main Title */}
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white leading-tight">
+          <Title2>
             Digital Online Academy: Your Path to Creative Excellence
-          </h2>
+          </Title2>
 
           {/* Description */}
-          <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+          <p
+            data-aos="fade-up"
+            className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed"
+          >
             Excedteur sint occaecat cupidatat non proident sunt in culpa qui
             officia deserunt mollit.
           </p>
@@ -58,7 +61,12 @@ export const DigitalAcademy = () => {
               "Easy to follow curriculum",
               "Lifetime Access",
             ].map((feature, index) => (
-              <div key={index} className="flex items-center space-x-3">
+              <div
+                key={index}
+                data-aos="fade-up"
+                data-aos-delay={index * 100}
+                className="flex items-center space-x-3"
+              >
                 <div className="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center">
                   <svg
                     className="w-4 h-4 text-purple-600"
@@ -78,11 +86,13 @@ export const DigitalAcademy = () => {
               </div>
             ))}
           </div>
-          <Image
-            src={images.shape7}
-            alt="Element 1"
-            className="w-32 absolute bottom-0 right-0 animate-pulse"
-          />
+          <div data-aos="zoom-out">
+            <Image
+              src={images.shape7}
+              alt="Element 1"
+              className="w-32 absolute bottom-0 right-0 animate-pulse"
+            />
+          </div>
         </div>
       </div>
     </Container>

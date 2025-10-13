@@ -11,7 +11,11 @@ import { Card } from "../ui/card";
 export const WhyChooseUsSection = () => {
   return (
     <div className="pt-25">
-      <div className="min-h-screen w-full relative overflow-hidden bg-green-50 dark:bg-gray-900">
+      <div
+        className="min-h-screen w-full relative overflow-hidden bg-green-50 dark:bg-gray-900"
+        data-aos="fade"
+        data-aos-delay="100"
+      >
         <Container className="py-30">
           <div className="grid lg:grid-cols-2 gap-10 items-center justify-between relative">
             <div className="absolute top-0 -left-1/12">
@@ -36,13 +40,16 @@ export const WhyChooseUsSection = () => {
                 <Title2>
                   Transform Your Best Practice with Our Online Course
                 </Title2>
-                <p className="text-gray-600 dark:text-gray-300 text-[20px]">
+                <p
+                  className="text-gray-600 dark:text-gray-300 text-[20px]"
+                  data-aos="fade-up"
+                >
                   Excepteur sint occaecat cupidatat non proident sunt in culpa
                   qui officia deserunt mollit. Excepteur sint occaecat.
                 </p>
               </div>
               <div className="space-y-6">
-                <div className="space-y-3">
+                <div className="space-y-3" data-aos="zoom-out">
                   <div className="flex gap-4 items-center">
                     {/* Icon */}
                     <div
@@ -67,7 +74,7 @@ export const WhyChooseUsSection = () => {
                   </p>
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-3" data-aos="zoom-out">
                   <div className="flex gap-4 items-center">
                     {/* Icon */}
                     <div
@@ -95,7 +102,7 @@ export const WhyChooseUsSection = () => {
                 </div>
               </div>
             </div>
-            <div className="w-full relative">
+            <div className="w-full relative" data-aos="zoom-out">
               <Image
                 src={images.whychooseus}
                 alt="why choose us"
@@ -162,7 +169,11 @@ const Below = () => {
     },
   ];
   return (
-    <Container className="min-h-90 relative">
+    <Container
+      className="min-h-90 relative"
+      data-aos="zoom-out-up"
+      data-aos-delay="100"
+    >
       <div className="absolute bottom-0 left-1/2">
         <Image
           src={images.shape5}
