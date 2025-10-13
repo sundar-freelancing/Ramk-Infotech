@@ -1,4 +1,5 @@
 import mainlogo from "../../public/images/mainlogo.svg";
+import mainlogoV2 from "../../public/images/main-logos/mainlogoV2.svg";
 import heroimg from "../../public/images/hero-img.webp";
 import digitalacademy from "../../public/images/digitalacademy.webp";
 import shape1 from "../../public/images/elements/shape-1.svg";
@@ -44,6 +45,7 @@ import whatsappLogo from "../../public/images/logos/whatsapp.png";
 
 export const images = {
   mainlogo: mainlogo,
+  mainlogoV2: mainlogoV2,
   heroimg: heroimg,
   digitalacademy: digitalacademy,
   shape7: shape7,

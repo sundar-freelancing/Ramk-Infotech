@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { User } from "lucide-react";
 import { images } from "@/constant/images";
 import { Title1, Title2 } from "../helper/Titles";
+import { Wrapper } from "../ui/Container";
 
 export const TestimonialsSection = () => {
   const totalData = carouselData.length;
@@ -34,7 +35,7 @@ export const TestimonialsSection = () => {
   ];
 
   return (
-    <div className="pt-28">
+    <Wrapper wrapperClassName="pt-28">
       <div className="text-center space-y-4 mb-12">
         <Title1>EDUCATION FOR EVERYONE</Title1>
         <Title2>
@@ -126,6 +127,6 @@ export const TestimonialsSection = () => {
           </Carousel>
         ))}
       </div>
-    </div>
+    </Wrapper>
   );
 };

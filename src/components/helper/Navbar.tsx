@@ -139,7 +139,7 @@ export const Navbar = () => {
         }`}
         suppressHydrationWarning={true}
       >
-        <ContainerFluid className="py-3">
+        <ContainerFluid className="py-3" wrapperClassName="overflow-visible">
           <SidebarWrapper isOpen={isOpen} setIsOpen={setIsOpen}>
             <div
               className={`flex lg:justify-between lg:items-center lg:flex-row flex-col gap-3 flex-1 px-3 lg:px-0`}

@@ -23,9 +23,9 @@ export const AppLogo = ({
       data-aos-delay={dataAosDelay}
     >
       <Image
-        src={images.mainlogo}
+        src={images.mainlogoV2}
         alt="RamK Infotech"
-        height={height || 60}
+        height={height || 40}
         // width={width || 120}
       />
     </Link>
