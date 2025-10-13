@@ -15,6 +15,7 @@ const Title1 = ({ children, className }: TitleProps) => {
         "text-sm font-semibold text-gray-500 dark:text-gray-300 uppercase tracking-wider",
         className
       )}
+      data-aos="zoom-out"
     >
       {children}
     </div>
@@ -28,6 +29,7 @@ const Title2 = ({ children, className }: TitleProps) => {
         "text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white leading-tight",
         className
       )}
+      data-aos="zoom-out"
     >
       {children}
     </div>
@@ -41,6 +43,7 @@ const Title3 = ({ children, className }: TitleProps) => {
         "text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white leading-tight",
         className
       )}
+      data-aos="zoom-out"
     >
       {children}
     </div>

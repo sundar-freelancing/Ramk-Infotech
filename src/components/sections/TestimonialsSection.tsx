@@ -21,11 +21,15 @@ export const TestimonialsSection = () => {
       speed: 0.5,
       direction: "forward",
       data: data1,
+      dataAos: "fade-left",
+      dataAosDelay: "300",
     },
     {
       speed: 0.5,
       direction: "backward",
       data: data2,
+      dataAos: "fade-right",
+      dataAosDelay: "300",
     },
   ];
 
@@ -44,6 +48,8 @@ export const TestimonialsSection = () => {
             key={index}
             className="w-full"
             opts={{ loop: true }}
+            data-aos={item.dataAos}
+            data-aos-delay={item.dataAosDelay}
             plugins={[
               AutoScroll({
                 speed: item.speed,

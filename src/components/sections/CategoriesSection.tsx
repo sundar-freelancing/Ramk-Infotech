@@ -12,15 +12,21 @@ const CategoriesCard = ({
   courseCount,
   icon,
   iconColor,
+  dataAos,
+  dataAosDelay,
 }: {
   title: string;
   courseCount: number;
   icon: string;
   iconColor: string;
+  dataAos: string;
+  dataAosDelay: number;
 }) => {
   return (
     <Link
       href={`/courses?category=${title}`}
+      data-aos={dataAos}
+      data-aos-delay={dataAosDelay}
       // className="bg-white group/category rounded-full shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 p-2 flex items-center space-x-4"
     >
       <Card className="group/category rounded-full shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 p-2 flex-row items-center space-x-4 gap-0">
@@ -52,16 +58,20 @@ export const CategoriesSection = () => {
           <Title1>COURSE CATEGORIES</Title1>
           <Title2>Top Categories You Want to Learn</Title2>
         </div>
-        <PrimaryButton href={pageLink.courses}>Find Courses</PrimaryButton>
+        <PrimaryButton dataAos="zoom-out-left" href={pageLink.courses}>
+          Find Courses
+        </PrimaryButton>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {categoryCards.map((card) => (
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {categoryCards.map((card, index) => (
           <CategoriesCard
             key={card.id}
             title={card.title}
             courseCount={card.courseCount}
             icon={card.icon}
             iconColor={card.iconColor}
+            dataAos={`zoom-out`}
+            dataAosDelay={index * 100}
           />
         ))}
       </div>

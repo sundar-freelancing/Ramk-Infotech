@@ -134,15 +134,10 @@ export const Navbar = () => {
     <>
       {!isTablet && <Navbar1 />}
       <div
-        key={low200px ? "sticky" : undefined}
         className={`bg-background top-0 z-50 ${
-          low200px ? "sticky shadow-md" : "relative"
+          low200px ? "sticky shadow-md navbar-animation" : "relative"
         }`}
         suppressHydrationWarning={true}
-        {...(low200px && {
-          "data-aos": "fade-down",
-          "data-aos-duration": "500",
-        })}
       >
         <ContainerFluid className="py-3">
           <SidebarWrapper isOpen={isOpen} setIsOpen={setIsOpen}>

@@ -4,6 +4,7 @@ export const ContainerFluid = ({
   children,
   className,
   suppressHydrationWarning,
+  ...props
 }: {
   children: React.ReactNode;
   className?: string;
@@ -16,6 +17,7 @@ export const ContainerFluid = ({
         className
       )}
       suppressHydrationWarning={suppressHydrationWarning}
+      {...props}
     >
       {children}
     </div>
@@ -26,6 +28,7 @@ export const Container = ({
   children,
   className,
   suppressHydrationWarning,
+  ...props
 }: {
   children: React.ReactNode;
   className?: string;
@@ -35,6 +38,7 @@ export const Container = ({
     <div
       className={cn("xl:max-w-6xl mx-auto w-[85%]", className)}
       suppressHydrationWarning={suppressHydrationWarning}
+      {...props}
     >
       {children}
     </div>

@@ -29,9 +29,15 @@ export const CoursesSection = () => {
         <Title2>Get Your Course With Us</Title2>
       </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {courses.map((course) => {
+        {courses.map((course, index) => {
           return (
-            <Link href={`${pageLink.courses}/${course.name}`} key={course.name}>
+            <Link
+              href={`${pageLink.courses}/${course.name}`}
+              key={course.name}
+              data-aos="fade-up"
+              data-aos-delay={(index % 3) * 100}
+              data-aos-anchor-placement="center-bottom"
+            >
               <Card className="!p-0 overflow-hidden shadow-xs rounded-md gap-0 group/course h-full">
                 {/* Course Image */}
                 <div className="relative md:h-50 xl:h-70 h-60 overflow-hidden">

@@ -41,6 +41,8 @@ const FooterSupport = ({
           return (
             <Link
               key={index}
+              data-aos="fade"
+              data-aos-delay={index * 100}
               href={href ?? href2 ?? "#"}
               className="flex items-center gap-2 group text-gray-800 dark:text-gray-300 hover:!text-blue-600 transition-colors text-sm md:text-base w-fit"
             >
@@ -104,8 +106,11 @@ export const FooterSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-12 lg:mb-16">
           {/* Brand Column */}
           <div className="space-y-6 lg:space-y-8">
-            <AppLogo />
-            <p className="text-gray-800 dark:text-gray-300 leading-relaxed text-sm md:text-base max-w-md">
+            <AppLogo dataAos="zoom-out" dataAosDelay="100" />
+            <p
+              data-aos="fade"
+              className="text-gray-800 dark:text-gray-300 leading-relaxed text-sm md:text-base max-w-md"
+            >
               Accusam nonumy clita sed rebum kasd eirmod elitr. Ipsum ea lorem
               at et diam est, tempor rebum ipsum sit ea tempor stet et
               consetetur dolores. Justo stet diam ipsum lorem vero clita diam
@@ -120,8 +125,14 @@ export const FooterSection = () => {
                 type="email"
                 placeholder="Your Email Address"
                 className="py-3 md:py-4 lg:py-6 w-full"
+                data-aos="zoom-out"
+                data-aos-delay="100"
               />
-              <PrimaryButton className="w-full sm:w-auto">
+              <PrimaryButton
+                className="w-full sm:w-auto"
+                dataAos="zoom-out"
+                dataAosDelay="100"
+              >
                 Subscribe Now
               </PrimaryButton>
             </div>
@@ -140,6 +151,8 @@ export const FooterSection = () => {
                 <Link
                   key={index}
                   href={social.href}
+                  data-aos="zoom-out"
+                  data-aos-delay={index * 100}
                   className="transition-all duration-300 hover:scale-110 rounded-lg p-1"
                 >
                   <AppIcon

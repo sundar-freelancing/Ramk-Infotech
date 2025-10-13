@@ -85,11 +85,19 @@ function PrimaryButton({
     isLink?: boolean;
     href?: string;
     srContent?: string;
+    dataAos?: string;
+    dataAosDelay?: string;
   }) {
-  const { children, srContent, ...rest } = props;
+  const { children, srContent, dataAos, dataAosDelay, ...rest } = props;
   const defaultClass = `cursor-pointer ${primaryBtn} ${cn(className)}`;
   return href ? (
-    <Link href={href} data-slot="button" className={defaultClass}>
+    <Link
+      href={href}
+      data-slot="button"
+      data-aos={dataAos}
+      data-aos-delay={dataAosDelay}
+      className={defaultClass}
+    >
       <span>{children}</span>
       <BtnArrow srContent={srContent} />
     </Link>
@@ -98,6 +106,8 @@ function PrimaryButton({
       variant="primaryBtn"
       type="button"
       className={defaultClass}
+      data-aos={dataAos}
+      data-aos-delay={dataAosDelay}
       {...rest}
     >
       <span>{children}</span>
