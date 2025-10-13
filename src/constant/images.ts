@@ -1,4 +1,4 @@
-import mainlogo from "../../public/images/mainlogo.png";
+import mainlogo from "../../public/images/mainlogo.svg";
 import heroimg from "../../public/images/hero-img.webp";
 import digitalacademy from "../../public/images/digitalacademy.webp";
 import shape1 from "../../public/images/elements/shape-1.svg";
@@ -12,6 +12,16 @@ import shape8 from "../../public/images/elements/shape-8.svg";
 import apsotrophe from "../../public/images/elements/apsotrophe.svg";
 import whychooseus from "../../public/images/why-choose-img.webp";
 import funfactimg from "../../public/images/funfact-img.webp";
+
+import favicon from "../../public/images/favicon_io/favicon.ico";
+import favicon16x16 from "../../public/images/favicon_io/favicon-16x16.png";
+import favicon32x32 from "../../public/images/favicon_io/favicon-32x32.png";
+import favicon512x512 from "../../public/images/favicon_io/android-chrome-512x512.png";
+import favicon192x192 from "../../public/images/favicon_io/android-chrome-192x192.png";
+import faviconappletouchicon from "../../public/images/favicon_io/apple-touch-icon.png";
+import faviconandroidchrome192x192 from "../../public/images/favicon_io/android-chrome-192x192.png";
+import faviconandroidchrome512x512 from "../../public/images/favicon_io/android-chrome-512x512.png";
+import loaderLogo from "../../public/images/main-logos/loader-logo.svg";
 
 import adobeLogo from "../../public/images/logos/adobe.png";
 import asanaLogo from "../../public/images/logos/asana.png";
@@ -47,6 +57,18 @@ export const images = {
   apsotrophe: apsotrophe,
   whychooseus: whychooseus,
   funfactimg: funfactimg,
+  loaderLogo: loaderLogo,
+
+  // favicon
+  favicon: favicon,
+  favicon16x16: favicon16x16,
+  favicon32x32: favicon32x32,
+  favicon512x512: favicon512x512,
+  favicon192x192: favicon192x192,
+  faviconappletouchicon: faviconappletouchicon,
+  faviconandroidchrome192x192: faviconandroidchrome192x192,
+  faviconandroidchrome512x512: faviconandroidchrome512x512,
+  faviconwebmanifest: "/images/favicon_io/site.webmanifest",
 
   // delete images
   adobeLogo: adobeLogo,

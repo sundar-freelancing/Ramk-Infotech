@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "./global.scss";
-import { ThemeProvider } from "@/components/theme-provider";
-import { ConditionalNavbar } from "@/components/ui/ConditionalNavbar";
+import { images } from "@/constant/images";
 import ClientLayout from "./client-layout";
 
 const geistSans = Geist({
@@ -26,23 +25,46 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const {
+    favicon32x32,
+    favicon16x16,
+    favicon,
+    faviconappletouchicon,
+    faviconandroidchrome192x192,
+    faviconandroidchrome512x512,
+    faviconwebmanifest,
+  } = images;
   return (
     <html lang="en" suppressHydrationWarning>
+      {/* Standard Favicon */}
+      <link href={favicon32x32.src} rel="icon" type="image/png" sizes="32x32" />
+      <link href={favicon16x16.src} rel="icon" type="image/png" sizes="16x16" />
+      <link href={favicon.src} rel="shortcut icon" />
+
+      {/* Apple Touch Icon */}
+      <link href={faviconappletouchicon.src} rel="apple-touch-icon" />
+
+      {/* Android/Chrome */}
+      <link
+        href={faviconandroidchrome192x192.src}
+        rel="icon"
+        type="image/png"
+        sizes="192x192"
+      />
+      <link
+        href={faviconandroidchrome512x512.src}
+        rel="icon"
+        type="image/png"
+        sizes="512x512"
+      />
+
+      {/* Web App Manifest */}
+      <link href={faviconwebmanifest} rel="manifest" />
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden relative bg-background`}
       >
-        <ThemeProvider
-          attribute="class"
-          // defaultTheme="system"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ClientLayout>
-            <ConditionalNavbar />
-            {children}
-          </ClientLayout>
-        </ThemeProvider>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

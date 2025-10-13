@@ -17,6 +17,7 @@ import { Title2, Title3 } from "../helper/Titles";
 import { Input } from "../ui/input";
 import { PrimaryButton } from "../ui/button";
 import Link from "next/link";
+import { AppLogo } from "../helper/AppLogo";
 
 const FooterSupport = ({
   data,
@@ -103,11 +104,7 @@ export const FooterSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-12 lg:mb-16">
           {/* Brand Column */}
           <div className="space-y-6 lg:space-y-8">
-            <Image
-              src={images.mainlogo}
-              alt="logo"
-              className="h-[45px] md:h-[50px] object-contain w-auto"
-            />
+            <AppLogo />
             <p className="text-gray-800 dark:text-gray-300 leading-relaxed text-sm md:text-base max-w-md">
               Accusam nonumy clita sed rebum kasd eirmod elitr. Ipsum ea lorem
               at et diam est, tempor rebum ipsum sit ea tempor stet et
