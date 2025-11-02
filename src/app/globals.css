@@ -211,3 +211,7 @@ body::-webkit-scrollbar {
 .navbar-animation {
   animation: navbar-animation 0.5s ease-in-out;
 }
+
+.font-cursive{
+  font-family: cursive;
+}

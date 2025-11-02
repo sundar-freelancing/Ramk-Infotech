@@ -39,24 +39,27 @@ html {
   scroll-behavior: smooth;
 }
 
-.main-hero {
+.hero-banner {
   background-image: url("../../public/images/emailData2.webp");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 
-  &::before {
-    position: absolute;
-    content: "";
-    width: 100%;
-    height: 50px;
-    left: 0;
-    bottom: -1px;
-    z-index: 5;
-    background-image: url("../../public/images/overlay-bottom.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: bottom;
+  &.main-hero {
+    &::before {
+      position: absolute;
+      content: "";
+      width: 100%;
+      height: 50px;
+      left: 0;
+      bottom: -1px;
+      z-index: 5;
+      background-image: url("../../public/images/overlay-bottom.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: bottom;
+      background-repeat: repeat-x;
+    }
   }
 
   .hero-image::before {
@@ -87,11 +90,12 @@ footer {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: bottom;
+    background-repeat: repeat-x;
   }
 }
 
 .dark {
-  .main-hero {
+  .hero-banner {
     background-image: unset;
 
     &::before {
@@ -104,4 +108,12 @@ footer {
       background-image: unset;
     }
   }
+}
+
+.app-primary-color {
+  color: var(--app-primary-color);
+}
+
+.app-secondary-color {
+  color: var(--app-secondary-color);
 }

@@ -19,7 +19,7 @@ export const pageLink = {
   careerGuidance: "/career-guidance",
 };
 
-export const pageURL = {
+export const pageURL: Record<string, { href: string; key: string; hasDropdown: boolean; title?: string }> = {
   home: {
     href: pageLink.home,
     key: "home",
@@ -29,30 +29,36 @@ export const pageURL = {
     href: pageLink.about,
     key: "about",
     hasDropdown: false,
+    title: "About Us",
   },
   courses: {
     href: pageLink.courses,
     key: "courses",
     hasDropdown: true,
+    title: "Courses",
   },
   trainers: {
     href: pageLink.trainers,
     key: "trainers",
     hasDropdown: false,
+    title: "Trainers",
   },
   internship: {
     href: pageLink.internship,
     key: "internship",
     hasDropdown: false,
+    title: "Internship",
   },
   contact: {
     href: pageLink.contact,
     key: "contact",
     hasDropdown: false,
+    title: "Contact Us",
   },
   notFound: {
     href: pageLink.notFound,
     key: "notFound",
     hasDropdown: false,
+    title: "Not Found",
   },
 };

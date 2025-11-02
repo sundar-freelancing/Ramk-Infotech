@@ -13,11 +13,11 @@ import {
   developerData,
 } from "@/constant/constant";
 import { pageLink } from "@/constant/pageURL";
-import { Title2, Title3 } from "../helper/Titles";
+import { Title2, Title3 } from "./Titles";
 import { Input } from "../ui/input";
 import { PrimaryButton } from "../ui/button";
 import Link from "next/link";
-import { AppLogo } from "../helper/AppLogo";
+import { AppLogo } from "./AppLogo";
 
 const FooterSupport = ({
   data,
@@ -59,7 +59,7 @@ const FooterSupport = ({
   );
 };
 
-export const FooterSection = () => {
+export const Footer = () => {
   const footerLinks = [
     { name: "About Us", href: pageLink.about },
     { name: "Our Courses", href: pageLink.courses },
@@ -129,7 +129,7 @@ export const FooterSection = () => {
                 data-aos-delay="100"
               />
               <PrimaryButton
-                className="w-full sm:w-auto"
+                className="w-full sm:w-auto justify-center"
                 dataAos="zoom-out"
                 dataAosDelay="100"
               >

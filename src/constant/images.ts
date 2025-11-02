@@ -42,6 +42,9 @@ import microsoftLogo from "../../public/images/logos/microsoft.png";
 import mediumLogo from "../../public/images/logos/medium.png";
 import webflowLogo from "../../public/images/logos/webflow.png";
 import whatsappLogo from "../../public/images/logos/whatsapp.png";
+import ceoImage from "../../public/images/ceo.jpg";
+import businessGrow from "../../public/images/businessGrow.jpg";
+import contactImg from "../../public/images/contact-img.webp";
 
 export const images = {
   mainlogo: mainlogo,
@@ -60,6 +63,9 @@ export const images = {
   whychooseus: whychooseus,
   funfactimg: funfactimg,
   loaderLogo: loaderLogo,
+  ceoImage: ceoImage,
+  businessGrow: businessGrow,
+  contactImg: contactImg,
 
   // favicon
   favicon: favicon,

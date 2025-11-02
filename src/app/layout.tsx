@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Lato } from "next/font/google";
 import "./globals.css";
 import "./global.scss";
 import { images } from "@/constant/images";
@@ -13,6 +13,21 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+// const openSans = Open_Sans({
+//   subsets: ["latin"],
+//   weight: ["400", "500", "600", "700"],
+// });
+
+// const montserrat = Montserrat({
+//   subsets: ["latin"],
+//   weight: ["400", "500", "600", "700"],
+// });
+
+const lato = Lato({
+  subsets: ["latin"],
+  weight: ["400", "700","100","300","900"],
 });
 
 export const metadata: Metadata = {
@@ -62,7 +77,7 @@ export default function RootLayout({
       <link href={faviconwebmanifest} rel="manifest" />
 
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden relative bg-background`}
+        className={`${geistSans.variable} ${geistMono.variable}  ${lato.className} antialiased overflow-x-hidden relative bg-background`}
       >
         <ClientLayout>{children}</ClientLayout>
       </body>

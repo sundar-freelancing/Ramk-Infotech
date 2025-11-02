@@ -11,11 +11,18 @@ export const useWindowSize = () => {
     height: typeof window !== "undefined" ? window.innerHeight : 768,
   });
   const [low200px, setlow200px] = useState(false);
-  
+
   const isMobile = windowSize.width < breakpoint.md;
   const isTablet = windowSize.width < breakpoint.lg;
   const isDesktop = windowSize.width < breakpoint.xl;
   const isLargeDesktop = windowSize.width < breakpoint["2xl"];
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   useEffect(() => {
     // Only run on client side
@@ -56,5 +63,6 @@ export const useWindowSize = () => {
     isDesktop,
     isLargeDesktop,
     low200px,
+    scrollToTop,
   };
 };
