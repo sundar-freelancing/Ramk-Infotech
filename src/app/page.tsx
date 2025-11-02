@@ -14,7 +14,6 @@ import { CoursesSection } from "@/components/sections/CoursesSection";
 import { Container } from "@/components/ui/Container";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { WhyChooseUsSection } from "@/components/sections/WhyChooseUsSection";
-import { FooterSection } from "@/components/sections/FooterSection";
 
 export default function Home() {
   const { isTablet } = useWindowSize();
@@ -45,7 +44,7 @@ export default function Home() {
     <>
       <div
         ref={ref}
-        className="lg:min-h-[750px] dark:bg-gray-900 h-screen flex items-center lg:items-end justify-center main-hero relative !max-h-[800px]"
+        className="lg:min-h-[750px] dark:bg-gray-900 h-screen flex items-center lg:items-end justify-center hero-banner main-hero relative !max-h-[800px] "
       >
         <Container>
           <div
@@ -111,7 +110,6 @@ export default function Home() {
       <CoursesSection />
       <WhyChooseUsSection />
       <TestimonialsSection />
-      <FooterSection />
     </>
   );
 }

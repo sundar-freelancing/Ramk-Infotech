@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import AOS from "aos";
 import { useLucideIcons } from "@/hooks/useLucideIcons";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ConditionalNavbar } from "@/components/ui/ConditionalNavbar";
 import { images } from "@/constant/images";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { StudentsForm } from "@/components/helper/StudentsForm";
+import ScrollToTopButton from "@/components/helper/ScrollToTopButton";
+import { PublicPageComponents } from "@/components/common/PublicPageComponents";
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -22,7 +24,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
   useEffect(() => {
     AOS.init({
       duration: 500,
-      // once: true,
+      once: true,
       offset: 50,
       delay: 0,
       easing: "ease-in-out",
@@ -51,7 +53,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
 
   useEffect(() => {
     if (page) {
-      console.log("page", page);
+      window.scrollTo(0, 0);
       AOS.refresh();
     }
   }, [page]);
@@ -78,8 +80,9 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
           enableSystem
           disableTransitionOnChange
         >
-          <ConditionalNavbar />
-          {children}
+          <PublicPageComponents>{children}</PublicPageComponents>
+          <StudentsForm />
+          <ScrollToTopButton />
         </ThemeProvider>
       )}
     </>

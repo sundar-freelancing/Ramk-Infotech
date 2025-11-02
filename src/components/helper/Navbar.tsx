@@ -45,6 +45,7 @@ import {
 import { AppIcon } from "../ui/Icon";
 import ModeToggleV2 from "./ModeToggleV2";
 import { AppLogo } from "./AppLogo";
+import { usePathname } from "next/navigation";
 
 // Types
 interface Course {
@@ -60,6 +61,7 @@ interface NavLinkProps {
   className?: string;
   onClick?: () => void;
   ariaLabel?: string;
+  dataActive?: boolean;
 }
 
 interface CourseItemProps {
@@ -97,8 +99,14 @@ const NavLink = ({
   className,
   onClick,
   ariaLabel,
+  dataActive,
 }: NavLinkProps) => (
-  <NavigationMenuLink asChild className={className} onClick={onClick}>
+  <NavigationMenuLink
+    asChild
+    className={cn(className)}
+    onClick={onClick}
+    data-active={dataActive}
+  >
     <Link href={href} aria-label={ariaLabel}>
       {children}
     </Link>
@@ -121,6 +129,7 @@ const CollegeStudentsButton = ({ onClick }: CollegeStudentsButtonProps) => (
 export const Navbar = () => {
   const { isTablet, low200px } = useWindowSize();
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   const handleMenuToggle = useCallback(() => {
     setIsOpen((prev) => !prev);
@@ -186,7 +195,8 @@ export const Navbar = () => {
                           href={item.href}
                           className={`${navigationMenuTriggerStyle()} capitalize`}
                           onClick={handleMenuClose}
-                          ariaLabel={`Navigate to ${item.key} page`}
+                          key={item.key}
+                          dataActive={pathname === item.href}
                         >
                           {item.key}
                         </NavLink>

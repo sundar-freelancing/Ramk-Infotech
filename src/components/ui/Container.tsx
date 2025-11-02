@@ -14,15 +14,18 @@ export const ContainerFluid = ({
 }) => {
   return (
     <Wrapper
-      wrapperClassName={cn(
-        "max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 w-full",
-        className,
-        wrapperClassName
-      )}
+      wrapperClassName={wrapperClassName}
       suppressHydrationWarning={suppressHydrationWarning}
-      {...props}
     >
-      {children}
+      <div
+        className={cn(
+          "max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 w-full",
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </div>
     </Wrapper>
   );
 };
@@ -41,15 +44,12 @@ export const Container = ({
 }) => {
   return (
     <Wrapper
-      wrapperClassName={cn(
-        "xl:max-w-6xl mx-auto w-[85%]",
-        className,
-        wrapperClassName
-      )}
+      wrapperClassName={wrapperClassName}
       suppressHydrationWarning={suppressHydrationWarning}
-      {...props}
     >
-      {children}
+      <div className={cn("xl:max-w-6xl mx-auto w-[85%]", className)} {...props}>
+        {children}
+      </div>
     </Wrapper>
   );
 };
@@ -66,7 +66,7 @@ export const Wrapper = ({
 }) => {
   return (
     <div
-      className={cn(" overflow-hidden", wrapperClassName)}
+      className={cn(" overflow-hidden w-full", wrapperClassName)}
       suppressHydrationWarning={suppressHydrationWarning}
       {...props}
     >

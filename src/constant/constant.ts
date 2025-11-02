@@ -13,7 +13,7 @@ export const phoneNumberData = {
 };
 
 export const emailData = {
-  icon: "mail",
+  icon: "message-circle-more",
   link: "mailto:support@ramkinfotech.com",
   showCase: "support@ramkinfotech.com",
 };
@@ -368,3 +368,8 @@ export const carouselData = [
     },
   },
 ];
+
+export const appColors = {
+  primary: "#589aed",
+  secondary: "#141494",
+};
