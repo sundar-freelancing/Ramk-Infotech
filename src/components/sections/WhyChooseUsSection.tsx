@@ -170,7 +170,7 @@ const Below = () => {
   ];
   return (
     <Container
-      className="min-h-90 relative"
+      className="relative"
       data-aos="zoom-out-up"
       data-aos-delay="100"
     >
