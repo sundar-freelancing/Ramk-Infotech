@@ -66,7 +66,7 @@ export const Wrapper = ({
 }) => {
   return (
     <div
-      className={cn(" overflow-hidden w-full", wrapperClassName)}
+      className={cn("overflow-hidden lg:overflow-visible w-full", wrapperClassName)}
       suppressHydrationWarning={suppressHydrationWarning}
       {...props}
     >

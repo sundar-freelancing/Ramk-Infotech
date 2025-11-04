@@ -215,3 +215,24 @@ body::-webkit-scrollbar {
 .font-cursive{
   font-family: cursive;
 }
+
+/* Lenis Smooth Scroll Styles */
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}

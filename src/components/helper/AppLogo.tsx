@@ -25,6 +25,7 @@ export const AppLogo = ({
       <Image
         src={images.mainlogoV2}
         alt="RamK Infotech"
+        priority
         height={height || 40}
         // width={width || 120}
       />

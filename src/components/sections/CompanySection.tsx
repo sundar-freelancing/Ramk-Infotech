@@ -7,7 +7,7 @@ import { Title1, Title3 } from "../helper/Titles";
 
 export const CompanySection = () => {
   return (
-    <Wrapper wrapperClassName="pb-25">
+    <Wrapper>
       <div
         className="relative overflow-hidden bg-green-50 dark:bg-gray-900"
         data-aos="fade"
@@ -32,7 +32,13 @@ export const CompanySection = () => {
               />
             </div>
             <div className="mx-auto max-w-2xl lg:max-w-4xl">
-              <Image data-aos="zoom-out" data-aos-delay="100" src={images.mainlogo} alt="" className="mx-auto h-12" />
+              <Image
+                data-aos="zoom-out"
+                data-aos-delay="100"
+                src={images.mainlogo}
+                alt=""
+                className="mx-auto h-12"
+              />
               <figure className="mt-10">
                 <Title3 className="text-center">
                   “Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo
@@ -45,7 +51,11 @@ export const CompanySection = () => {
                     alt=""
                     className="mx-auto size-10 rounded-full object-cover object-top"
                   />
-                  <div data-aos="zoom-out" data-aos-delay="100" className="mt-4 flex items-center justify-center space-x-3 text-base">
+                  <div
+                    data-aos="zoom-out"
+                    data-aos-delay="100"
+                    className="mt-4 flex items-center justify-center space-x-3 text-base"
+                  >
                     <span className="font-semibold ">Judith Black</span>
                     <svg
                       viewBox="0 0 2 2"
@@ -109,55 +119,53 @@ const Below = () => {
   ];
 
   return (
-    <Container
-      className="min-h-90 relative"
-      data-aos="zoom-out-up"
-      data-aos-delay="100"
-    >
-      <div className="absolute bottom-0 left-1/2">
-        <Image
-          src={images.shape5}
-          alt="shape5"
-          width={80}
-          className="animate-shape-2 z-10"
-        />
-      </div>
-      <div className="bg-[#543ee8] flex flex-col lg:flex-row h-full rounded-md p-5 gap-10">
-        <div className="lg:w-2/5 relative">
+    <Container className="min-h-90 relative">
+      <div data-aos="zoom-out-up" data-aos-delay="100">
+        <div className="absolute bottom-0 left-1/2">
           <Image
-            src={images.businessGrow}
-            alt="her"
-            className="object-fill h-full w-full rounded-md rounded-br-[150px]"
+            src={images.shape5}
+            alt="shape5"
+            width={80}
+            className="animate-shape-2 z-10"
           />
-          <div className="absolute bottom-1/2 right-0 translate-x-1/2">
-            <Image
-              src={images.shape6}
-              alt="shape6"
-              className="animate-shape-1 z-10"
-            />
-          </div>
         </div>
-        <div className="lg:w-3/5 flex items-center justify-center">
-          <div className="grid grid-cols-2 gap-10 items-center justify-center py-4">
-            {timelineData.map((item, index) => (
-              <div key={index}>
-                <Title3 className="text-white mb-2">{item.date}</Title3>
-                <p
-                  data-aos="zoom-out"
-                  data-aos-delay={index * 100}
-                  className="text-white text-[17px] mb-1"
-                >
-                  {item.title}
-                </p>
-                <p
-                  data-aos="zoom-out"
-                  data-aos-delay={index * 100}
-                  className="text-gray-200 text-sm pe-10"
-                >
-                  {item.description}
-                </p>
-              </div>
-            ))}
+        <div className="bg-[#543ee8] flex flex-col lg:flex-row h-full rounded-md p-5 gap-10">
+          <div className="lg:w-2/5 relative">
+            <Image
+              src={images.businessGrow}
+              alt="her"
+              className="object-fill h-full w-full rounded-md rounded-br-[150px]"
+            />
+            <div className="absolute bottom-1/2 right-0 translate-x-1/2">
+              <Image
+                src={images.shape6}
+                alt="shape6"
+                className="animate-shape-1 z-10"
+              />
+            </div>
+          </div>
+          <div className="lg:w-3/5 flex items-center justify-center">
+            <div className="grid md:grid-cols-2 gap-10 items-center justify-center py-4">
+              {timelineData.map((item, index) => (
+                <div key={index}>
+                  <Title3 className="text-white mb-2">{item.date}</Title3>
+                  <p
+                    data-aos="zoom-out"
+                    data-aos-delay={index * 100}
+                    className="text-white text-[17px] mb-1"
+                  >
+                    {item.title}
+                  </p>
+                  <p
+                    data-aos="zoom-out"
+                    data-aos-delay={index * 100}
+                    className="text-gray-200 text-sm md:pe-10"
+                  >
+                    {item.description}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

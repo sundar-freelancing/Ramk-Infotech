@@ -10,9 +10,9 @@ import { Card } from "../ui/card";
 
 export const WhyChooseUsSection = () => {
   return (
-    <Wrapper wrapperClassName="pt-25">
+    <Wrapper>
       <div
-        className="min-h-screen w-full relative overflow-hidden bg-green-50 dark:bg-gray-900"
+        className="w-full relative overflow-hidden bg-green-50 dark:bg-gray-900"
         data-aos="fade"
         data-aos-delay="100"
       >

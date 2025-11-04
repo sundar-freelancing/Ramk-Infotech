@@ -52,8 +52,8 @@ const CategoriesCard = ({
 
 export const CategoriesSection = () => {
   return (
-    <Container className="pb-28">
-      <div className="flex items-center justify-between mb-12">
+    <Container>
+      <div className="flex lg:items-center flex-col lg:flex-row justify-between mb-12 gap-3 lg:gap-0">
         <div className="space-y-4">
           <Title1>COURSE CATEGORIES</Title1>
           <Title2>Top Categories You Want to Learn</Title2>

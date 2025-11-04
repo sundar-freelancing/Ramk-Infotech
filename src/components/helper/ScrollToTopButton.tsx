@@ -2,20 +2,31 @@
 
 import { ArrowUp } from "lucide-react"; // optional: for a nice arrow icon
 import { Button } from "../ui/button";
-import { useWindowSize } from "@/hooks/useWindowSize";
+import { scrollToTop } from "@/constant/helperFunction";
+import { useEffect, useRef } from "react";
 
 export default function ScrollToTopButton() {
-  const { low200px, scrollToTop } = useWindowSize();
-  if (!low200px) return null;
+  const scrollToTopRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 200) {
+        scrollToTopRef.current?.classList.add("right-6");
+      } else {
+        scrollToTopRef.current?.classList.remove("right-6");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <div
-      data-aos="fade-left"
-      className="fixed bottom-6 right-6"
-      data-aos-offset="10px"
+      className="fixed bottom-6 -right-10 duration-300 z-50"
+      ref={scrollToTopRef}
     >
       <Button
-        onClick={scrollToTop}
+        onClick={() => scrollToTop()}
         className="rounded-full"
         variant={"outline"}
         size={"icon-lg"}

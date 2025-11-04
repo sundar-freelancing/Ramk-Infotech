@@ -12,6 +12,7 @@ import { addressData, emailData, phoneNumberData } from "@/constant/constant";
 import { images } from "@/constant/images";
 import Image from "next/image";
 import { Title1, Title2 } from "@/components/helper/Titles";
+import Link from "next/link";
 
 const contactData = [phoneNumberData, emailData, addressData] as const;
 
@@ -21,33 +22,20 @@ export default function Contact() {
       <HeroBanner />
       <ContactInfo />
       <ContactFormSection />
-      <div style={{ width: "100%", height: "400px" }}>
-        <iframe
-          title="Ramk InfoTech Location"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d124444.45053776157!2d77.56899409004333!3d12.914850041477642!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae6db79897c325%3A0xe89033972e84394f!2sRamK%20InfoTech%20pvt%20ltd!5e0!3m2!1sen!2sin!4v1762104650464!5m2!1sen!2sin&maptype=hybrid"
-          width="100%"
-          height="100%"
-          style={{ border: 0 }}
-          allowFullScreen
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        ></iframe>
-      </div>
+      <Map />
     </>
   );
 }
 
 const ContactInfo = () => {
   return (
-    <section className="pb-16 bg-white">
-      <Container>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {contactData.map((item, index) => (
-            <div
-              key={item.icon}
-              className="bg-gray-100 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300"
-              data-aos="fade-up"
-              data-aos-delay={index * 100}
+    <Container>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {contactData.map((item, index) => (
+          <div key={index} data-aos="fade-up" data-aos-delay={index * 100}>
+            <Link
+              href={item.link}
+              className="bg-gray-100 block dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 h-full"
             >
               {/* Purple square icon */}
               <div className="mb-6">
@@ -62,7 +50,7 @@ const ContactInfo = () => {
               </div>
 
               {/* Contact information */}
-              <div className="text-gray-800">
+              <div className="text-gray-800 dark:text-gray-200">
                 {item.showCase.split("\n").map((line, lineIndex) => (
                   <p
                     key={lineIndex}
@@ -72,11 +60,11 @@ const ContactInfo = () => {
                   </p>
                 ))}
               </div>
-            </div>
-          ))}
-        </div>
-      </Container>
-    </section>
+            </Link>
+          </div>
+        ))}
+      </div>
+    </Container>
   );
 };
 
@@ -115,11 +103,11 @@ const ContactFormSection = () => {
   };
 
   const className =
-    "border-0 border-b border-gray-300 rounded-none px-0 py-6 focus-visible:ring-0  focus-visible:border-[var(--app-primary-color)] bg-transparent text-[16px]! placeholder:text-gray-400";
+    "border-0 border-b border-gray-300 rounded-none px-0 py-6 focus-visible:ring-0  focus-visible:border-[var(--app-primary-color)] bg-transparent! text-[16px]! placeholder:text-gray-400";
 
   return (
-    <Container className="py-16 bg-white">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <Container>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         {/* Left Column - Image */}
         <div
           className="relative h-full min-h-[500px] rounded-lg overflow-hidden"
@@ -135,7 +123,7 @@ const ContactFormSection = () => {
         </div>
 
         {/* Right Column - Contact Form */}
-        <div className="w-full px-10">
+        <div className="w-full lg:px-10">
           <div className="mb-8 space-y-6">
             <Title1>CONTACT US</Title1>
             <Title2>Have questions? Contact with us today</Title2>
@@ -242,5 +230,22 @@ const ContactFormSection = () => {
         </div>
       </div>
     </Container>
+  );
+};
+
+const Map = () => {
+  return (
+    <div style={{ width: "100%", height: "400px" }}>
+      <iframe
+        title="Ramk InfoTech Location"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d124444.45053776157!2d77.56899409004333!3d12.914850041477642!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae6db79897c325%3A0xe89033972e84394f!2sRamK%20InfoTech%20pvt%20ltd!5e0!3m2!1sen!2sin!4v1762104650464!5m2!1sen!2sin&maptype=hybrid"
+        width="100%"
+        height="100%"
+        style={{ border: 0 }}
+        allowFullScreen
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
   );
 };

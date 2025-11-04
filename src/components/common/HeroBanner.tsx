@@ -1,6 +1,6 @@
 "use client";
 
-import { pageURL } from "@/constant/pageURL";
+import { pageLink, pageURL } from "@/constant/pageURL";
 import { Container } from "../ui/Container";
 import { usePathname } from "next/navigation";
 import {
@@ -13,6 +13,9 @@ import {
 } from "../ui/breadcrumb";
 import Image from "next/image";
 import { images } from "@/constant/images";
+import Typewriter, { TypewriterClass } from "typewriter-effect";
+import { PrimaryButton } from "../ui/button";
+
 export const HeroBanner = () => {
   const pathname = usePathname();
 
@@ -23,11 +26,14 @@ export const HeroBanner = () => {
   const alterPath = pathname.replace("/", "");
   return (
     <div
-      className="min-h-[400px] dark:bg-gray-900 flex items-center justify-center hero-banner relative overflow-hidden 
-      translate-y-[-70px] pt-[70px] lg:pt-[150px] lg:translate-y-[-150px]"
+      className="dark:bg-gray-900 hero-banner relative overflow-hidden"
+      data-aos="fade"
     >
       <Container className="text-center">
-        <div data-aos="fade-up">
+        <div
+          data-aos="fade-up"
+          className="min-h-[400px] flex flex-col items-center justify-center pt-[70px] xl:pt-[150px]"
+        >
           <h2 className="text-4xl font-bold capitalize mb-3">
             {pageData?.title || alterPath}
           </h2>
@@ -106,3 +112,78 @@ function formatTitle(slug: string) {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 }
+
+export const HomeHeroBanner = () => {
+  const handleInit = (typewriter: TypewriterClass) => {
+    typewriter
+      .typeString("Online")
+      .pauseFor(1500)
+      .deleteAll()
+      .typeString("Offline")
+      .pauseFor(1500)
+      .deleteAll()
+      .typeString("Everywhere")
+      .pauseFor(1500)
+      .deleteAll()
+      .start();
+  };
+  return (
+    <div
+      className="min-h-auto xl:min-h-[750px] dark:bg-gray-900 xl:h-dvh flex items-center xl:items-end justify-center hero-banner main-hero relative xl:max-h-[800px]! pt-[70px] xl:pt-[150px]"
+      data-aos="fade"
+    >
+      <Container>
+        <div
+          className="grid xl:grid-cols-2 gap-12 items-center py-20 xl:pb-0"
+          data-aos="fade-up"
+        >
+          {/* Left Side - Content */}
+          <div className="text-center xl:text-left space-y-8">
+            {/* Decorative Plus Signs */}
+            <div className="flex items-center space-x-2 mb-4">
+              <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+              <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+            </div>
+
+            {/* Main Headline */}
+            <h1 className="text-4xl xl:text-5xl 2xl:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
+              Best{" "}
+              <div className="bg-yellow-400  px-3 py-1 rounded-lg inline-block">
+                <Typewriter
+                  onInit={handleInit}
+                  options={{
+                    delay: 50,
+                    loop: true,
+                    wrapperClassName: "bg-transparent",
+                  }}
+                />
+              </div>{" "}
+              <br />
+              Platform to Learn Everything
+            </h1>
+
+            {/* Description */}
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-lg leading-relaxed mx-auto xl:mx-0">
+              Excedteur sint occaecat cupidatat non proident sunt in culpa qui
+              officia deserunt mollit.
+            </p>
+
+            {/* Call-to-Action Button */}
+            <PrimaryButton href={pageLink.courses}>Find Courses</PrimaryButton>
+          </div>
+
+          {/* Right Side - Image Placeholder */}
+          <div className="xl:flex hidden justify-center xl:justify-end hero-image relative overflow-hidden">
+            <Image
+              src={images.heroimg}
+              alt="Hero Image"
+              width={500}
+              height={500}
+              className="z-2 relative"
+            />
+          </div>
+        </div>
+      </Container>
+    </div>
+  );
+};
