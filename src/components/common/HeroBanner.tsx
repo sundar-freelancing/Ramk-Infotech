@@ -139,7 +139,7 @@ export const HomeHeroBanner = () => {
           {/* Left Side - Content */}
           <div className="text-center xl:text-left space-y-8">
             {/* Decorative Plus Signs */}
-            <div className="flex items-center space-x-2 mb-4">
+            <div className="xl:flex items-center space-x-2 mb-4 hidden">
               <div className="w-2 h-2 bg-red-500 rounded-full"></div>
               <div className="w-2 h-2 bg-red-500 rounded-full"></div>
             </div>
@@ -147,6 +147,7 @@ export const HomeHeroBanner = () => {
             {/* Main Headline */}
             <h1 className="text-4xl xl:text-5xl 2xl:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
               Best{" "}
+              <br className="xs:hidden"/>
               <div className="bg-yellow-400  px-3 py-1 rounded-lg inline-block">
                 <Typewriter
                   onInit={handleInit}

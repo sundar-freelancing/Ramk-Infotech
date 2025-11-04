@@ -55,7 +55,7 @@ export const DigitalAcademy = () => {
           </p>
 
           {/* Features List */}
-          <div className="space-y-4">
+          <div className="space-y-4 relative z-3">
             {[
               "Our Expert Trainers",
               "Online Remote Learning",

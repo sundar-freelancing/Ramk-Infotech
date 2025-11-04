@@ -33,7 +33,7 @@
 }
 
 /* Optional: subtle fade-in effect when scrolling */
-html, * {
+html {
   scrollbar-width: thin; /* For Firefox */
   scrollbar-color: var(--app-primary-color) transparent;
   scroll-behavior: smooth;
@@ -116,4 +116,10 @@ footer {
 
 .app-secondary-color {
   color: var(--app-secondary-color);
+}
+
+@media (min-width: 480px) {
+  .xs\:hidden {
+    display: none;
+  }
 }

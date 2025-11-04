@@ -87,7 +87,7 @@ export const Footer = () => {
 
   return (
     <footer className="relative overflow-hidden pt-20">
-      <div className="absolute bottom-20 right-0 translate-x-1/4">
+      <div className="absolute bottom-20 right-0 translate-x-1/4 -z-1">
         <Image
           src={images.shape7}
           alt="shape6"
