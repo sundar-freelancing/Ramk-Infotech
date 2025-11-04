@@ -31,7 +31,7 @@ export const OurSponserSection = () => {
     },
   ];
   return (
-    <Container className="py-25 flex flex-col space-y-8">
+    <Container className="flex flex-col space-y-8">
       <Title1>OUR SPONSOR</Title1>
       <div className="flex gap-10 justify-evenly lg:flex-row flex-col">
         <div className="lg:w-1/3 w-full">
@@ -43,7 +43,7 @@ export const OurSponserSection = () => {
         </div>
 
         <div className="flex flex-1 justify-center lg:w-2/3 w-full">
-          <div className="flex flex-col space-y-8 w-3/4 justify-center">
+          <div className="flex flex-col space-y-8 lg:w-3/4 justify-center overflow-hidden">
             {carouselDetails.map((item, index) => (
               <Carousel
                 key={index}

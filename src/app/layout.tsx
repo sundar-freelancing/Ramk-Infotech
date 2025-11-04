@@ -15,16 +15,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// const openSans = Open_Sans({
-//   subsets: ["latin"],
-//   weight: ["400", "500", "600", "700"],
-// });
-
-// const montserrat = Montserrat({
-//   subsets: ["latin"],
-//   weight: ["400", "500", "600", "700"],
-// });
-
 const lato = Lato({
   subsets: ["latin"],
   weight: ["400", "700","100","300","900"],

@@ -9,7 +9,7 @@ import { Title1, Title2 } from "../helper/Titles";
 
 export const DigitalAcademy = () => {
   return (
-    <Container className="pb-28">
+    <Container>
       <div className="grid lg:grid-cols-2 gap-12 items-center relative">
         <div className="relative" data-aos="zoom-out">
           <Image
@@ -17,6 +17,7 @@ export const DigitalAcademy = () => {
             alt="Student Learning"
             width={500}
             height={600}
+            priority
             className="rounded-2xl shadow-2xl rounded-br-[200px]"
           />
 

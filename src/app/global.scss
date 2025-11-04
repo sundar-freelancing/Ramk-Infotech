@@ -33,7 +33,7 @@
 }
 
 /* Optional: subtle fade-in effect when scrolling */
-html {
+html, * {
   scrollbar-width: thin; /* For Firefox */
   scrollbar-color: var(--app-primary-color) transparent;
   scroll-behavior: smooth;
@@ -99,13 +99,13 @@ footer {
     background-image: unset;
 
     &::before {
-      background-image: unset;
+      background-image: url("../../public/images/overlay-bottom-dark.png");
     }
   }
 
   footer {
     &::before {
-      background-image: unset;
+      background-image: url("../../public/images/overlay-bottom-dark.png");
     }
   }
 }

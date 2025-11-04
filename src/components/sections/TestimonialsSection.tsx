@@ -35,7 +35,7 @@ export const TestimonialsSection = () => {
   ];
 
   return (
-    <Wrapper wrapperClassName="pt-28">
+    <Wrapper>
       <div className="text-center space-y-4 mb-12">
         <Title1>EDUCATION FOR EVERYONE</Title1>
         <Title2>

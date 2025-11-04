@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import Link from "next/link";
 
 import {
@@ -127,10 +127,11 @@ const CollegeStudentsButton = ({ onClick }: CollegeStudentsButtonProps) => (
 );
 
 export const Navbar = () => {
-  const { isTablet, low200px } = useWindowSize();
+  const { isDesktop } = useWindowSize();
+  console.log("render navbar");
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-
+  const navbarRef = useRef<HTMLDivElement>(null);
   const handleMenuToggle = useCallback(() => {
     setIsOpen((prev) => !prev);
   }, []);
@@ -139,26 +140,50 @@ export const Navbar = () => {
     setIsOpen(false);
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 200) {
+        navbarRef.current?.classList.add(
+          "fixed",
+          "w-full",
+          "shadow-md",
+          "navbar-animation"
+        );
+        navbarRef.current?.classList.remove("relative");
+      } else {
+        navbarRef.current?.classList.remove(
+          "fixed",
+          "w-full",
+          "shadow-md",
+          "navbar-animation"
+        );
+        navbarRef.current?.classList.add("relative");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <>
-      {!isTablet && <Navbar1 />}
+    <div id="navbar" className="absolute top-0 left-0 w-full">
+      <Navbar1 />
       <div
-        className={`bg-background top-0 z-50 ${
-          low200px ? "sticky shadow-md navbar-animation" : "relative"
-        }`}
+        ref={navbarRef}
+        className={`bg-background top-0 z-50 relative`}
         suppressHydrationWarning={true}
       >
         <ContainerFluid className="py-3" wrapperClassName="overflow-visible">
           <SidebarWrapper isOpen={isOpen} setIsOpen={setIsOpen}>
             <div
-              className={`flex lg:justify-between lg:items-center lg:flex-row flex-col gap-3 flex-1 px-3 lg:px-0`}
+              className={`flex xl:justify-between xl:items-center xl:flex-row flex-col gap-3 flex-1 px-3 xl:px-0`}
             >
               {/* Navigation Menu */}
-              <NavigationMenu className="flex-0 lg:flex-1">
-                <NavigationMenuList className="flex-col lg:flex-row items-start lg:items-center">
+              <NavigationMenu className="flex-0 xl:flex-1">
+                <NavigationMenuList className="flex-col xl:flex-row items-start xl:items-center">
                   {Object.values(publicPageURL).map((item) => (
                     <NavigationMenuItem key={item.key}>
-                      {item.hasDropdown && !isTablet ? (
+                      {item.hasDropdown && !isDesktop ? (
                         <>
                           <NavigationMenuTrigger
                             aria-label={`${item.key} menu`}
@@ -167,7 +192,7 @@ export const Navbar = () => {
                             {item.key}
                           </NavigationMenuTrigger>
                           <NavigationMenuContent className="w-full">
-                            <div className="grid gap-3 p-4 w-[400px] md:w-[500px] lg:w-[600px]">
+                            <div className="grid gap-3 p-4 w-[400px] md:w-[500px] xl:w-[600px]">
                               <div className="grid grid-cols-2 gap-3">
                                 {staticCourses.map((course) => (
                                   <CourseItem key={course.id} course={course} />
@@ -205,13 +230,15 @@ export const Navbar = () => {
                   ))}
                 </NavigationMenuList>
               </NavigationMenu>
-              {isTablet && <CollegeStudentsButton onClick={handleMenuToggle} />}
-              <div className="flex lg:items-center flex-wrap mt-auto mb-3 lg:mb-0">
+              {isDesktop && (
+                <CollegeStudentsButton onClick={handleMenuToggle} />
+              )}
+              <div className="flex xl:items-center flex-wrap mt-auto pt-10 xl:pt-0 mb-3 xl:mb-0">
                 <Link
                   href={phoneNumberData.link}
                   className={cn(
                     buttonVariants({
-                      variant: isTablet ? "highlightLink" : "highlight",
+                      variant: isDesktop ? "highlightLink" : "highlight",
                     }),
                     "w-fit relative overflow-hidden"
                   )}
@@ -224,7 +251,7 @@ export const Navbar = () => {
                   href={emailData.link}
                   className={cn(
                     buttonVariants({
-                      variant: isTablet ? "highlightLink" : "highlight",
+                      variant: isDesktop ? "highlightLink" : "highlight",
                     }),
                     "w-fit relative overflow-hidden px-2"
                   )}
@@ -235,7 +262,7 @@ export const Navbar = () => {
                 </Link>
                 <Separator
                   orientation="vertical"
-                  className="!h-4 bg-gray-500 hidden lg:block mx-4"
+                  className="!h-4 bg-gray-500 hidden xl:block mx-4"
                 />
                 <ModeToggleV2 />
               </div>
@@ -243,7 +270,7 @@ export const Navbar = () => {
           </SidebarWrapper>
         </ContainerFluid>
       </div>
-    </>
+    </div>
   );
 };
 
@@ -278,7 +305,7 @@ const Navbar1 = () => {
   return (
     <ContainerFluid
       suppressHydrationWarning={true}
-      className="py-5 relative z-10"
+      className="py-5 relative z-10 hidden xl:block"
     >
       <div className="flex justify-between items-center gap-10 xl:gap-15">
         <AppLogo />
@@ -333,7 +360,7 @@ const SidebarWrapper = ({
   isOpen,
   setIsOpen,
 }: SidebarWrapperProps) => {
-  const { isTablet } = useWindowSize();
+  const { isDesktop } = useWindowSize();
 
   const handleOpenChange = useCallback(
     (open: boolean) => {
@@ -342,7 +369,7 @@ const SidebarWrapper = ({
     [setIsOpen]
   );
 
-  return isTablet ? (
+  return isDesktop ? (
     <div className="flex justify-between items-center">
       <AppLogo />
       <Sheet open={isOpen} onOpenChange={handleOpenChange}>
@@ -357,7 +384,7 @@ const SidebarWrapper = ({
           </Button>
         </SheetTrigger>
         <SheetContent>
-          <SheetHeader className="bg-gray-100 shadow">
+          <SheetHeader className="shadow">
             <SheetTitle>
               <AppLogo />
             </SheetTitle>

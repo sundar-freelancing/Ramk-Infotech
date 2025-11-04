@@ -23,7 +23,7 @@ export const CoursesSection = () => {
   };
 
   return (
-    <Container className="pt-28">
+    <Container>
       <div className="text-center space-y-4 mb-12">
         <Title1>ONLINE COURSES</Title1>
         <Title2>Get Your Course With Us</Title2>
@@ -45,6 +45,7 @@ export const CoursesSection = () => {
                     src={course.image}
                     alt={course.name}
                     fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover group-hover/course:scale-105 transition-all duration-300"
                   />
                   {/* Category Tag */}

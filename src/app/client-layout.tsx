@@ -5,11 +5,9 @@ import AOS from "aos";
 import { useLucideIcons } from "@/hooks/useLucideIcons";
 import { ThemeProvider } from "@/components/theme-provider";
 import { images } from "@/constant/images";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { StudentsForm } from "@/components/helper/StudentsForm";
-import ScrollToTopButton from "@/components/helper/ScrollToTopButton";
 import { PublicPageComponents } from "@/components/common/PublicPageComponents";
+import { scrollToTop } from "@/constant/helperFunction";
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -53,8 +51,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
 
   useEffect(() => {
     if (page) {
-      window.scrollTo(0, 0);
-      AOS.refresh();
+      scrollToTop(false);
     }
   }, [page]);
 
@@ -63,9 +60,13 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
       {isLoading ? (
         <div className="flex justify-center items-center h-screen">
           <div className="relative w-30 h-30">
-            <Image
-              src={images.loaderLogo}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={typeof images.loaderLogo === 'string' ? images.loaderLogo : images.loaderLogo.src}
               alt="loader"
+              loading="eager"
+              width={120}
+              height={120}
               className="p-10 ps-7 animate-pulse"
             />
             <span className="absolute top-0 left-0 w-full h-full rounded-full border-3 animate-spin border-t-blue-700 border-blue-200"></span>
@@ -74,15 +75,11 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
       ) : (
         <ThemeProvider
           attribute="class"
-          key={isLoading ? null : "loaded"}
           // defaultTheme="system"
           defaultTheme="light"
           enableSystem
-          disableTransitionOnChange
         >
           <PublicPageComponents>{children}</PublicPageComponents>
-          <StudentsForm />
-          <ScrollToTopButton />
         </ThemeProvider>
       )}
     </>
