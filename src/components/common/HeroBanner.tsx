@@ -19,7 +19,6 @@ import { PrimaryButton } from "../ui/button";
 export const HeroBanner = () => {
   const pathname = usePathname();
 
-  console.log(pathname);
   const pageData = Object.values(pageURL).find(
     (item) => item.href === pathname
   );
