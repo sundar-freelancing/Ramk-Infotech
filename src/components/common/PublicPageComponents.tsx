@@ -5,7 +5,7 @@ import { Navbar } from "../helper/Navbar";
 import { publicPageURL } from "@/constant/public_PageURL";
 import { Footer } from "../helper/Footer";
 import React from "react";
-import { StudentsForm } from "../helper/StudentsForm";
+// import { StudentsForm } from "../helper/StudentsForm";
 import ScrollToTopButton from "../helper/ScrollToTopButton";
 
 interface PublicPageComponentsProps {
@@ -26,7 +26,7 @@ export const PublicPageComponents = ({
         {children}
         <Footer key={pathname} />
       </div>
-      <StudentsForm />
+      {/* <StudentsForm /> */}
       <ScrollToTopButton />
     </>
   ) : (
