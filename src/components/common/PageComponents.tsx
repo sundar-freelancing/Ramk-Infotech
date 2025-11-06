@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { Container } from "@/components/ui/Container";
 import { Title2 } from "@/components/helper/Titles";
 import { AppIcon } from "@/components/ui/Icon";
 
@@ -12,11 +11,11 @@ interface PageHeaderProps {
   lastUpdated?: string;
 }
 
-export const PageHeader: React.FC<PageHeaderProps> = ({ 
-  title, 
-  icon, 
-  description, 
-  lastUpdated 
+export const PageHeader: React.FC<PageHeaderProps> = ({
+  title,
+  icon,
+  description,
+  lastUpdated,
 }) => {
   return (
     <div className="text-center mb-12">
@@ -30,9 +29,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
         </p>
       )}
       {description && (
-        <p className="text-gray-600 text-lg max-w-3xl mx-auto">
-          {description}
-        </p>
+        <p className="text-gray-600 text-lg max-w-3xl mx-auto">{description}</p>
       )}
     </div>
   );
@@ -43,12 +40,18 @@ interface SearchBarProps {
   onSearch?: (query: string) => void;
 }
 
-export const SearchBar: React.FC<SearchBarProps> = ({ placeholder, onSearch }) => {
+export const SearchBar: React.FC<SearchBarProps> = ({
+  placeholder,
+  onSearch,
+}) => {
   return (
     <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
       <div className="max-w-2xl mx-auto">
         <div className="relative">
-          <AppIcon name="search" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <AppIcon
+            name="search"
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+          />
           <input
             type="text"
             placeholder={placeholder}
@@ -67,7 +70,11 @@ interface PageSectionProps {
   index: number;
 }
 
-export const PageSection: React.FC<PageSectionProps> = ({ title, content, index }) => {
+export const PageSection: React.FC<PageSectionProps> = ({
+  title,
+  content,
+  index,
+}) => {
   return (
     <div className="bg-white rounded-lg shadow-sm p-8">
       <h3 className="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-3">
@@ -79,7 +86,10 @@ export const PageSection: React.FC<PageSectionProps> = ({ title, content, index 
       <ul className="space-y-3">
         {content.map((item, itemIndex) => (
           <li key={itemIndex} className="flex items-start gap-3">
-            <AppIcon name="check-circle" className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+            <AppIcon
+              name="check-circle"
+              className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0"
+            />
             <span className="text-gray-600">{item}</span>
           </li>
         ))}
@@ -96,21 +106,17 @@ interface ContactInfoProps {
   address?: string;
 }
 
-export const ContactInfo: React.FC<ContactInfoProps> = ({ 
-  title, 
-  description, 
-  email, 
-  phone, 
-  address 
+export const ContactInfo: React.FC<ContactInfoProps> = ({
+  title,
+  description,
+  email,
+  phone,
+  address,
 }) => {
   return (
     <div className="bg-blue-50 rounded-lg p-8 mt-8">
-      <h3 className="text-xl font-semibold text-gray-800 mb-4">
-        {title}
-      </h3>
-      <p className="text-gray-600 mb-4">
-        {description}
-      </p>
+      <h3 className="text-xl font-semibold text-gray-800 mb-4">{title}</h3>
+      <p className="text-gray-600 mb-4">{description}</p>
       <div className="space-y-2">
         <div className="flex items-center gap-3">
           <AppIcon name="mail" className="w-5 h-5 text-blue-600" />
@@ -138,9 +144,7 @@ interface FooterNoteProps {
 export const FooterNote: React.FC<FooterNoteProps> = ({ content }) => {
   return (
     <div className="text-center mt-8 p-6 bg-gray-100 rounded-lg">
-      <p className="text-gray-600 text-sm">
-        {content}
-      </p>
+      <p className="text-gray-600 text-sm">{content}</p>
     </div>
   );
 };
@@ -152,7 +156,12 @@ interface FAQItemProps {
   onToggle: () => void;
 }
 
-export const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, onToggle }) => {
+export const FAQItem: React.FC<FAQItemProps> = ({
+  question,
+  answer,
+  isOpen,
+  onToggle,
+}) => {
   return (
     <div className="p-6 border-b border-gray-200 last:border-b-0">
       <button
@@ -160,12 +169,12 @@ export const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, onTo
         className="w-full text-left flex items-center justify-between gap-4 hover:text-blue-600 transition-colors"
       >
         <h4 className="font-semibold text-gray-800 pr-4">{question}</h4>
-        <AppIcon 
-          name={isOpen ? "chevron-up" : "chevron-down"} 
-          className="w-5 h-5 text-gray-500 flex-shrink-0" 
+        <AppIcon
+          name={isOpen ? "chevron-up" : "chevron-down"}
+          className="w-5 h-5 text-gray-500 flex-shrink-0"
         />
       </button>
-      
+
       {isOpen && (
         <div className="mt-4 pt-4 border-t border-gray-100">
           <p className="text-gray-600 leading-relaxed">{answer}</p>
@@ -185,14 +194,14 @@ interface ContactMethodProps {
   bgColor?: string;
 }
 
-export const ContactMethod: React.FC<ContactMethodProps> = ({ 
-  title, 
-  icon, 
-  description, 
-  contact, 
-  responseTime, 
+export const ContactMethod: React.FC<ContactMethodProps> = ({
+  title,
+  icon,
+  description,
+  contact,
+  responseTime,
   color = "text-blue-600",
-  bgColor = "bg-blue-50"
+  bgColor = "bg-blue-50",
 }) => {
   return (
     <div className={`${bgColor} rounded-lg p-6 text-center`}>
@@ -214,7 +223,11 @@ interface ResourceCardProps {
   link: string;
 }
 
-export const ResourceCard: React.FC<ResourceCardProps> = ({ title, description, icon, link }) => {
+export const ResourceCard: React.FC<ResourceCardProps> = ({
+  title,
+  description,
+  icon,
+}) => {
   return (
     <div className="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow cursor-pointer">
       <div className="text-center">
@@ -239,7 +252,9 @@ interface QuickActionsProps {
 export const QuickActions: React.FC<QuickActionsProps> = ({ actions }) => {
   return (
     <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-8">
-      <h3 className="text-xl font-semibold text-gray-800 mb-4 text-center">Quick Actions</h3>
+      <h3 className="text-xl font-semibold text-gray-800 mb-4 text-center">
+        Quick Actions
+      </h3>
       <div className="flex flex-wrap justify-center gap-4">
         {actions.map((action, index) => (
           <button

@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { pageLink, pageURL } from "@/constant/pageURL";
 import { Container } from "../ui/Container";
 import { usePathname } from "next/navigation";
@@ -15,9 +16,19 @@ import Image from "next/image";
 import { images } from "@/constant/images";
 import Typewriter, { TypewriterClass } from "typewriter-effect";
 import { PrimaryButton } from "../ui/button";
+import { courses } from "@/constant/staticCourse";
+import { createCourseSlug } from "@/lib/courseUtils";
 
 export const HeroBanner = () => {
   const pathname = usePathname();
+  const courseName = pathname.includes("/courses/")
+    ? pathname.split("/")[2]
+    : null;
+  const isValidCourse = courseName
+    ? courses.find(
+        (course) => createCourseSlug(course.name) === courseName?.toLowerCase()
+      )
+    : null;
 
   const pageData = Object.values(pageURL).find(
     (item) => item.href === pathname
@@ -31,10 +42,12 @@ export const HeroBanner = () => {
       <Container className="text-center">
         <div
           data-aos="fade-up"
-          className="min-h-[400px] flex flex-col items-center justify-center pt-[70px] xl:pt-[150px]"
+          className=" xl:min-h-[clamp(500px,50vh,500px)] min-h-[clamp(300px,50vh,500px)] flex flex-col items-center justify-center pt-[70px] xl:pt-[150px]"
         >
           <h2 className="text-4xl font-bold capitalize mb-3">
-            {pageData?.title || alterPath}
+            {isValidCourse
+              ? isValidCourse.category
+              : pageData?.title || alterPath}
           </h2>
           <DynamicBreadcrumb />
         </div>
@@ -83,21 +96,21 @@ const DynamicBreadcrumb = () => {
         {pathLinks.length > 0 && <BreadcrumbSeparator>/</BreadcrumbSeparator>}
 
         {pathLinks.map((item, index) => (
-          <BreadcrumbItem key={item.href}>
-            {index < pathLinks.length - 1 ? (
-              <>
+          <React.Fragment key={item.href}>
+            {index > 0 && <BreadcrumbSeparator>/</BreadcrumbSeparator>}
+            <BreadcrumbItem>
+              {index < pathLinks.length - 1 ? (
                 <BreadcrumbLink
                   className="text-[var(--app-secondary-color)] dark:text-[var(--app-primary-color)]"
                   href={item.href}
                 >
                   {formatTitle(item.name)}
                 </BreadcrumbLink>
-                <BreadcrumbSeparator>/</BreadcrumbSeparator>
-              </>
-            ) : (
-              <BreadcrumbPage>{formatTitle(item.name)}</BreadcrumbPage>
-            )}
-          </BreadcrumbItem>
+              ) : (
+                <BreadcrumbPage>{formatTitle(item.name)}</BreadcrumbPage>
+              )}
+            </BreadcrumbItem>
+          </React.Fragment>
         ))}
       </BreadcrumbList>
     </Breadcrumb>
@@ -146,8 +159,7 @@ export const HomeHeroBanner = () => {
 
             {/* Main Headline */}
             <h1 className="text-4xl xl:text-5xl 2xl:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
-              Best{" "}
-              <br className="xs:hidden"/>
+              Best <br className="xs:hidden" />
               <div className="bg-yellow-400  px-3 py-1 rounded-lg inline-block">
                 <Typewriter
                   onInit={handleInit}
