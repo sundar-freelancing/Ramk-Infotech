@@ -15,21 +15,11 @@ import {
 import { courses as staticCourses } from "@/constant/staticCourse";
 import { pageURL } from "@/constant/pageURL";
 import { publicPageURL } from "@/constant/public_PageURL";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
-import { Input } from "../ui/input";
 import { Button, buttonVariants } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { cn } from "@/lib/utils";
 import { ContainerFluid } from "../ui/Container";
 import {
-  categories,
   emailData,
   phoneNumberData,
   SocialIcons,
@@ -46,6 +36,8 @@ import { AppIcon } from "../ui/Icon";
 import ModeToggleV2 from "./ModeToggleV2";
 import { AppLogo } from "./AppLogo";
 import { usePathname } from "next/navigation";
+import { createCourseSlug } from "@/lib/courseUtils";
+import { CourseSearchBar } from "./CourseSearchBar";
 
 // Types
 interface Course {
@@ -81,7 +73,7 @@ interface SidebarWrapperProps {
 const CourseItem = ({ course }: CourseItemProps) => (
   <NavigationMenuLink asChild>
     <Link
-      href={`${pageURL.courses.href}/${course.id}`}
+      href={`${pageURL.courses.href}/${createCourseSlug(course.name)}`}
       className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
       aria-label={`Learn more about ${course.name} course`}
     >
@@ -194,9 +186,20 @@ export const Navbar = () => {
                           <NavigationMenuContent className="w-full">
                             <div className="grid gap-3 p-4 w-[400px] md:w-[500px] xl:w-[600px]">
                               <div className="grid grid-cols-2 gap-3">
-                                {staticCourses.map((course) => (
-                                  <CourseItem key={course.id} course={course} />
-                                ))}
+                                {staticCourses.length > 0 &&
+                                  staticCourses.map((course) => (
+                                    <CourseItem
+                                      key={course.id}
+                                      course={course}
+                                    />
+                                  ))}
+                                {staticCourses.length === 0 && (
+                                  <div className="col-span-2">
+                                    <p className="text-sm text-muted-foreground">
+                                      No courses available
+                                    </p>
+                                  </div>
+                                )}
                               </div>
                               <div className="border-t pt-3">
                                 <NavLink
@@ -276,60 +279,16 @@ export const Navbar = () => {
 
 Navbar.displayName = "Navbar";
 
-const CategorySelect = () => {
-  const [category, setCategory] = useState(categories[0]);
-
-  return (
-    <Select value={category} onValueChange={setCategory}>
-      <SelectTrigger
-        className="max-w-[300px] border-none shadow-none pl-6 hidden lg:flex dark:bg-transparent"
-        isFocusLess
-        aria-label="Select course category"
-      >
-        <SelectValue placeholder="Select a category" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          {categories.map((cat) => (
-            <SelectItem key={cat} value={cat}>
-              {cat}
-            </SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
-  );
-};
 
 const Navbar1 = () => {
   return (
     <ContainerFluid
       suppressHydrationWarning={true}
-      className="py-5 relative z-10 hidden xl:block"
+      className="py-5 relative hidden xl:block z-75"
     >
       <div className="flex justify-between items-center gap-10 xl:gap-15">
         <AppLogo />
-        <div className="bg-white dark:bg-gray-800 flex items-center flex-1 gap-2 shadow border border-gray-400 rounded-full p-1 h-full">
-          <CategorySelect />
-          <Separator
-            orientation="vertical"
-            className="!h-4 bg-gray-500 hidden lg:block"
-          />
-          <Input
-            placeholder="Search Your Course..."
-            isFocusLess
-            aria-label="Search courses"
-            className="dark:bg-transparent"
-          />
-          <Button
-            variant="default"
-            className="rounded-full"
-            aria-label="Search"
-          >
-            <AppIcon name="search" className="size-4" />
-            Search
-          </Button>
-        </div>
+        <CourseSearchBar />
         {/* Social Icons */}
         <div
           className="flex items-center gap-2"

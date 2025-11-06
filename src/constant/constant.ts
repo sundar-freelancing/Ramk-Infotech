@@ -61,15 +61,6 @@ export const breakpoint = {
   "2xl": 1400,
 };
 
-export const categories = [
-  "All Categories",
-  "Web Development",
-  "Data Science",
-  "Machine Learning",
-  "Cloud Computing",
-  "Cybersecurity",
-];
-
 export const categoryCards = [
   {
     id: "business",

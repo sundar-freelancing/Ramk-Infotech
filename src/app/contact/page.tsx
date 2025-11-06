@@ -1,7 +1,6 @@
 "use client";
 
 import { useForm, Controller } from "react-hook-form";
-import { HeroBanner } from "@/components/common/HeroBanner";
 import { Container } from "@/components/ui/Container";
 import { AppIcon } from "@/components/ui/Icon";
 import { Input } from "@/components/ui/input";
@@ -19,7 +18,6 @@ const contactData = [phoneNumberData, emailData, addressData] as const;
 export default function Contact() {
   return (
     <>
-      <HeroBanner />
       <ContactInfo />
       <ContactFormSection />
       <Map />

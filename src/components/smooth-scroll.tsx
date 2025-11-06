@@ -10,6 +10,20 @@ interface SmoothScrollProps {
   disabled?: boolean;
 }
 
+// Cache shadcn component selectors - defined outside component to avoid recreation
+const SHADCN_DATA_SLOTS = new Set([
+  'popover-content',
+  'dropdown-menu-content',
+  'select-content',
+  'navigation-menu-content',
+  'navigation-menu-viewport',
+  'sheet-overlay'
+]);
+
+  const SHADCN_ROLES = new Set(['listbox', 'menu', 'dialog']);
+
+  const SHADCN_SELECTOR = '[data-slot="popover-content"], [data-slot="dropdown-menu-content"], [data-slot="select-content"], [data-slot="navigation-menu-content"], [data-slot="navigation-menu-viewport"], [data-slot="sheet-overlay"]';
+
 /**
  * SmoothScroll Component
  * 
@@ -27,10 +41,131 @@ export function SmoothScroll({
   const lenisRef = useRef<Lenis | null>(null);
   const rafRef = useRef<number | null>(null);
   const pathname = usePathname();
+  
+  // Cache for scrollable element detection
+  const scrollableCacheRef = useRef(new WeakMap<Element, boolean>());
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Initialize Lenis smooth scroll
   useEffect(() => {
     if (disabled || typeof window === "undefined") return;
+
+    // Optimized helper function to check if element is inside a shadcn component
+    // Uses cached Sets for O(1) lookups instead of array iterations
+    const isInsideShadcnComponent = (element: Element | null): boolean => {
+      if (!element) return false;
+
+      let current: Element | null = element;
+      let depth = 0;
+      const maxDepth = 20; // Prevent infinite loops, limit traversal depth
+
+      while (current && depth < maxDepth) {
+        // Check data-slot attributes first (most common case)
+        const dataSlot = current.getAttribute('data-slot');
+        if (dataSlot && SHADCN_DATA_SLOTS.has(dataSlot)) {
+          return true;
+        }
+        
+        // Check role attributes
+        const role = current.getAttribute('role');
+        if (role && SHADCN_ROLES.has(role)) {
+          return true;
+        }
+        
+        // Check for Radix UI portal containers (only once per element)
+        if (current.classList.contains('radix-portal')) {
+          return true;
+        }
+        
+        current = current.parentElement;
+        depth++;
+      }
+      
+      return false;
+    };
+    
+    // Optimized function to check if element is scrollable (with caching)
+    const isScrollableElement = (element: Element): boolean => {
+      // Check cache first
+      if (scrollableCacheRef.current.has(element)) {
+        return scrollableCacheRef.current.get(element)!;
+      }
+      
+      const style = window.getComputedStyle(element);
+      const overflowY = style.overflowY;
+      const isScrollable = 
+        (overflowY === 'auto' || overflowY === 'scroll') &&
+        element.scrollHeight > element.clientHeight &&
+        element.clientHeight > 0;
+      
+      // Cache result
+      scrollableCacheRef.current.set(element, isScrollable);
+      return isScrollable;
+    };
+
+    // Optimized wheel event handler with early exits and cached checks
+    const handleWheel = (e: WheelEvent) => {
+      const target = e.target as Element;
+      
+      // Early exit if not inside shadcn component
+      if (!isInsideShadcnComponent(target)) {
+        return;
+      }
+      
+      // Find the scrollable container inside the shadcn component
+      let scrollableElement: Element | null = target;
+      let depth = 0;
+      const maxDepth = 15; // Limit traversal depth for performance
+      
+      while (scrollableElement && 
+             scrollableElement !== document.body && 
+             scrollableElement !== document.documentElement &&
+             depth < maxDepth) {
+        
+        // Use cached scrollable check
+        if (isScrollableElement(scrollableElement) && 
+            isInsideShadcnComponent(scrollableElement)) {
+          const element = scrollableElement as HTMLElement;
+          const deltaY = e.deltaY;
+          const scrollTop = element.scrollTop;
+          const scrollHeight = element.scrollHeight;
+          const clientHeight = element.clientHeight;
+          
+          // Calculate scroll boundaries once
+          const canScrollUp = scrollTop > 0;
+          const canScrollDown = scrollTop < scrollHeight - clientHeight - 1;
+          
+          // Check if element can scroll in the direction of the wheel event
+          const canScroll = (deltaY < 0 && canScrollUp) || (deltaY > 0 && canScrollDown);
+          
+          // Always prevent page scroll when inside shadcn component
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+          
+          // Only scroll if element can scroll in that direction
+          if (canScroll) {
+            element.scrollTop += deltaY;
+          }
+          
+          return false;
+        }
+        
+        scrollableElement = scrollableElement.parentElement;
+        depth++;
+      }
+      
+      // Prevent page scroll when inside shadcn component (fallback)
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      return false;
+    };
+
+    // Register wheel event handler BEFORE initializing Lenis to ensure we catch events first
+    const wheelOptions = { passive: false, capture: true } as AddEventListenerOptions;
+    window.addEventListener('wheel', handleWheel, wheelOptions);
+    document.addEventListener('wheel', handleWheel, wheelOptions);
 
     // Initialize Lenis instance
     lenisRef.current = new Lenis({
@@ -44,6 +179,76 @@ export function SmoothScroll({
       infinite: false,
     });
 
+    // Optimized function to add data-lenis-prevent to scrollable containers
+    // Uses single querySelectorAll with combined selector for better performance
+    const addLenisPreventToShadcnComponents = () => {
+      // Use single query with combined selector instead of multiple queries
+      const shadcnElements = document.querySelectorAll(SHADCN_SELECTOR);
+      
+      const processedElements = new WeakSet<Element>();
+      
+      const checkAndMarkScrollable = (element: Element) => {
+        // Skip if already processed
+        if (processedElements.has(element)) return;
+        
+        if (isScrollableElement(element)) {
+          element.setAttribute('data-lenis-prevent', '');
+          processedElements.add(element);
+        }
+      };
+
+      // Process each shadcn component element
+      shadcnElements.forEach(element => {
+        // Check the element itself
+        checkAndMarkScrollable(element);
+        
+        // Only check direct children and their scrollable descendants (more efficient)
+        // Use querySelector with overflow check instead of querySelectorAll('*')
+        const potentialScrollable = element.querySelectorAll('[style*="overflow"], [class*="overflow"]');
+        potentialScrollable.forEach(child => {
+          checkAndMarkScrollable(child);
+        });
+      });
+    };
+
+    // Debounce helper for MutationObserver to prevent excessive calls
+    const debouncedAddLenisPrevent = () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+      debounceTimerRef.current = setTimeout(() => {
+        addLenisPreventToShadcnComponents();
+        debounceTimerRef.current = null;
+      }, 100); // 100ms debounce
+    };
+
+    // Run initially
+    addLenisPreventToShadcnComponents();
+    
+    // Set up observer with debounced callback to catch dynamically added components
+    const shadcnObserver = new MutationObserver((mutations) => {
+      // Only process if shadcn components are added/modified
+      const hasShadcnChanges = mutations.some(mutation => {
+        return Array.from(mutation.addedNodes).some(node => {
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            const el = node as Element;
+            return el.matches?.(SHADCN_SELECTOR) || 
+                   el.querySelector?.(SHADCN_SELECTOR) !== null;
+          }
+          return false;
+        });
+      });
+      
+      if (hasShadcnChanges) {
+        debouncedAddLenisPrevent();
+      }
+    });
+    
+    shadcnObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+
     // Request animation frame loop
     const raf = (time: number) => {
       lenisRef.current?.raf(time);
@@ -54,6 +259,13 @@ export function SmoothScroll({
 
     // Cleanup
     return () => {
+      window.removeEventListener('wheel', handleWheel, wheelOptions);
+      document.removeEventListener('wheel', handleWheel, wheelOptions);
+      shadcnObserver.disconnect();
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+      scrollableCacheRef.current = new WeakMap(); // Reset cache on cleanup
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current);
       }
