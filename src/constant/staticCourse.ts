@@ -11,6 +11,8 @@ export const courses: CourseInterface[] = [
       name: "Harrison Stone",
       avatar:
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
+      fullImage:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&h=500&fit=crop",
     },
     lessons: 45,
     rating: 4.9,
@@ -34,6 +36,7 @@ export const courses: CourseInterface[] = [
     ],
     isEnabled: true,
     createdTimeStamp: "2025-01-01T00:00:00.000Z",
+    trainerKey: "SAP Expert",
   },
   {
     id: 2,
@@ -45,6 +48,8 @@ export const courses: CourseInterface[] = [
       name: "Dr. Michael Chen",
       avatar:
         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+      fullImage:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=500&fit=crop",
     },
     lessons: 38,
     rating: 4.8,
@@ -65,6 +70,7 @@ export const courses: CourseInterface[] = [
     ],
     isEnabled: true,
     createdTimeStamp: "2025-01-01T00:00:00.000Z",
+    trainerKey: "Data Science Specialist",
   },
   {
     id: 3,
@@ -76,6 +82,8 @@ export const courses: CourseInterface[] = [
       name: "Lisa Thompson",
       avatar:
         "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=face",
+      fullImage:
+        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&h=500&fit=crop",
     },
     lessons: 32,
     rating: 4.7,
@@ -95,6 +103,7 @@ export const courses: CourseInterface[] = [
     ],
     isEnabled: true,
     createdTimeStamp: "2025-01-01T00:00:00.000Z",
+    trainerKey: "Cyber Security Expert",
   },
   {
     id: 4,
@@ -106,6 +115,8 @@ export const courses: CourseInterface[] = [
       name: "David Wilson",
       avatar:
         "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+      fullImage:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&h=500&fit=crop",
     },
     lessons: 42,
     rating: 4.9,
@@ -128,6 +139,7 @@ export const courses: CourseInterface[] = [
     ],
     isEnabled: true,
     createdTimeStamp: "2025-01-01T00:00:00.000Z",
+    trainerKey: "DevOps & Cloud Specialist",
   },
   {
     id: 5,
@@ -139,6 +151,8 @@ export const courses: CourseInterface[] = [
       name: "Robert Taylor",
       avatar:
         "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=100&h=100&fit=crop&crop=face",
+      fullImage:
+        "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=500&h=500&fit=crop",
     },
     lessons: 35,
     rating: 4.8,
@@ -160,6 +174,7 @@ export const courses: CourseInterface[] = [
     ],
     isEnabled: true,
     createdTimeStamp: "2025-01-01T00:00:00.000Z",
+    trainerKey: "Blockchain Developer",
   },
   {
     id: 6,
@@ -171,6 +186,8 @@ export const courses: CourseInterface[] = [
       name: "Emily Rodriguez",
       avatar:
         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
+      fullImage:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=500&h=500&fit=crop",
     },
     lessons: 28,
     rating: 4.6,
@@ -191,9 +208,11 @@ export const courses: CourseInterface[] = [
       "Mixed Reality",
     ],
     isEnabled: false,
-    disabledReason: "Course temporarily unavailable due to curriculum updates. New content will be available soon.",
+    disabledReason:
+      "Course temporarily unavailable due to curriculum updates. New content will be available soon.",
     createdTimeStamp: "2025-01-01T00:00:00.000Z",
     disabledTimeStamp: "2025-10-15T10:30:00.000Z",
+    trainerKey: "AR/VR Developer",
   },
   {
     id: 7,
@@ -205,6 +224,8 @@ export const courses: CourseInterface[] = [
       name: "Sarah Johnson",
       avatar:
         "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face",
+      fullImage:
+        "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=500&h=500&fit=crop",
     },
     lessons: 48,
     rating: 4.9,
@@ -227,6 +248,7 @@ export const courses: CourseInterface[] = [
     ],
     isEnabled: true,
     createdTimeStamp: "2025-01-01T00:00:00.000Z",
+    trainerKey: "Full-Stack Developer",
   },
   {
     id: 8,
@@ -238,6 +260,8 @@ export const courses: CourseInterface[] = [
       name: "James Anderson",
       avatar:
         "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&crop=face",
+      fullImage:
+        "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&h=500&fit=crop",
     },
     lessons: 26,
     rating: 4.5,
@@ -258,6 +282,7 @@ export const courses: CourseInterface[] = [
     ],
     isEnabled: true,
     createdTimeStamp: "2025-01-01T00:00:00.000Z",
+    trainerKey: "IT Support Engineer",
   },
   {
     id: 9,
@@ -269,6 +294,8 @@ export const courses: CourseInterface[] = [
       name: "Maria Garcia",
       avatar:
         "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=face",
+      fullImage:
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&h=500&fit=crop",
     },
     lessons: 30,
     rating: 4.7,
@@ -289,6 +316,7 @@ export const courses: CourseInterface[] = [
     ],
     isEnabled: true,
     createdTimeStamp: "2025-01-01T00:00:00.000Z",
+    trainerKey: "QA Specialist",
   },
   {
     id: 10,
@@ -300,6 +328,8 @@ export const courses: CourseInterface[] = [
       name: "Alex Kim",
       avatar:
         "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=100&h=100&fit=crop&crop=face",
+      fullImage:
+        "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=500&h=500&fit=crop",
     },
     lessons: 33,
     rating: 4.8,
@@ -321,6 +351,7 @@ export const courses: CourseInterface[] = [
     ],
     isEnabled: true,
     createdTimeStamp: "2025-01-01T00:00:00.000Z",
+    trainerKey: "Business Intelligence Analyst",
   },
   {
     id: 11,
@@ -332,6 +363,8 @@ export const courses: CourseInterface[] = [
       name: "Jennifer Martinez",
       avatar:
         "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face",
+      fullImage:
+        "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=500&h=500&fit=crop",
     },
     lessons: 24,
     rating: 4.6,
@@ -352,6 +385,7 @@ export const courses: CourseInterface[] = [
     ],
     isEnabled: true,
     createdTimeStamp: "2025-01-01T00:00:00.000Z",
+    trainerKey: "Healthcare Specialist",
   },
   {
     id: 12,
@@ -363,6 +397,8 @@ export const courses: CourseInterface[] = [
       name: "Thomas Brown",
       avatar:
         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+      fullImage:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=500&fit=crop",
     },
     lessons: 29,
     rating: 4.9,
@@ -384,6 +420,7 @@ export const courses: CourseInterface[] = [
     ],
     isEnabled: true,
     createdTimeStamp: "2025-01-01T00:00:00.000Z",
+    trainerKey: "Database Developer",
   },
   {
     id: 13,
@@ -395,6 +432,8 @@ export const courses: CourseInterface[] = [
       name: "Patricia Davis",
       avatar:
         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
+      fullImage:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=500&h=500&fit=crop",
     },
     lessons: 36,
     rating: 4.8,
@@ -415,5 +454,6 @@ export const courses: CourseInterface[] = [
     ],
     isEnabled: true,
     createdTimeStamp: "2025-01-01T00:00:00.000Z",
+    trainerKey: "Salesforce Developer",
   },
 ];

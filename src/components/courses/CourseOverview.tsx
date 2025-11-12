@@ -54,7 +54,7 @@ export function CourseOverview({ course }: CourseOverviewProps) {
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="flex items-start gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/30 hover:bg-gray-100 dark:hover:bg-gray-900/50 transition-colors group"
+              className="flex items-start gap-4 p-4 rounded-xl bg-gray-50 dark:bg-card/50 hover:bg-gray-100 dark:hover:bg-card transition-colors group"
             >
               <div
                 className={cn(

@@ -12,7 +12,7 @@ const focusVisibleVariants =
 const focusHighlightVariants = "focus-visible:text-blue-500 ";
 
 const primaryBtn =
-  "bg-[#543ee8] text-white hover:bg-primary inline-flex items-center space-x-5 px-8 py-1.5 rounded-full font-semibold transition-colors duration-200 group pe-1.5";
+  "bg-[#589aed] text-white hover:bg-[#141494]/90 inline-flex items-center space-x-5 px-8 py-1.5 rounded-full font-semibold transition-colors duration-200 group pe-1.5";
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive cursor-pointer",
@@ -21,7 +21,7 @@ const buttonVariants = cva(
       variant: {
         primaryBtn,
         default: `${focusVisibleVariants} bg-primary text-primary-foreground hover:bg-primary/90`,
-        yellow: `${focusVisibleVariants} bg-yellow-400 text-black font-semibold hover:text-white hover:bg-primary`,
+        yellow: `${focusVisibleVariants} bg-yellow-400 text-black font-semibold hover:bg-yellow-300`,
         highlight: `${focusHighlightVariants} hover:text-blue-500`,
         highlightLink: `${focusHighlightVariants} text-blue-500 hover:text-blue-700`,
         destructive: `${focusVisibleVariants} bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60`,
@@ -88,31 +88,31 @@ function PrimaryButton({
     dataAos?: string;
     dataAosDelay?: string;
   }) {
-  const { children, srContent, dataAos, dataAosDelay, ...rest } = props;
-  const defaultClass = `cursor-pointer relative z-10 w-fit ${primaryBtn} ${cn(className)}`;
-  return href ? (
-    <Link
-      href={href}
-      data-slot="button"
+  const { children, srContent, dataAos, dataAosDelay } = props;
+  const defaultClass = `cursor-pointer relative z-10 w-fit ${primaryBtn} ${cn(
+    className
+  )}`;
+  return (
+    <div
       data-aos={dataAos}
       data-aos-delay={dataAosDelay}
-      className={defaultClass}
+      className="inline-block"
     >
-      <span>{children}</span>
-      <BtnArrow srContent={srContent} />
-    </Link>
-  ) : (
-    <button
-      variant="primaryBtn"
-      type="button"
-      className={defaultClass}
-      data-aos={dataAos}
-      data-aos-delay={dataAosDelay}
-      {...rest}
-    >
-      <span>{children}</span>
-      <BtnArrow srContent={srContent} />
-    </button>
+      {href ? (
+        <Link href={href} data-slot="button" className={defaultClass}>
+          <span>{children}</span>
+          <BtnArrow srContent={srContent} />
+        </Link>
+      ) : (
+        <button
+          type="button"
+          className={defaultClass}
+        >
+          <span>{children}</span>
+          <BtnArrow srContent={srContent} />
+        </button>
+      )}
+    </div>
   );
 }
 

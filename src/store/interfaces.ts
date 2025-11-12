@@ -2,6 +2,7 @@
 interface InstructorInterface {
   name: string;
   avatar: string;
+  fullImage?: string;
 }
 
 // Define the structure of your course
@@ -23,4 +24,5 @@ export interface CourseInterface {
   disabledReason?: string;
   createdTimeStamp: string;
   disabledTimeStamp?: string;
+  trainerKey?: string;
 }

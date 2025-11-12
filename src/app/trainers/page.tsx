@@ -1,14 +1,20 @@
+import { trainers } from "@/constant/staticTrainers";
+import { Container } from "@/components/ui/Container";
+import { TrainersCards } from "@/components/common/TrainersCards";
+
 export default function Trainers() {
+  console.log(trainers);
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          Our Trainers
-        </h1>
-        <p className="text-lg text-gray-600 dark:text-gray-300">
-          Meet our expert instructors
-        </p>
-      </div>
-    </div>
+    <Container>
+      {!trainers || trainers.length === 0 ? (
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">
+            No trainers available at the moment.
+          </p>
+        </div>
+      ) : (
+        <TrainersCards trainers={trainers} />
+      )}
+    </Container>
   );
 }

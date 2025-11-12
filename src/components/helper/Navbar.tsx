@@ -14,16 +14,12 @@ import {
 } from "@/components/ui/navigation-menu";
 import { courses as staticCourses } from "@/constant/staticCourse";
 import { pageURL } from "@/constant/pageURL";
-import { publicPageURL } from "@/constant/public_PageURL";
+import { navbarLinks, publicPageURL } from "@/constant/public_PageURL";
 import { Button, buttonVariants } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { cn } from "@/lib/utils";
 import { ContainerFluid } from "../ui/Container";
-import {
-  emailData,
-  phoneNumberData,
-  SocialIcons,
-} from "@/constant/constant";
+import { emailData, phoneNumberData, SocialIcons } from "@/constant/constant";
 import { useWindowSize } from "../../hooks/useWindowSize";
 import {
   Sheet,
@@ -35,7 +31,7 @@ import {
 import { AppIcon } from "../ui/Icon";
 import ModeToggleV2 from "./ModeToggleV2";
 import { AppLogo } from "./AppLogo";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { createCourseSlug } from "@/lib/courseUtils";
 import { CourseSearchBar } from "./CourseSearchBar";
 
@@ -58,6 +54,7 @@ interface NavLinkProps {
 
 interface CourseItemProps {
   course: Course;
+  pathname: string;
 }
 
 interface CollegeStudentsButtonProps {
@@ -70,20 +67,26 @@ interface SidebarWrapperProps {
   setIsOpen: (isOpen: boolean) => void;
 }
 
-const CourseItem = ({ course }: CourseItemProps) => (
-  <NavigationMenuLink asChild>
-    <Link
-      href={`${pageURL.courses.href}/${createCourseSlug(course.name)}`}
-      className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-      aria-label={`Learn more about ${course.name} course`}
-    >
-      <div className="text-sm font-medium leading-none">{course.name}</div>
-      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-        Duration: {course.duration} • Level: {course.level}
-      </p>
-    </Link>
-  </NavigationMenuLink>
-);
+const CourseItem = ({ course, pathname }: CourseItemProps) => {
+  const courseSlug = createCourseSlug(course.name);
+  const courseURL = `${pageURL.courses.href}/${courseSlug}`;
+  const isActive = pathname === courseURL;
+  return (
+    <NavigationMenuLink asChild>
+      <Link
+        href={courseURL}
+        className={`block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground`}
+        aria-label={`Learn more about ${course.name} course`}
+        data-active={isActive}
+      >
+        <div className="text-sm font-medium leading-none">{course.name}</div>
+        <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+          Duration: {course.duration} • Level: {course.level}
+        </p>
+      </Link>
+    </NavigationMenuLink>
+  );
+};
 
 const NavLink = ({
   href,
@@ -105,18 +108,25 @@ const NavLink = ({
   </NavigationMenuLink>
 );
 
-const CollegeStudentsButton = ({ onClick }: CollegeStudentsButtonProps) => (
-  <Button
-    variant="yellow"
-    size="lg"
-    className="rounded-full relative overflow-hidden group"
-    onClick={onClick}
-    aria-label="College Students Program"
-  >
-    <span className="relative z-10">College Students</span>
-    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 animate-shine"></div>
-  </Button>
-);
+const CollegeStudentsButton = ({ onClick }: CollegeStudentsButtonProps) => {
+  const router = useRouter();
+  const handleClick = () => {
+    router.push(publicPageURL.collegeStudents.href);
+    onClick?.();
+  };
+  return (
+    <Button
+      variant="yellow"
+      size="lg"
+      className="rounded-full relative overflow-hidden group"
+      onClick={handleClick}
+      aria-label="College Students Program"
+    >
+      <span className="relative z-10">College Students</span>
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 animate-shine"></div>
+    </Button>
+  );
+};
 
 export const Navbar = () => {
   const { isDesktop } = useWindowSize();
@@ -173,24 +183,32 @@ export const Navbar = () => {
               {/* Navigation Menu */}
               <NavigationMenu className="flex-0 xl:flex-1">
                 <NavigationMenuList className="flex-col xl:flex-row items-start xl:items-center">
-                  {Object.values(publicPageURL).map((item) => (
+                  {navbarLinks.map((item) => (
                     <NavigationMenuItem key={item.key}>
                       {item.hasDropdown && !isDesktop ? (
                         <>
                           <NavigationMenuTrigger
                             aria-label={`${item.key} menu`}
                             aria-expanded="false"
+                            dataActive={pathname.includes(item.href)}
                           >
                             {item.key}
                           </NavigationMenuTrigger>
                           <NavigationMenuContent className="w-full">
-                            <div className="grid gap-3 p-4 w-[400px] md:w-[500px] xl:w-[600px]">
-                              <div className="grid grid-cols-2 gap-3">
+                            <div className="grid gap-3 p-4 w-[400px] md:w-[900px]">
+                              <div
+                                className={`grid gap-3 ${
+                                  staticCourses.length > 8
+                                    ? "grid-cols-3"
+                                    : "grid-cols-2"
+                                }`}
+                              >
                                 {staticCourses.length > 0 &&
                                   staticCourses.map((course) => (
                                     <CourseItem
                                       key={course.id}
                                       course={course}
+                                      pathname={pathname}
                                     />
                                   ))}
                                 {staticCourses.length === 0 && (
@@ -221,7 +239,7 @@ export const Navbar = () => {
                       ) : (
                         <NavLink
                           href={item.href}
-                          className={`${navigationMenuTriggerStyle()} capitalize`}
+                          className={`${navigationMenuTriggerStyle()}`}
                           onClick={handleMenuClose}
                           key={item.key}
                           dataActive={pathname === item.href}
@@ -278,7 +296,6 @@ export const Navbar = () => {
 };
 
 Navbar.displayName = "Navbar";
-
 
 const Navbar1 = () => {
   return (

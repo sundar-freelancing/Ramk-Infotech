@@ -79,7 +79,7 @@ export function CourseSidebar({ course }: CourseSidebarProps) {
           {courseDetails.map((detail, index) => (
             <div
               key={index}
-              className="flex items-center justify-between py-3 px-4 rounded-lg bg-gray-50 dark:bg-gray-900/50 hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors"
+              className="flex items-center justify-between py-3 px-4 rounded-lg bg-gray-50 dark:bg-card/50 hover:bg-gray-100 dark:hover:bg-card transition-colors"
             >
               <span className="text-muted-foreground flex items-center gap-2 font-medium">
                 <AppIcon name={detail.icon} className="w-4 h-4" />

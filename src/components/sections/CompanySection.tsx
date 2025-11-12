@@ -4,15 +4,17 @@ import Image from "next/image";
 import { Container, Wrapper } from "../ui/Container";
 import { images } from "@/constant/images";
 import { Title1, Title3 } from "../helper/Titles";
+import { CustomBg } from "@/hooks/useCustomBg";
 
 export const CompanySection = () => {
   return (
     <Wrapper>
       <div
-        className="relative overflow-hidden bg-green-50 dark:bg-gray-900"
+        className="relative overflow-hidden bg-green-50 dark:bg-card"
         data-aos="fade"
         data-aos-delay="100"
       >
+        <CustomBg isDarkOnly={true} />
         <Container className="py-30">
           <div className="relative">
             <div className="absolute top-0 -left-1/12">
@@ -74,7 +76,9 @@ export const CompanySection = () => {
         </Container>
       </div>
       <div className="relative overflow-hidden">
-        <span className="w-full h-full absolute -translate-y-1/2 bg-green-50 dark:bg-gray-900"></span>
+        <span className="w-full h-full absolute -translate-y-1/2 bg-green-50 dark:bg-card">
+          <CustomBg isDarkOnly={true} />
+        </span>
         <Below />
       </div>
     </Wrapper>

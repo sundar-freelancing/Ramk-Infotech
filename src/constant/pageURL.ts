@@ -6,6 +6,7 @@ export const pageLink = {
   trainers: "/trainers",
   internship: "/internship",
   contact: "/contact",
+  collegeStudents: "/college-students",
   notFound: "/not-found",
   // Legal Pages
   privacyPolicy: "/privacy-policy",
@@ -19,7 +20,15 @@ export const pageLink = {
   careerGuidance: "/career-guidance",
 };
 
-export const pageURL: Record<string, { href: string; key: string; hasDropdown: boolean; title?: string }> = {
+export const pageURL: Record<
+  string,
+  {
+    href: string;
+    key: string;
+    hasDropdown: boolean | undefined;
+    title?: string;
+  }
+> = {
   home: {
     href: pageLink.home,
     key: "home",
@@ -54,6 +63,12 @@ export const pageURL: Record<string, { href: string; key: string; hasDropdown: b
     key: "contact",
     hasDropdown: false,
     title: "Contact Us",
+  },
+  collegeStudents: {
+    href: pageLink.collegeStudents,
+    key: "collegeStudents",
+    hasDropdown: false,
+    title: "College Students",
   },
   notFound: {
     href: pageLink.notFound,

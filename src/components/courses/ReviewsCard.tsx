@@ -38,7 +38,7 @@ export function ReviewsCard({ course }: ReviewsCardProps) {
               Student Reviews
             </h2>
           </div>
-          <div className="flex items-center gap-3 bg-white dark:bg-gray-900 px-4 py-2 rounded-full border border-gray-200 dark:border-gray-800 shadow-sm">
+          <div className="flex items-center gap-3 bg-white dark:bg-card px-4 py-2 rounded-full border border-gray-200 dark:border-gray-800 shadow-sm">
             {renderStars(course.rating)}
             <span className="text-xl font-bold text-gray-900 dark:text-gray-100">
               {course.rating.toFixed(1)}
