@@ -58,7 +58,7 @@ export function CourseHeader({ course }: CourseHeaderProps) {
             {course.level}
           </span>
           <div
-            className="flex items-center gap-1 ml-auto bg-white dark:bg-gray-900 px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-800 shadow-sm"
+            className="flex items-center gap-1 ml-auto bg-white dark:bg-card px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-800 shadow-sm"
             data-aos="fade-up"
           >
             {renderStars(course.rating)}
@@ -79,7 +79,7 @@ export function CourseHeader({ course }: CourseHeaderProps) {
 
           {/* Instructor Info */}
           <div
-            className="flex items-center gap-4 mb-6 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors"
+            className="flex items-center gap-4 mb-6 p-4 rounded-xl bg-gray-50 dark:bg-card/50 border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-card transition-colors"
             data-aos="fade-up"
           >
             <Avatar className="w-14 h-14 border-2 border-gray-200 dark:border-gray-700 ring-2 ring-offset-2 ring-offset-background ring-gray-200 dark:ring-gray-700">
@@ -134,7 +134,7 @@ export function CourseHeader({ course }: CourseHeaderProps) {
               <div
                 data-aos="fade-up"
                 key={index}
-                className="group p-4 rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900/50 dark:to-gray-800/50 border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                className="group p-4 rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-card/50 dark:to-card/50 border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
               >
                 <div className="flex items-center gap-3 mb-2">
                   <div

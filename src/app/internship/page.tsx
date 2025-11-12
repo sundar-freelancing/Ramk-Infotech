@@ -1,14 +1,25 @@
-export default function Certificates() {
+"use client";
+
+import { OurSponserSection } from "@/components/sections/OurSponserSection";
+import { InternAboutProgram } from "./InternAboutProgram";
+import { InternBenefits } from "./InternBenefits";
+import { InternRoles } from "./InternRoles";
+import { InternProcess } from "./InternProcess";
+import { InternTestimonials } from "./InternTestimonials";
+import { InternFAQ } from "./InternFAQ";
+import { InternCTA } from "./InternCTA";
+
+export default function Internship() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          Certificates
-        </h1>
-        <p className="text-lg text-gray-600 dark:text-gray-300">
-          Industry-recognized certifications
-        </p>
-      </div>
-    </div>
+    <>
+      <InternAboutProgram />
+      <OurSponserSection wrapperClassName="py-25 bg-green-50 dark:bg-card relative" isCustomBg={true} />
+      <InternBenefits />
+      <InternRoles />
+      <InternProcess />
+      <InternTestimonials />
+      <InternCTA />
+      <InternFAQ />
+    </>
   );
 }

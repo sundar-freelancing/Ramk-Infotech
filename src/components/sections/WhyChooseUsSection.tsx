@@ -7,15 +7,17 @@ import { AppIcon } from "../ui/Icon";
 import Image from "next/image";
 import { images } from "@/constant/images";
 import { Card } from "../ui/card";
+import { CustomBg } from "@/hooks/useCustomBg";
 
 export const WhyChooseUsSection = () => {
   return (
     <Wrapper>
       <div
-        className="w-full relative overflow-hidden bg-green-50 dark:bg-gray-900"
+        className="w-full relative overflow-hidden bg-green-50 dark:bg-card"
         data-aos="fade"
         data-aos-delay="100"
       >
+        <CustomBg isDarkOnly={true} />
         <Container className="py-30">
           <div className="grid lg:grid-cols-2 gap-10 items-center justify-between relative">
             <div className="absolute top-0 -left-1/12">
@@ -142,7 +144,9 @@ export const WhyChooseUsSection = () => {
         </Container>
       </div>
       <div className="relative overflow-hidden">
-        <span className="w-full h-full absolute -translate-y-1/2 bg-green-50 dark:bg-gray-900"></span>
+        <span className="w-full h-full absolute -translate-y-1/2 bg-green-50 dark:bg-card">
+          <CustomBg isDarkOnly={true} />
+        </span>
         <Below />
       </div>
     </Wrapper>
@@ -169,11 +173,7 @@ const Below = () => {
     },
   ];
   return (
-    <Container
-      className="relative"
-      data-aos="zoom-out-up"
-      data-aos-delay="100"
-    >
+    <Container className="relative" data-aos="zoom-out-up" data-aos-delay="100">
       <div className="absolute bottom-0 left-1/2">
         <Image
           src={images.shape5}

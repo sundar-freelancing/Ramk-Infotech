@@ -23,7 +23,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
     AOS.init({
       duration: 500,
       once: true,
-      offset: 50,
+      offset: 100,
       delay: 0,
       easing: "ease-in-out",
       mirror: false,
@@ -62,7 +62,11 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
           <div className="relative w-30 h-30">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={typeof images.loaderLogo === 'string' ? images.loaderLogo : images.loaderLogo.src}
+              src={
+                typeof images.loaderLogo === "string"
+                  ? images.loaderLogo
+                  : images.loaderLogo.src
+              }
               alt="loader"
               loading="eager"
               width={120}

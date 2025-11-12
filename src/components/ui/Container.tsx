@@ -5,15 +5,18 @@ export const ContainerFluid = ({
   className,
   suppressHydrationWarning,
   wrapperClassName,
+  id,
   ...props
 }: {
   children: React.ReactNode;
   className?: string;
   suppressHydrationWarning?: boolean;
   wrapperClassName?: string;
+  id?: string;
 }) => {
   return (
     <Wrapper
+      id={id}
       wrapperClassName={wrapperClassName}
       suppressHydrationWarning={suppressHydrationWarning}
     >
@@ -35,17 +38,20 @@ export const Container = ({
   className,
   suppressHydrationWarning,
   wrapperClassName,
+  id,
   ...props
 }: {
   children: React.ReactNode;
   className?: string;
   suppressHydrationWarning?: boolean;
   wrapperClassName?: string;
+  id?: string;
 }) => {
   return (
     <Wrapper
       wrapperClassName={wrapperClassName}
       suppressHydrationWarning={suppressHydrationWarning}
+      id={id}
     >
       <div className={cn("xl:max-w-6xl mx-auto w-[85%]", className)} {...props}>
         {children}
@@ -58,16 +64,22 @@ export const Wrapper = ({
   children,
   wrapperClassName,
   suppressHydrationWarning,
+  id,
   ...props
 }: {
   children: React.ReactNode;
   wrapperClassName?: string;
   suppressHydrationWarning?: boolean;
+  id?: string;
 }) => {
   return (
     <div
-      className={cn("overflow-hidden lg:overflow-visible w-full", wrapperClassName)}
+      className={cn(
+        "overflow-hidden lg:overflow-visible w-full",
+        wrapperClassName
+      )}
       suppressHydrationWarning={suppressHydrationWarning}
+      id={id}
       {...props}
     >
       {children}

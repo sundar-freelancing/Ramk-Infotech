@@ -7,8 +7,16 @@ import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 import { carouselData } from "@/constant/constant";
 import AutoScroll from "embla-carousel-auto-scroll";
 import Image from "next/image";
+import { CustomBg } from "@/hooks/useCustomBg";
 
-export const OurSponserSection = () => {
+export const OurSponserSection = ({
+  wrapperClassName,
+  isCustomBg = false,
+}: {
+  className?: string;
+  wrapperClassName?: string;
+  isCustomBg?: boolean;
+}) => {
   const totalData = carouselData.length;
   const d1 = Math.round(totalData / 2);
   const data1 = carouselData.slice(0, d1);
@@ -31,7 +39,11 @@ export const OurSponserSection = () => {
     },
   ];
   return (
-    <Container className="flex flex-col space-y-8">
+    <Container
+      wrapperClassName={wrapperClassName}
+      className="flex flex-col space-y-8"
+    >
+      {isCustomBg ? <CustomBg /> : null}
       <Title1>OUR SPONSOR</Title1>
       <div className="flex gap-10 justify-evenly lg:flex-row flex-col">
         <div className="lg:w-1/3 w-full">

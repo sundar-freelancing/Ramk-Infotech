@@ -18,6 +18,8 @@ import { Input } from "../ui/input";
 import { PrimaryButton } from "../ui/button";
 import Link from "next/link";
 import { AppLogo } from "./AppLogo";
+import { courses } from "@/constant/staticCourse";
+import { createCourseSlug } from "@/lib/courseUtils";
 
 const FooterSupport = ({
   data,
@@ -70,13 +72,18 @@ export const Footer = () => {
 
   const contactInfo = [phoneNumberData, emailData, addressData];
 
-  const footerCourses = [
-    { name: "All Courses", href: pageLink.courses },
-    { name: "Web Development", href: pageLink.courses },
-    { name: "Data Science", href: pageLink.courses },
-    { name: "Machine Learning", href: pageLink.courses },
-    { name: "Cloud Computing", href: pageLink.courses },
-  ];
+  const footerCourses = courses
+    .sort(() => Math.random() - 0.5) // shuffle array randomly
+    .slice(0, 5) // take first 5 after shuffle
+    .map((course) => ({
+      name: course.name,
+      href: `${pageLink.courses}/${createCourseSlug(course.name)}`,
+    }));
+
+  // const footerCourses = [
+  //   { name: "All Courses", href: pageLink.courses },
+  //   ...randomizedCourses,
+  // ];
 
   const supportLinks = [
     { name: "Help Center", href: "/help" },

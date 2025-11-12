@@ -7,4 +7,14 @@ export const publicPageURL = {
   trainers: pageURL.trainers,
   internship: pageURL.internship,
   contact: pageURL.contact,
+  collegeStudents: pageURL.collegeStudents,
 };
+
+export const navbarLinks = [
+  publicPageURL.home,
+  publicPageURL.about,
+  publicPageURL.courses,
+  publicPageURL.trainers,
+  publicPageURL.internship,
+  publicPageURL.contact,
+];

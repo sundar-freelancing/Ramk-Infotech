@@ -45,6 +45,10 @@ import whatsappLogo from "../../public/images/logos/whatsapp.png";
 import ceoImage from "../../public/images/ceo.jpg";
 import businessGrow from "../../public/images/businessGrow.jpg";
 import contactImg from "../../public/images/contact-img.webp";
+import collegeIntroImg from "../../public/images/college-intro.webp";
+import counsellingBg from "../../public/images/counselling-bg.png";
+import counsellingBgDark from "../../public/images/counselling-bg-dark.png";
+
 
 export const images = {
   mainlogo: mainlogo,
@@ -66,7 +70,9 @@ export const images = {
   ceoImage: ceoImage,
   businessGrow: businessGrow,
   contactImg: contactImg,
-
+  collegeIntroImg: collegeIntroImg,
+  counsellingBg: counsellingBg,
+  counsellingBgDark: counsellingBgDark,
   // favicon
   favicon: favicon,
   favicon16x16: favicon16x16,

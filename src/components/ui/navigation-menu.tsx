@@ -59,18 +59,20 @@ function NavigationMenuItem({
 }
 
 const navigationMenuTriggerStyle = cva(
-  `group inline-flex h-9 w-max items-center justify-center rounded-md !bg-transparent px-4 py-2 text-sm font-medium  hover:text-[var(--app-secondary-color)]  focus:text-[var(--app-secondary-color)] disabled:pointer-events-none disabled:opacity-50 data-[state=open]:text-[var(--app-secondary-color)]  focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 font-semibold text-md data-[active=true]:text-[var(--app-primary-color)] data-[active=true]:focus:text-[var(--app-secondary-color)] !ring-0`
+  `group inline-flex h-9 w-max items-center justify-center rounded-md !bg-transparent px-4 py-2 text-sm font-medium  hover:text-[var(--app-secondary-color)]  focus:text-[var(--app-secondary-color)] disabled:pointer-events-none disabled:opacity-50 data-[state=open]:text-[var(--app-secondary-color)]  focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 font-semibold text-md data-[active=true]:text-[var(--app-primary-color)] data-[active=true]:focus:text-[var(--app-secondary-color)] !ring-0 capitalize`
 );
 
 function NavigationMenuTrigger({
   className,
   children,
+  dataActive,
   ...props
-}: React.ComponentProps<typeof NavigationMenuPrimitive.Trigger>) {
+}: React.ComponentProps<typeof NavigationMenuPrimitive.Trigger> & { dataActive?: boolean }) {
   return (
     <NavigationMenuPrimitive.Trigger
       data-slot="navigation-menu-trigger"
       className={cn(navigationMenuTriggerStyle(), "group", className)}
+      data-active={dataActive}
       {...props}
     >
       {children}{" "}
