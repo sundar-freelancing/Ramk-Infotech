@@ -8,6 +8,10 @@ import { images } from "@/constant/images";
 import { usePathname } from "next/navigation";
 import { PublicPageComponents } from "@/components/common/PublicPageComponents";
 import { scrollToTop } from "@/constant/helperFunction";
+import useAppConfigStore from "@/store/appConfigStore";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "@/firebase/firestore";
+import { AppConfig, defaultAppConfig } from "@/store/appConfigInterfaces";
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -15,9 +19,50 @@ interface ClientLayoutProps {
 
 export default function ClientLayout({ children }: ClientLayoutProps) {
   const [isAOSInitialized, setIsAOSInitialized] = useState(false);
-  const [apiLoader, setApiLoader] = useState(false);
-
+  const { loadingStatus } = useAppConfigStore();
   const { isIconStoreLoading } = useLucideIcons();
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      collection(db, "appConfig"),
+      (snapshot) => {
+        try {
+          const result = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          })) as AppConfig[];
+          const data = result[0];
+          if (data) {
+            console.log(data);
+            useAppConfigStore.getState().setAppConfig({
+              ...data,
+              loadingStatus: false,
+            });
+          } else {
+            useAppConfigStore.getState().setAppConfig({
+              ...defaultAppConfig,
+              loadingStatus: false,
+            });
+          }
+        } catch (error) {
+          console.error("Error processing app config:", error);
+          useAppConfigStore.getState().setAppConfig({
+            ...defaultAppConfig,
+            loadingStatus: false,
+          });
+        }
+      },
+      (error) => {
+        console.error("Error listening to app config:", error);
+        useAppConfigStore.getState().setAppConfig({
+          ...defaultAppConfig,
+          loadingStatus: false,
+        });
+      }
+    );
+
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     AOS.init({
@@ -38,15 +83,6 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setApiLoader(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const isLoading = !isAOSInitialized || isIconStoreLoading || apiLoader;
-
   const page = usePathname();
 
   useEffect(() => {
@@ -54,6 +90,8 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
       scrollToTop(false);
     }
   }, [page]);
+
+  const isLoading = !isAOSInitialized || isIconStoreLoading || loadingStatus;
 
   return (
     <>

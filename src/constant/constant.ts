@@ -12,6 +12,12 @@ export const phoneNumberData = {
   showCase: "+91 83760 48808",
 };
 
+export const whatsappNumberData = {
+  icon: "whatsapp",
+  link: "https://wa.me/918376048808",
+  showCase: "+91 83760 48808",
+};
+
 export const emailData = {
   icon: "message-circle-more",
   link: "mailto:support@ramkinfotech.com",

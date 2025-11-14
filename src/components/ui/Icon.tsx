@@ -2,6 +2,7 @@
 
 import React from "react";
 import useIconStore from "@/store/iconStore";
+import { WhatsappIcon } from "@/constant/whatsapp";
 
 interface IconProps {
   name: string;
@@ -11,21 +12,33 @@ interface IconProps {
   [key: string]: unknown; // For other props like onClick, etc.
 }
 
-export const AppIcon: React.FC<IconProps> = ({ 
-  name, 
-  size = 24, 
-  className = "", 
+export const AppIcon: React.FC<IconProps> = ({
+  name,
+  size = 24,
+  className = "",
   color,
-  ...props 
+  ...props
 }) => {
   const getIcon = useIconStore((state) => state.getIcon);
-  const IconComponent = getIcon(name);
   
+  if (name === "whatsapp") {
+    return (
+      <WhatsappIcon
+        size={size}
+        className={className}
+        color={color}
+        {...props}
+      />
+    );
+  }
+  
+  const IconComponent = getIcon(name);
+
   if (!IconComponent) {
     console.warn(`Icon "${name}" not found in lucide-react`);
     return <div className={`w-${size} h-${size} ${className}`} {...props} />;
   }
-  
+
   // Type assertion to handle the dynamic component
   const DynamicIcon = IconComponent as React.ComponentType<{
     size?: number;
@@ -33,6 +46,8 @@ export const AppIcon: React.FC<IconProps> = ({
     color?: string;
     [key: string]: unknown;
   }>;
-  
-  return <DynamicIcon size={size} className={className} color={color} {...props} />;
+
+  return (
+    <DynamicIcon size={size} className={className} color={color} {...props} />
+  );
 };

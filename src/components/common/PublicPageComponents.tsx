@@ -10,6 +10,8 @@ import ScrollToTopButton from "../helper/ScrollToTopButton";
 import { HeroBanner, HomeHeroBanner } from "./HeroBanner";
 import { courses } from "@/constant/staticCourse";
 import { createCourseSlug } from "@/lib/courseUtils";
+import useAppConfigStore from "@/store/appConfigStore";
+import { SiteMaintenance } from "./SiteMaintenance";
 
 interface PublicPageComponentsProps {
   children: React.ReactNode;
@@ -19,6 +21,7 @@ export const PublicPageComponents = ({
   children,
 }: PublicPageComponentsProps) => {
   const pathname = usePathname();
+  const { appStatus } = useAppConfigStore();
   const validPaths = Object.values(publicPageURL).map((item) => item.href);
   const courseName = pathname.includes("/courses/")
     ? pathname.split("/")[2]
@@ -34,20 +37,24 @@ export const PublicPageComponents = ({
     validPaths.includes(pathname) || isValidCourse ? true : false;
 
   return shouldShowNavbar ? (
-    <>
-      <Navbar />
-      <div className="space-y-15 lg:space-y-30">
-        {pathname === publicPageURL.home.href ? (
-          <HomeHeroBanner key={`hero-${pathname}`} />
-        ) : (
-          <HeroBanner key={`hero-${pathname}`} />
-        )}
-        {children}
-        <Footer key={`footer-${pathname}`} />
-      </div>
-      {/* <StudentsForm /> */}
-      <ScrollToTopButton />
-    </>
+    !appStatus.enabled ? (
+      <SiteMaintenance reason={appStatus.reason} />
+    ) : (
+      <>
+        <Navbar />
+        <div className="space-y-15 lg:space-y-30">
+          {pathname === publicPageURL.home.href ? (
+            <HomeHeroBanner key={`hero-${pathname}`} />
+          ) : (
+            <HeroBanner key={`hero-${pathname}`} />
+          )}
+          {children}
+          <Footer key={`footer-${pathname}`} />
+        </div>
+        {/* <StudentsForm /> */}
+        <ScrollToTopButton />
+      </>
+    )
   ) : (
     children
   );
