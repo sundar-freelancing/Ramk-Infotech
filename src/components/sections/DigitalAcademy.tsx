@@ -19,6 +19,7 @@ export const DigitalAcademy = () => {
             height={600}
             priority
             className="rounded-2xl shadow-2xl rounded-br-[200px]"
+            style={{ height: "auto" }}
           />
 
           {/* Enrollment Stats Overlay */}

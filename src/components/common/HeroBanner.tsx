@@ -192,6 +192,7 @@ export const HomeHeroBanner = () => {
               width={500}
               height={500}
               className="z-2 relative"
+              style={{ height: "auto" }}
             />
           </div>
         </div>

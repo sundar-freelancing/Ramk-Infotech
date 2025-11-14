@@ -6,6 +6,8 @@ import { AppIcon } from "@/components/ui/Icon";
 import { AppLogo } from "@/components/helper/AppLogo";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/Container";
+import useAppConfigStore from "@/store/appConfigStore";
+import { SiteMaintenance } from "@/components/common/SiteMaintenance";
 
 interface NotFoundProps {
   courseName?: string | null;
@@ -41,6 +43,11 @@ export default function NotFound({
       linkText: "Go to contact",
     },
   ];
+
+  const { appStatus } = useAppConfigStore();
+  if (!appStatus.enabled) {
+    return <SiteMaintenance />;
+  }
 
   return (
     <Container className="flex items-center justify-center min-h-screen py-12">
