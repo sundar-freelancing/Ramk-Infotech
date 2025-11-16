@@ -1,6 +1,7 @@
 // lib/firebaseClient.ts
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCIT0hINF6PeC0MY-FUA0vr1ePxNVB_jIQ",
@@ -23,4 +24,5 @@ function initFirebase() {
 
 const app = initFirebase();
 export const db = getFirestore(app);
+export const auth = getAuth(app);
 export default app;
