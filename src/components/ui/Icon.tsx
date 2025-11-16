@@ -2,7 +2,7 @@
 
 import React from "react";
 import useIconStore from "@/store/iconStore";
-import { WhatsappIcon } from "@/constant/whatsapp";
+import { CustomIcon, customIcons } from "@/constant/customIcons";
 
 interface IconProps {
   name: string;
@@ -20,10 +20,11 @@ export const AppIcon: React.FC<IconProps> = ({
   ...props
 }) => {
   const getIcon = useIconStore((state) => state.getIcon);
-  
-  if (name === "whatsapp") {
+
+  if (customIcons[name as keyof typeof customIcons]) {
     return (
-      <WhatsappIcon
+      <CustomIcon
+        name={name as keyof typeof customIcons}
         size={size}
         className={className}
         color={color}
@@ -31,7 +32,7 @@ export const AppIcon: React.FC<IconProps> = ({
       />
     );
   }
-  
+
   const IconComponent = getIcon(name);
 
   if (!IconComponent) {
