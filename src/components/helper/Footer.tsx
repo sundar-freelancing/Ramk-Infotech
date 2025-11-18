@@ -37,7 +37,7 @@ const FooterSupport = ({
   return (
     <div className="space-y-6 lg:space-y-8">
       <Title3>{title}</Title3>
-      <ul className="space-y-3 lg:space-y-4">
+      <div className="space-y-3 lg:space-y-4">
         {data.map((link, index) => {
           const { name, href, link: href2, showCase, icon } = link;
           return (
@@ -56,7 +56,7 @@ const FooterSupport = ({
             </Link>
           );
         })}
-      </ul>
+      </div>
     </div>
   );
 };

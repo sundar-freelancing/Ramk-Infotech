@@ -17,7 +17,7 @@ interface TextProps {
 
 const Title1 = ({ children, className, aos = true }: TitleProps) => {
   return (
-    <div
+    <p
       className={cn(
         "text-sm font-semibold text-gray-500 dark:text-gray-300 uppercase tracking-wider",
         className
@@ -25,13 +25,13 @@ const Title1 = ({ children, className, aos = true }: TitleProps) => {
       data-aos={aos ? "zoom-out" : undefined}
     >
       {children}
-    </div>
+    </p>
   );
 };
 
 const Title2 = ({ children, className, aos = true }: TitleProps) => {
   return (
-    <div
+    <h2
       className={cn(
         "text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white leading-tight max-w-5xl mx-auto",
         className
@@ -39,13 +39,13 @@ const Title2 = ({ children, className, aos = true }: TitleProps) => {
       data-aos={aos ? "zoom-out" : undefined}
     >
       {children}
-    </div>
+    </h2>
   );
 };
 
 const Title3 = ({ children, className, aos = true }: TitleProps) => {
   return (
-    <div
+    <h3
       className={cn(
         "text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white leading-tight",
         className
@@ -53,13 +53,13 @@ const Title3 = ({ children, className, aos = true }: TitleProps) => {
       data-aos={aos ? "zoom-out" : undefined}
     >
       {children}
-    </div>
+    </h3>
   );
 };
 
 const Title4 = ({ children, className, aos = true }: TitleProps) => {
   return (
-    <div
+    <h4
       className={cn(
         "text-xl font-bold text-gray-900 dark:text-white leading-tight",
         className
@@ -67,7 +67,7 @@ const Title4 = ({ children, className, aos = true }: TitleProps) => {
       data-aos={aos ? "zoom-out" : undefined}
     >
       {children}
-    </div>
+    </h4>
   );
 };
 
