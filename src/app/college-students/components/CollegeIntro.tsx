@@ -71,7 +71,7 @@ export const CollegeIntro = () => {
               </div>
             ))}
           </div>
-          <PrimaryButton data-aos="fade-up">Get Started</PrimaryButton>
+          <PrimaryButton data-aos="fade-up" href="#contact-form">Get Started</PrimaryButton>
         </div>
       </div>
     </ContainerFluid>

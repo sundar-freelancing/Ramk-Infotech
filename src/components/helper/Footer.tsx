@@ -164,7 +164,7 @@ export const Footer = () => {
                 >
                   <AppIcon
                     name={social.icon}
-                    className={`w-7 h-7 md:w-8 md:h-8 ${social.color} ${
+                    className={`w-6 h-6 md:w-7 md:h-7 ${social.color} ${
                       social.fill && "fill-current stroke-0"
                     }`}
                   />

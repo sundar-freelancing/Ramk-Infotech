@@ -32,7 +32,7 @@ export function InternApplicationForm() {
 
   return (
     <Container>
-      <Card data-aos="fade-left" id="apply">
+      <Card data-aos="fade-left">
         <CardHeader>
           <CardTitle>Apply Now</CardTitle>
           <CardDescription>

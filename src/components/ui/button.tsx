@@ -79,6 +79,7 @@ const BtnArrow = ({ srContent = "Go to next" }: { srContent?: string }) => {
 function PrimaryButton({
   className,
   href = "",
+  childrenClsName = "",
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
@@ -87,8 +88,9 @@ function PrimaryButton({
     srContent?: string;
     dataAos?: string;
     dataAosDelay?: string;
+    childrenClsName?: string;
   }) {
-  const { children, srContent, dataAos, dataAosDelay } = props;
+  const { children, srContent, dataAos, dataAosDelay, ...buttonProps } = props;
   const defaultClass = `cursor-pointer relative z-10 w-fit ${primaryBtn} ${cn(
     className
   )}`;
@@ -105,10 +107,11 @@ function PrimaryButton({
         </Link>
       ) : (
         <button
-          type="button"
+          type={buttonProps.type || "button"}
           className={defaultClass}
+          {...buttonProps}
         >
-          <span>{children}</span>
+          <span className={childrenClsName}>{children}</span>
           <BtnArrow srContent={srContent} />
         </button>
       )}

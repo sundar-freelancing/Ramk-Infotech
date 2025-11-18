@@ -172,7 +172,7 @@ export const Navbar = () => {
       <Navbar1 />
       <div
         ref={navbarRef}
-        className={`bg-background top-0 z-50 relative`}
+        className={`bg-background top-0 z-40 relative`}
         suppressHydrationWarning={true}
       >
         <ContainerFluid className="py-3" wrapperClassName="overflow-visible">
@@ -301,7 +301,7 @@ const Navbar1 = () => {
   return (
     <ContainerFluid
       suppressHydrationWarning={true}
-      className="py-5 relative hidden xl:block z-75"
+      className="py-5 relative hidden xl:block z-50"
     >
       <div className="flex justify-between items-center gap-10 xl:gap-15">
         <AppLogo />

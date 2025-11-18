@@ -212,7 +212,7 @@ body::-webkit-scrollbar {
   animation: navbar-animation 0.5s ease-in-out;
 }
 
-.font-cursive{
+.font-cursive {
   font-family: cursive;
 }
 
@@ -235,4 +235,35 @@ html.lenis {
 
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
+}
+
+/* Hanging animation for form icon */
+@keyframes hang-swing {
+
+  0%,
+  3%,
+  6.5%,
+  10% {
+    transform: rotate(-8deg) translateY(0);
+  }
+
+  1.5%,
+  4.5%,
+  7.5%,
+  10.5% {
+    transform: rotate(8deg) translateY(0px);
+  }
+
+  11% {
+    transform: none;
+  }
+
+  100% {
+    transform: none;
+  }
+}
+
+.animate-hang {
+  animation: hang-swing 4s ease-in-out infinite;
+  transform-origin: top center;
 }

@@ -5,13 +5,13 @@ import { Navbar } from "../helper/Navbar";
 import { publicPageURL } from "@/constant/public_PageURL";
 import { Footer } from "../helper/Footer";
 import React from "react";
-// import { StudentsForm } from "../helper/StudentsForm";
 import ScrollToTopButton from "../helper/ScrollToTopButton";
 import { HeroBanner, HomeHeroBanner } from "./HeroBanner";
 import { courses } from "@/constant/staticCourse";
 import { createCourseSlug } from "@/lib/courseUtils";
 import useAppConfigStore from "@/store/appConfigStore";
 import { SiteMaintenance } from "./SiteMaintenance";
+import { StudentsForm } from "../helper/StudentsForm";
 
 interface PublicPageComponentsProps {
   children: React.ReactNode;
@@ -51,7 +51,7 @@ export const PublicPageComponents = ({
           {children}
           <Footer key={`footer-${pathname}`} />
         </div>
-        {/* <StudentsForm /> */}
+        <StudentsForm />
         <ScrollToTopButton />
       </>
     )
