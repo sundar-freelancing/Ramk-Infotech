@@ -36,6 +36,7 @@ export const CourseCards = ({ courses }: { courses: CourseInterface[] }) => {
                 key={index}
                 data-aos="fade"
                 data-aos-delay={(index % 3) * 100}
+                aria-label={`Learn more about ${course.name} course`}
               >
                 <Card className="!p-0 overflow-hidden shadow-xs rounded-md gap-0 group/course h-full">
                   {/* Course Image */}

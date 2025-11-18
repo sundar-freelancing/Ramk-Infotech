@@ -28,6 +28,7 @@ const CategoriesCard = ({
       href={`/courses?categories=${title}`}
       data-aos={dataAos}
       data-aos-delay={dataAosDelay}
+      aria-label={`View ${courseCount} courses in ${title} category`}
       // className="bg-white group/category rounded-full shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 p-2 flex items-center space-x-4"
     >
       <Card className="group/category rounded-full shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 p-2 flex-row items-center space-x-4 gap-0">
