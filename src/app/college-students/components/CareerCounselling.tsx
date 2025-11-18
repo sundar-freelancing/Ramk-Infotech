@@ -70,7 +70,7 @@ export const CareerCounselling = () => {
             We&apos;ll help you find the right skill path based on your interest
             and background.
           </Text2>
-          <PrimaryButton data-aos="fade-up">
+          <PrimaryButton data-aos="fade-up" href="#contact-form">
             Book a Free Counselling Call
           </PrimaryButton>
         </div>

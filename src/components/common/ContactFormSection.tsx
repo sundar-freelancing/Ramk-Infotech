@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm, Controller } from "react-hook-form";
+import { useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,6 +10,7 @@ import { PrimaryButton } from "@/components/ui/button";
 import { Title1, Title2 } from "@/components/helper/Titles";
 import { images } from "@/constant/images";
 import Image from "next/image";
+import { submitContactForm } from "@/services/googleSheetService";
 
 interface FormData {
   fullName: string;
@@ -26,6 +28,12 @@ interface ContactFormSectionProps {
 export const ContactFormSection = ({
   isFromCollegeStudents = false,
 }: ContactFormSectionProps) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -43,24 +51,58 @@ export const ContactFormSection = ({
     },
   });
 
-  const onSubmit = (data: FormData) => {
-    console.log("Form Data:", data);
-    // Reset form after submission
-    reset({
-      fullName: "",
-      email: "",
-      mobileNumber: "",
-      course: "",
-      message: "",
-      privacyPolicy: true,
-    });
+  const onSubmit = async (data: FormData) => {
+    setIsSubmitting(true);
+    setSubmitMessage(null);
+
+    try {
+      const result = await submitContactForm({
+        fullName: data.fullName,
+        email: data.email,
+        mobileNumber: data.mobileNumber,
+        message: data.message || "",
+        privacyPolicy: data.privacyPolicy,
+        course: isFromCollegeStudents ? data.course : undefined,
+      });
+
+      if (result.message === "contact_saved") {
+        setSubmitMessage({
+          type: "success",
+          text: isFromCollegeStudents
+            ? "Thank you! Your booking request has been submitted successfully."
+            : "Thank you! Your message has been sent successfully.",
+        });
+        // Reset form after successful submission
+        reset({
+          fullName: "",
+          email: "",
+          mobileNumber: "",
+          course: "",
+          message: "",
+          privacyPolicy: true,
+        });
+      } else {
+        throw new Error("Unexpected response from server");
+      }
+    } catch (error) {
+      console.error("Error submitting contact form:", error);
+      setSubmitMessage({
+        type: "error",
+        text:
+          error instanceof Error
+            ? error.message
+            : "Failed to send message. Please try again later.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const className =
     "border-0 border-b border-gray-300 rounded-none px-0 py-6 focus-visible:ring-0  focus-visible:border-[var(--app-primary-color)] bg-transparent! text-[16px]! placeholder:text-gray-400";
 
   return (
-    <Container>
+    <Container id="contact-form">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         {/* Left Column - Image */}
         <div
@@ -229,14 +271,33 @@ export const ContactFormSection = ({
               </p>
             )}
 
+            {/* Submit Message */}
+            {submitMessage && (
+              <div
+                className={`p-4 rounded-md ${
+                  submitMessage.type === "success"
+                    ? "bg-green-50 text-green-800 border border-green-200"
+                    : "bg-red-50 text-red-800 border border-red-200"
+                }`}
+                data-aos="zoom-out"
+              >
+                <p className="text-sm">{submitMessage.text}</p>
+              </div>
+            )}
+
             {/* Submit Button */}
             <PrimaryButton
               type="submit"
               className="w-full sm:w-auto justify-center"
               dataAos="zoom-out"
               dataAosDelay="100"
+              disabled={isSubmitting}
             >
-              {isFromCollegeStudents ? "Book Now" : "Send Message"}
+              {isSubmitting
+                ? "Sending..."
+                : isFromCollegeStudents
+                ? "Book Now"
+                : "Send Message"}
             </PrimaryButton>
           </form>
         </div>

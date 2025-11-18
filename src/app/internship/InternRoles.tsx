@@ -10,11 +10,34 @@ import {
 import { PrimaryButton } from "@/components/ui/button";
 import { Text3, Title1, Title2 } from "@/components/helper/Titles";
 import { AppIcon } from "@/components/ui/Icon";
-import { internshipRoles } from "@/constant/staticInternship";
+import { internshipRoles, InternshipRole } from "@/constant/staticInternship";
+import { whatsappNumberData } from "@/constant/constant";
 
 export function InternRoles() {
+  const handleApplyNow = (role: InternshipRole) => {
+    const requirementsList = role.requirements
+      .map((req) => `• ${req}`)
+      .join("\n");
+
+    const message = `Hello! I'm interested in applying for the following internship position:
+
+🎯 *Position:* ${role.name}
+⏱️ *Duration:* ${role.duration}
+📍 *Mode:* ${role.mode}
+📝 *Description:* ${role.description}
+
+*Requirements:*
+${requirementsList}
+
+Please provide me with more details about the application process and next steps.`;
+
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `${whatsappNumberData.link}?text=${encodedMessage}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
   return (
-    <Container>
+    <Container id="apply">
       <div className="space-y-8">
         <div className="text-center space-y-4" data-aos="fade-up">
           <Title1>Available Positions</Title1>
@@ -79,7 +102,11 @@ export function InternRoles() {
                   </ul>
                 </div>
 
-                <PrimaryButton className="mt-4" size="sm">
+                <PrimaryButton
+                  className="mt-4"
+                  size="sm"
+                  onClick={() => handleApplyNow(role)}
+                >
                   Apply Now
                 </PrimaryButton>
               </CardContent>

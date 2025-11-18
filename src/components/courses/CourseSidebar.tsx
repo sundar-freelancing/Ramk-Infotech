@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { AppIcon } from "@/components/ui/Icon";
 import { CourseInterface } from "@/store/interfaces";
+import { whatsappNumberData } from "@/constant/constant";
 
 interface CourseSidebarProps {
   course: CourseInterface;
@@ -28,6 +29,18 @@ export function CourseSidebar({ course }: CourseSidebarProps) {
       value: course.students.toLocaleString(),
     },
   ] as const;
+
+  const handleEnrollNow = () => {
+    const message = `Hello! I'm interested in enrolling in the following course:
+
+📚 *Course Name:* ${course.name}
+
+Please provide me with more details about enrollment and payment options.`;
+
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `${whatsappNumberData.link}?text=${encodedMessage}`;
+    window.open(whatsappUrl, "_blank");
+  };
 
   return (
     <Card
@@ -53,6 +66,7 @@ export function CourseSidebar({ course }: CourseSidebarProps) {
             className="w-full h-12 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
             variant="yellow"
             size="lg"
+            onClick={handleEnrollNow}
           >
             <AppIcon name="shopping-bag" className="w-5 h-5" />
             Enroll Now

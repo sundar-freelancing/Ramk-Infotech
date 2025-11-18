@@ -48,7 +48,7 @@ import contactImg from "../../public/images/contact-img.webp";
 import collegeIntroImg from "../../public/images/college-intro.webp";
 import counsellingBg from "../../public/images/counselling-bg.png";
 import counsellingBgDark from "../../public/images/counselling-bg-dark.png";
-
+import formImg from "../../public/images/form/write_1455146.png";
 
 export const images = {
   mainlogo: mainlogo,
@@ -73,6 +73,7 @@ export const images = {
   collegeIntroImg: collegeIntroImg,
   counsellingBg: counsellingBg,
   counsellingBgDark: counsellingBgDark,
+  formImg: formImg,
   // favicon
   favicon: favicon,
   favicon16x16: favicon16x16,

@@ -78,11 +78,13 @@ export const CourseSearchBar: React.FC<CourseSearchBarProps> = ({
 
   // Filter courses based on category and search query
   const filteredCourses = useMemo(() => {
-    let filtered = staticCourses.filter((course) => course.isEnabled);
+    let filtered = staticCourses.filter((course: CourseInterface) => course.isEnabled);
 
     // Filter by category if not "All Categories"
     if (selectedCategory !== "All Categories") {
-      filtered = filtered.filter((course) => course.category === selectedCategory);
+      filtered = filtered.filter(
+        (course) => course.category === selectedCategory
+      );
     }
 
     // Filter by search query
@@ -119,7 +121,9 @@ export const CourseSearchBar: React.FC<CourseSearchBarProps> = ({
   const handleSearch = () => {
     if (searchQuery.trim()) {
       const query = searchQuery.trim();
-      router.push(`${pageURL.courses.href}?search=${encodeURIComponent(query)}`);
+      router.push(
+        `${pageURL.courses.href}?search=${encodeURIComponent(query)}`
+      );
       setSearchQuery("");
       setIsOpen(false);
     }
@@ -181,7 +185,9 @@ export const CourseSearchBar: React.FC<CourseSearchBarProps> = ({
   // Scroll focused item into view
   useEffect(() => {
     if (focusedIndex >= 0 && suggestionsRef.current) {
-      const focusedElement = suggestionsRef.current.children[focusedIndex] as HTMLElement;
+      const focusedElement = suggestionsRef.current.children[
+        focusedIndex
+      ] as HTMLElement;
       if (focusedElement) {
         focusedElement.scrollIntoView({ block: "nearest", behavior: "smooth" });
       }
@@ -189,7 +195,12 @@ export const CourseSearchBar: React.FC<CourseSearchBarProps> = ({
   }, [focusedIndex]);
 
   return (
-    <div className={cn("bg-white dark:bg-gray-800 flex items-center flex-1 gap-2 shadow border border-gray-400 rounded-full p-1 h-full relative", className)}>
+    <div
+      className={cn(
+        "bg-white dark:bg-gray-800 flex items-center flex-1 gap-2 shadow border border-gray-400 rounded-full p-1 h-full relative",
+        className
+      )}
+    >
       <CategorySelect
         category={selectedCategory}
         categories={courseCategories}
@@ -261,4 +272,3 @@ export const CourseSearchBar: React.FC<CourseSearchBarProps> = ({
 };
 
 CourseSearchBar.displayName = "CourseSearchBar";
-

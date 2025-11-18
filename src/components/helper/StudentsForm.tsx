@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { Button, PrimaryButton } from "@/components/ui/button";
+import React, { useEffect, useState } from "react";
+import { PrimaryButton } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { X, CheckCircle2 } from "lucide-react";
+import { X, CheckCircle2, Loader2 } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -22,6 +22,15 @@ import Link from "next/link";
 import { pageLink } from "@/constant/pageURL";
 import { AppIcon } from "../ui/Icon";
 import { Dancing_Script } from "next/font/google";
+import {
+  createStudentRecord,
+  updateStudentRecord,
+  type StudentFormData,
+} from "@/services/googleSheetService";
+import Image from "next/image";
+import { images } from "@/constant/images";
+import { courses } from "@/constant/staticCourse";
+import { CourseInterface } from "@/store/interfaces";
 
 const dancingScript = Dancing_Script({
   subsets: ["latin"],
@@ -59,15 +68,6 @@ const getCookie = (name: string): string | null => {
   return null;
 };
 
-// Utility function to get all student form cookies for debugging
-const getStudentFormCookies = () => {
-  return {
-    uuid: getCookie("studentFormUUID"),
-    lastUpdate: getCookie("studentFormLastUpdate"),
-    createdAt: getCookie("studentFormCreatedAt"),
-  };
-};
-
 interface FormData {
   purpose: string;
   source: string;
@@ -82,6 +82,20 @@ interface FormData {
   updatedAt: string;
 }
 
+// Extract unique categories from enabled courses
+const courseCategories = () => {
+  const enabledCourses = courses.filter(
+    (course: CourseInterface) => course.isEnabled
+  );
+  const uniqueCategories = Array.from(
+    new Set(enabledCourses.map((course) => course.category))
+  ).sort();
+  return uniqueCategories.map((category) => ({
+    value: category,
+    label: category,
+  }));
+};
+
 const selectOptions = {
   purpose: [
     { value: "learn-skills", label: "I want to learn new tech skills" },
@@ -95,13 +109,7 @@ const selectOptions = {
     { value: "google-search", label: "Google Search" },
     { value: "posters-events", label: "Posters / Events" },
   ],
-  interest: [
-    { value: "web-development", label: "Web Development" },
-    { value: "data-science", label: "Data Science" },
-    { value: "digital-marketing", label: "Digital Marketing" },
-    { value: "graphic-design", label: "Graphic Design" },
-    { value: "software-testing", label: "Software Testing" },
-  ],
+  interest: [...courseCategories()],
   timeline: [
     { value: "immediately", label: "Immediately" },
     { value: "within-month", label: "Within 1 month" },
@@ -115,7 +123,7 @@ const QuizFormLogic = ({
   setIsSubmitted,
   isSubmitted,
 }: {
-  onClose: (open: boolean) => void;
+  onClose: () => void;
   setIsSubmitted: (isSubmitted: boolean) => void;
   isSubmitted: boolean;
 }) => {
@@ -163,6 +171,20 @@ const QuizFormLogic = ({
 
   const [formData, setFormData] = useState<FormData>(initializeFormData());
   const [errors, setErrors] = useState<Partial<FormData>>({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setFormData(initializeFormData());
+    if (initializeFormData().status === "submitted") {
+      setIsSubmitted(true);
+    }
+  }, [setIsSubmitted]);
+
+  const handleClose = () => {
+    onClose();
+    setIsSubmitted(formData.status === "submitted");
+  };
 
   const updateFormData = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({
@@ -215,15 +237,62 @@ const QuizFormLogic = ({
     if (validateStep(currentStep)) setCurrentStep((prev) => prev + 1);
   };
 
-  const handleSubmit = () => {
-    console.log(validateStep(3));
-    if (validateStep(3)) {
+  const handleSubmit = async () => {
+    if (!validateStep(3)) {
+      return;
+    }
+
+    setIsLoading(true);
+    setSubmitError(null);
+
+    try {
       // Update form data with final timestamps
-      const finalFormData = {
+      const finalFormData: StudentFormData = {
         ...formData,
         status: "submitted",
         updatedAt: getCurrentTimestamp(),
       };
+
+      // Check if this is a new submission or an update
+      // If UUID exists in cookies and matches the current UUID, it's an update
+      const existingUUID = getCookie("studentFormUUID");
+      const isUpdate =
+        existingUUID &&
+        existingUUID === finalFormData.uuid &&
+        formData.status !== "pending"; // If status is not pending, it means it was submitted before
+
+      // Call Google Apps Script API
+      if (isUpdate) {
+        try {
+          await updateStudentRecord(finalFormData);
+          console.log("✅ Form updated in Google Sheet:", finalFormData);
+        } catch (updateError) {
+          // If update fails with column mismatch error, try creating instead
+          // This is a temporary workaround until Google Apps Script is fixed
+          const errorMessage =
+            updateError instanceof Error
+              ? updateError.message
+              : String(updateError);
+          if (
+            errorMessage.includes("column") ||
+            errorMessage.includes("range")
+          ) {
+            console.warn(
+              "⚠️ Update failed, attempting to create new record instead"
+            );
+            await createStudentRecord(finalFormData);
+            console.log(
+              "✅ Form created in Google Sheet (fallback):",
+              finalFormData
+            );
+          } else {
+            throw updateError; // Re-throw if it's a different error
+          }
+        }
+      } else {
+        await createStudentRecord(finalFormData);
+        console.log("✅ Form created in Google Sheet:", finalFormData);
+      }
 
       // Store in localStorage
       localStorage.setItem("studentsFormData", JSON.stringify(finalFormData));
@@ -233,31 +302,72 @@ const QuizFormLogic = ({
       setCookie("studentFormLastUpdate", finalFormData.updatedAt);
       setCookie("studentFormCreatedAt", finalFormData.createdAt);
 
-      console.log("✅ Form submitted:", finalFormData);
       console.log("🍪 Cookies set:", {
         uuid: finalFormData.uuid,
         lastUpdate: finalFormData.updatedAt,
         createdAt: finalFormData.createdAt,
       });
-      console.log("🍪 Cookies retrieved:", getStudentFormCookies());
 
       setIsSubmitted(true);
+      setFormData({
+        ...formData,
+        status: "submitted",
+        updatedAt: getCurrentTimestamp(),
+      });
+    } catch (error) {
+      console.error("❌ Error submitting form:", error);
+
+      // Extract error message from the error response
+      let errorMessage =
+        "Failed to submit form. Please check your connection and try again.";
+
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      } else if (typeof error === "object" && error !== null) {
+        // Try to get error message from response
+        const apiError = error as {
+          message?: string;
+          error?: string;
+          details?: string;
+        };
+        if (apiError.message) {
+          errorMessage = apiError.message;
+        } else if (apiError.error) {
+          errorMessage = apiError.error;
+          if (apiError.details) {
+            errorMessage += `: ${apiError.details}`;
+          }
+        }
+      }
+
+      setSubmitError(errorMessage);
+
+      // Still save to localStorage as backup
+      const finalFormData = {
+        ...formData,
+        status: "submitted",
+        updatedAt: getCurrentTimestamp(),
+      };
+      localStorage.setItem("studentsFormData", JSON.stringify(finalFormData));
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleEdit = () => {
     // Reset form with new timestamps for editing
-    const resetFormData = {
-      ...formData,
-      status: "editing",
-      updatedAt: getCurrentTimestamp(),
-    };
+    // const resetFormData = {
+    //   ...formData,
+    //   status: "editing",
+    //   updatedAt: getCurrentTimestamp(),
+    // };
 
-    setFormData(resetFormData);
-    localStorage.setItem("studentsFormData", JSON.stringify(resetFormData));
+    // setFormData(resetFormData);
+    // localStorage.setItem("studentsFormData", JSON.stringify(resetFormData));
 
     setIsSubmitted(false);
     setCurrentStep(1);
+    setSubmitError(null);
   };
 
   const renderSelectField = (
@@ -402,6 +512,12 @@ const QuizFormLogic = ({
   if (isSubmitted) {
     return (
       <AlertDialogContent className="w-full max-w-2xl bg-[#73358C] bg-[radial-gradient(circle,rgba(115,53,140,1)_0%,rgba(55,52,142,1)_100%)] border-none flex flex-col items-center justify-center py-20 text-center space-y-4">
+        <span
+          className="absolute cursor-pointer top-4 right-4 text-yellow-400 hover:text-yellow-300"
+          onClick={handleClose}
+        >
+          <X className="h-4 w-4" />
+        </span>
         <AlertDialogDescription className="sr-only">
           Your form has been submitted successfully. You can edit your details
           if needed.
@@ -422,7 +538,7 @@ const QuizFormLogic = ({
     <AlertDialogContent className="w-full max-w-2xl bg-[#73358C] bg-[radial-gradient(circle,rgba(115,53,140,1)_0%,rgba(55,52,142,1)_100%)] border-none gap-6">
       <span
         className="absolute cursor-pointer top-4 right-4 text-yellow-400 hover:text-yellow-300"
-        onClick={() => onClose(false)}
+        onClick={handleClose}
       >
         <X className="h-4 w-4" />
       </span>
@@ -446,9 +562,28 @@ const QuizFormLogic = ({
 
       <div className="w-5/6 mx-auto">{renderCurrentStep()}</div>
 
+      {submitError && (
+        <div className="w-5/6 mx-auto">
+          <p className="text-red-400 text-sm text-center">{submitError}</p>
+        </div>
+      )}
+
       <div className="flex justify-center">
-        <PrimaryButton onClick={currentStep < 3 ? handleNext : handleSubmit}>
-          {currentStep < 3 ? "Next" : "Submit"}
+        <PrimaryButton
+          onClick={currentStep < 3 ? handleNext : handleSubmit}
+          disabled={isLoading}
+          childrenClsName="flex items-center"
+        >
+          {isLoading ? (
+            <>
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              Submitting...
+            </>
+          ) : currentStep < 3 ? (
+            "Next"
+          ) : (
+            "Submit"
+          )}
         </PrimaryButton>
       </div>
 
@@ -456,22 +591,28 @@ const QuizFormLogic = ({
         <p className="text-white text-center">What We Do :</p>
         <div className="flex items-center space-x-4 justify-center">
           <Link
+            onClick={handleClose}
             href={pageLink.courses}
             className="text-white flex items-center gap-2"
+            aria-disabled={isLoading}
           >
             <AppIcon name="chevron-right" className="w-4 h-4 text-yellow-500" />
             Courses
           </Link>
           <Link
+            onClick={handleClose}
             href={pageLink.internship}
             className="text-white flex items-center gap-2"
+            aria-disabled={isLoading}
           >
             <AppIcon name="chevron-right" className="w-4 h-4 text-yellow-500" />
             Internship
           </Link>
           <Link
+            onClick={handleClose}
             href={pageLink.courses}
             className="text-white flex items-center gap-2"
+            aria-disabled={isLoading}
           >
             <AppIcon name="chevron-right" className="w-4 h-4 text-yellow-500" />
             College Students
@@ -488,15 +629,71 @@ const QuizFormLogic = ({
 export const StudentsForm = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [openOnce, setOpenOnce] = useState(false);
 
-  const handleClose = (open: boolean) => {
-    setIsOpen(open);
+  const handleClose = () => {
+    setIsOpen(false);
   };
 
+  // Check if form is submitted on mount
+  useEffect(() => {
+    try {
+      const storedData = localStorage.getItem("studentsFormData");
+      if (storedData) {
+        const parsedData = JSON.parse(storedData);
+        if (parsedData.status === "submitted") {
+          setIsSubmitted(true);
+        }
+      }
+    } catch (error) {
+      console.error("Error checking form submission status:", error);
+    }
+  }, []);
+
+  // Auto-open after 1 minute if not submitted
+  useEffect(() => {
+    if (isSubmitted) return;
+
+    const timer = setTimeout(() => {
+      if (!isOpen && !isSubmitted) {
+        setIsOpen(true);
+      }
+    }, 60000); // 1 minute = 60000ms
+
+    return () => clearTimeout(timer);
+  }, [isSubmitted, isOpen]);
+
+  // Auto-open when scroll reaches mid of page
+  useEffect(() => {
+    if (isSubmitted || openOnce) return;
+
+    const handleScroll = () => {
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const scrollPercentage = scrollTop / (documentHeight - windowHeight);
+
+      // Check if scroll reached mid of page (50%)
+      if (scrollPercentage >= 0.5 && !isOpen && !isSubmitted) {
+        setIsOpen(true);
+        setOpenOnce(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isSubmitted, isOpen, openOnce]);
+
   return (
-    <AlertDialog open={isOpen} onOpenChange={handleClose}>
+    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>
-        <Button className="fixed bottom-4 left-4 z-[100]">Open</Button>
+        <Image
+          src={images.formImg}
+          alt="form"
+          className={`fixed bottom-6 left-6 z-[100] w-[50px] h-auto object-contain cursor-pointer ${
+            !isSubmitted && !isOpen ? "animate-hang" : ""
+          }`}
+        />
       </AlertDialogTrigger>
       <QuizFormLogic
         onClose={handleClose}
@@ -506,4 +703,3 @@ export const StudentsForm = () => {
     </AlertDialog>
   );
 };
-
