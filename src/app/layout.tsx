@@ -97,6 +97,14 @@ export default function RootLayout({
       {/* Web App Manifest */}
       <link href={faviconwebmanifest} rel="manifest" />
 
+      {/* Preload critical hero background image for LCP */}
+      <link
+        rel="preload"
+        href="/images/emailData2.webp"
+        as="image"
+        type="image/webp"
+      />
+
       <body
         className={`${geistSans.variable} ${geistMono.variable}  ${lato.className} antialiased overflow-x-hidden relative bg-background`}
       >

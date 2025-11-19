@@ -161,6 +161,7 @@ export const Footer = () => {
                   data-aos="zoom-out"
                   data-aos-delay={index * 100}
                   className="transition-all duration-300 hover:scale-110 rounded-lg p-1"
+                  aria-label={`Visit our ${social.icon} page`}
                 >
                   <AppIcon
                     name={social.icon}
