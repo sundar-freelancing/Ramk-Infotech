@@ -53,7 +53,14 @@ export const HeroBanner = () => {
         </div>
       </Container>
       <div className="absolute top-1/2 -translate-y-1/2 left-0" data-aos="fade">
-        <Image src={images.shape6} alt="shape2" width={50} className="w-10 " />
+        <Image 
+          src={images.shape6} 
+          alt="shape2" 
+          width={50} 
+          className="w-10"
+          loading="lazy"
+          fetchPriority="low"
+        />
       </div>
       <div className="absolute bottom-0 right-0 translate-1/4">
         <Image
@@ -61,6 +68,8 @@ export const HeroBanner = () => {
           alt="shape6"
           className="w-30 animate-shape-2"
           data-aos="fade"
+          loading="lazy"
+          fetchPriority="low"
         />
       </div>
     </div>
@@ -193,6 +202,9 @@ export const HomeHeroBanner = () => {
               height={500}
               className="z-2 relative"
               style={{ height: "auto" }}
+              priority
+              fetchPriority="high"
+              sizes="(max-width: 1280px) 0vw, 500px"
             />
           </div>
         </div>
