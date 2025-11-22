@@ -370,3 +370,10 @@ export const appColors = {
   primary: "#589aed",
   secondary: "#141494",
 };
+
+export const TOAST_TYPES = {
+  SUCCESS: "success",
+  ERROR: "error",
+  WARNING: "warning",
+  INFO: "info",
+};

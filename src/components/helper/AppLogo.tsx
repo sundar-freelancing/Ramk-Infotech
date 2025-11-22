@@ -2,23 +2,28 @@
 
 import { images } from "@/constant/images";
 import { pageLink } from "@/constant/pageURL";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
 export const AppLogo = ({
+  href = pageLink.home,
   height,
   dataAos,
   dataAosDelay,
+  className,
 }: {
+  href?: string;
   height?: number;
   dataAos?: string;
   dataAosDelay?: string;
+  className?: string;
 }) => {
   return (
     <Link
-      href={pageLink.home}
+      href={href}
       aria-label="RamK Infotech Home"
-      className="block"
+      className={cn("block", className)}
       data-aos={dataAos}
       data-aos-delay={dataAosDelay}
     >

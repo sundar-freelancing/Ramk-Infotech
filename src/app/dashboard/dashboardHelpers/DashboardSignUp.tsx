@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,53 +15,72 @@ import {
   FieldDescription,
   FieldGroup,
   FieldLabel,
-  FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { AppIcon } from "@/components/ui/Icon";
 import Link from "next/link";
 import { AppLogo } from "@/components/helper/AppLogo";
 import { pageLink } from "@/constant/pageURL";
-import { signInUser } from "@/firebase/authService";
+import { createUser } from "@/firebase/authService";
+import { TOAST_TYPES } from "@/constant/constant";
+import { showToast } from "@/components/helper/Toaster";
 
-interface LoginFormData {
+interface SignUpFormData {
+  name: string;
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
-const DashboardLogin = () => {
-  const router = useRouter();
+export const DashboardSignUp = ({ navToLogin }: { navToLogin: () => void }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
+    watch,
+    reset,
     formState: { errors },
-  } = useForm<LoginFormData>({
+  } = useForm<SignUpFormData>({
     defaultValues: {
+      name: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
-  const onSubmit = async (data: LoginFormData) => {
+  const password = watch("password");
+
+  const onSubmit = async (data: SignUpFormData) => {
     if (isLoading) return;
     setIsLoading(true);
-    setError(null);
 
     try {
-      const result = await signInUser(data.email, data.password);
-      console.log("Login successful:", result);
-      // Reload the page to trigger auth state check in DashboardGuard
-      router.refresh();
-      // Alternatively, you can redirect to a specific page
-      // router.push("/dashboard");
+      // Validate password match
+      if (data.password !== data.confirmPassword) {
+        showToast({
+          message: "Passwords do not match",
+          type: TOAST_TYPES.ERROR,
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      const result = await createUser(data.name, data.email, data.password);
+
+      showToast({
+        message: `Account created successfully! Welcome, ${result.userData.name}`,
+        type: TOAST_TYPES.SUCCESS,
+      });
+      reset();
     } catch (err: unknown) {
       const errorMessage =
-        err instanceof Error ? err.message : "Failed to sign in";
-      setError(errorMessage);
-      console.error("Login error:", err);
+        err instanceof Error ? err.message : "Failed to create account";
+      console.log(err);
+      showToast({
+        message: errorMessage,
+        type: TOAST_TYPES.ERROR,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -72,7 +90,7 @@ const DashboardLogin = () => {
   const btnDisabled = isDisabled || Object.keys(errors).length > 0;
 
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
+    <div className="flex min-h-svh flex-col items-center justify-center gap-6 p-6">
       <div className="flex w-full max-w-sm flex-col gap-6">
         <div className="flex items-center gap-2 self-center font-medium">
           <AppLogo />
@@ -80,32 +98,35 @@ const DashboardLogin = () => {
         <div className="flex flex-col gap-6">
           <Card>
             <CardHeader className="text-center">
-              <CardTitle className="text-xl">Welcome back</CardTitle>
-              <CardDescription>Login with your Google account</CardDescription>
+              <CardTitle className="text-xl">Create an account</CardTitle>
+              <CardDescription>Sign up to get started</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <FieldGroup>
                   <Field>
-                    <Button
-                      variant="outline"
-                      type="button"
-                      disabled={isLoading}
-                    >
-                      <AppIcon name="google" />
-                      Login with Google
-                    </Button>
+                    <FieldLabel htmlFor="name">Full Name</FieldLabel>
+                    <Input
+                      id="name"
+                      type="text"
+                      placeholder="John Doe"
+                      aria-invalid={errors.name ? "true" : "false"}
+                      autoFocus={true}
+                      disabled={isDisabled}
+                      {...register("name", {
+                        required: "Name is required",
+                        minLength: {
+                          value: 2,
+                          message: "Name must be at least 2 characters",
+                        },
+                      })}
+                    />
+                    {errors.name && (
+                      <FieldDescription className="text-destructive">
+                        {errors.name.message}
+                      </FieldDescription>
+                    )}
                   </Field>
-                  <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
-                    Or continue with
-                  </FieldSeparator>
-                  {error && (
-                    <Field>
-                      <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
-                        {error}
-                      </div>
-                    </Field>
-                  )}
                   <Field>
                     <FieldLabel htmlFor="email">Email</FieldLabel>
                     <Input
@@ -113,7 +134,6 @@ const DashboardLogin = () => {
                       type="email"
                       placeholder="m@example.com"
                       aria-invalid={errors.email ? "true" : "false"}
-                      autoFocus={true}
                       disabled={isDisabled}
                       {...register("email", {
                         required: "Email is required",
@@ -130,15 +150,7 @@ const DashboardLogin = () => {
                     )}
                   </Field>
                   <Field>
-                    <div className="flex items-center">
-                      <FieldLabel htmlFor="password">Password</FieldLabel>
-                      <Link
-                        href={pageLink.privacyPolicy}
-                        className="ml-auto text-sm underline-offset-4 hover:underline"
-                      >
-                        Forgot your password?
-                      </Link>
-                    </div>
+                    <FieldLabel htmlFor="password">Password</FieldLabel>
                     <Input
                       id="password"
                       type="password"
@@ -159,13 +171,36 @@ const DashboardLogin = () => {
                     )}
                   </Field>
                   <Field>
+                    <FieldLabel htmlFor="confirmPassword">
+                      Confirm Password
+                    </FieldLabel>
+                    <Input
+                      id="confirmPassword"
+                      type="password"
+                      aria-invalid={errors.confirmPassword ? "true" : "false"}
+                      disabled={isDisabled}
+                      {...register("confirmPassword", {
+                        required: "Please confirm your password",
+                        validate: (value) =>
+                          value === password || "Passwords do not match",
+                      })}
+                    />
+                    {errors.confirmPassword && (
+                      <FieldDescription className="text-destructive">
+                        {errors.confirmPassword.message}
+                      </FieldDescription>
+                    )}
+                  </Field>
+                  <Field>
                     <Button type="submit" disabled={btnDisabled}>
-                      {isLoading ? "Logging in..." : "Login"}
+                      {isLoading ? "Creating account..." : "Create account"}
                     </Button>
-                    {/* <FieldDescription className="text-center">
-                  Don&apos;t have an account?{" "}
-                  <Link href={pageLink.signup}>Sign up</Link>
-                </FieldDescription> */}
+                    <FieldDescription className="text-center">
+                      Already have an account?{" "}
+                      <Link href="#" onClick={navToLogin}>
+                        Sign in
+                      </Link>
+                    </FieldDescription>
                   </Field>
                 </FieldGroup>
               </form>
@@ -181,5 +216,3 @@ const DashboardLogin = () => {
     </div>
   );
 };
-
-export default DashboardLogin;

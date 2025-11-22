@@ -18,6 +18,7 @@ export const pageLink = {
   faq: "/faq",
   studentSupport: "/support",
   careerGuidance: "/career-guidance",
+  dashboard: "/dashboard",
 };
 
 export const pageURL: Record<
