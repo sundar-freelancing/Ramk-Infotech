@@ -340,5 +340,39 @@ export function SmoothScroll({
     };
   }, [disabled]);
 
+  // Handle scroll lock (pause smooth scroll when body has data-scroll-locked)
+  useEffect(() => {
+    if (!lenisRef.current || disabled) return;
+
+    const checkScrollLock = () => {
+      if (!lenisRef.current) return;
+
+      const isScrollLocked = document.body.hasAttribute("data-scroll-locked");
+
+      if (isScrollLocked) {
+        lenisRef.current.stop();
+      } else {
+        lenisRef.current.start();
+      }
+    };
+
+    // Check initially
+    checkScrollLock();
+
+    // Observe body for data-scroll-locked attribute changes
+    const bodyObserver = new MutationObserver(() => {
+      checkScrollLock();
+    });
+
+    bodyObserver.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["data-scroll-locked"],
+    });
+
+    return () => {
+      bodyObserver.disconnect();
+    };
+  }, [disabled]);
+
   return <>{children}</>;
 }

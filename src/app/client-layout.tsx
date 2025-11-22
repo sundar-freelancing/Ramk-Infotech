@@ -12,17 +12,21 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase/firestore";
 import { AppConfig, defaultAppConfig } from "@/store/appConfigInterfaces";
 import { MainLoader } from "@/components/helper/MainLoader";
+import Toast from "@/components/helper/Toaster";
 
 interface ClientLayoutProps {
   children: React.ReactNode;
 }
 
 export default function ClientLayout({ children }: ClientLayoutProps) {
+  const pathname = usePathname();
   const [isAOSInitialized, setIsAOSInitialized] = useState(false);
   const { loadingStatus } = useAppConfigStore();
   const { isIconStoreLoading } = useLucideIcons();
+  const isDashboardRoute = pathname.includes("/dashboard") || pathname.includes("/signup");
 
   useEffect(() => {
+    if (isDashboardRoute) return;
     const unsubscribe = onSnapshot(
       collection(db, "appConfig"),
       (snapshot) => {
@@ -62,9 +66,10 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
     );
 
     return () => unsubscribe();
-  }, []);
+  }, [isDashboardRoute]);
 
   useEffect(() => {
+    if (isDashboardRoute) return;
     AOS.init({
       duration: 500,
       once: true,
@@ -81,7 +86,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
     }, 100);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [isDashboardRoute]);
 
   const page = usePathname();
 
@@ -91,7 +96,9 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
     }
   }, [page]);
 
-  const isLoading = !isAOSInitialized || isIconStoreLoading || loadingStatus;
+  const isLoading = isDashboardRoute
+    ? false
+    : !isAOSInitialized || isIconStoreLoading || loadingStatus;
 
   return (
     <ThemeProvider
@@ -103,7 +110,10 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
       {isLoading ? (
         <MainLoader />
       ) : (
-        <PublicPageComponents>{children}</PublicPageComponents>
+        <>
+          <PublicPageComponents>{children}</PublicPageComponents>
+          <Toast />
+        </>
       )}
     </ThemeProvider>
   );
