@@ -7,7 +7,19 @@ import Image from "next/image";
 import { AppIcon } from "../ui/Icon";
 import { CourseInterface } from "@/store/interfaces";
 import { createCourseSlug } from "@/lib/courseUtils";
-import { courses as allCourses } from "@/constant/staticCourse";
+import { cn } from "@/lib/utils";
+import { Badge } from "../ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { Button } from "../ui/button";
+import { Eye, MoreVertical, Trash2 } from "lucide-react";
+import { DashboardDeleteDialog } from "@/app/dashboard/dashboardHelpers/DashboardDeleteDialog";
+import { AlertDialogTrigger } from "../ui/alert-dialog";
+import useAppConfigStore from "@/store/appConfigStore";
 
 const renderStars = (rating: number) => {
   return Array.from({ length: 5 }, (_, i) => (
@@ -23,19 +35,34 @@ const renderStars = (rating: number) => {
   ));
 };
 
-export const CourseCards = ({ courses }: { courses: CourseInterface[] }) => {
+export const CourseCards = ({
+  courses,
+  animation = true,
+  isFromDashboard = false,
+}: {
+  courses: CourseInterface[];
+  animation?: boolean;
+  isFromDashboard?: boolean;
+}) => {
+  const { courses: coursesObject } = useAppConfigStore();
+  const allCourses = Object.values(coursesObject || {});
   const isCoursesAvailable = allCourses.length > 0;
+  const Tag = isFromDashboard ? "div" : Link;
   return (
     <>
       {isCoursesAvailable && courses.length > 0 ? (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {courses.map((course, index) => {
             return (
-              <Link
+              <Tag
                 href={`${pageLink.courses}/${createCourseSlug(course.name)}`}
                 key={index}
-                data-aos="fade"
-                data-aos-delay={(index % 3) * 100}
+                {...(animation &&
+                  !isFromDashboard && {
+                    "data-aos": "fade-up",
+                    "data-aos-delay": (index % 3) * 100,
+                    "data-aos-duration": 600,
+                  })}
                 aria-label={`Learn more about ${course.name} course`}
               >
                 <Card className="!p-0 overflow-hidden shadow-xs rounded-md gap-0 group/course h-full">
@@ -49,7 +76,26 @@ export const CourseCards = ({ courses }: { courses: CourseInterface[] }) => {
                       className="object-cover group-hover/course:scale-105 transition-all duration-300"
                     />
                     {/* Category Tag */}
-                    <div className="absolute top-4 left-4">
+
+                    {isFromDashboard && (
+                      <>
+                        <Badge
+                          variant={course.isEnabled ? "success" : "destructive"}
+                          className="absolute top-4 left-4"
+                        >
+                          {course.isEnabled ? "Active" : "Inactive"}
+                        </Badge>
+                        <DashboardDeleteDialog course={course}>
+                          <Dropdown course={course} />
+                        </DashboardDeleteDialog>
+                      </>
+                    )}
+                    <div
+                      className={cn(
+                        "absolute left-4 ",
+                        isFromDashboard ? "bottom-4" : "top-4"
+                      )}
+                    >
                       <span className="bg-yellow-400 text-black px-3 py-1 rounded-md text-sm font-medium">
                         {course.category}
                       </span>
@@ -57,21 +103,26 @@ export const CourseCards = ({ courses }: { courses: CourseInterface[] }) => {
                   </div>
 
                   {/* Course Details */}
-                  <CardContent className="py-8 px-6 flex-1 flex flex-col gap-4">
+                  <CardContent className="py-8 px-6 flex-1 flex flex-col gap-4 w-full">
                     {/* Metadata Row */}
-                    <div className="flex items-center justify-between text-sm text-gray-700 dark:text-gray-300 font-medium">
-                      <div className="flex items-center gap-1">
+                    <div className="flex items-center justify-between text-sm text-gray-700 dark:text-gray-300 font-medium gap-2 min-w-0">
+                      <div className="flex items-center gap-1 shrink-0">
                         <AppIcon name="book-open" className="w-4 h-4" />
                         <span>{course.lessons} Lessons</span>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <AppIcon name="user" className="w-4 h-4" />
-                        <span>{course.instructor.name}</span>
+                      <div className="flex flex-1 items-center gap-1 min-w-0">
+                        <AppIcon name="user" className="w-4 h-4 shrink-0" />
+                        <span
+                          className="break-all"
+                          title={course.instructor.name}
+                        >
+                          {course.instructor.name}
+                        </span>
                       </div>
                     </div>
 
                     {/* Course Title */}
-                    <h3 className="text-xl font-bold line-clamp-2 group-hover/course:text-blue-500 transition-all duration-300">
+                    <h3 className="text-xl font-bold line-clamp-2 group-hover/course:text-blue-500 transition-all duration-300 break-all">
                       {course.name}
                     </h3>
 
@@ -102,14 +153,18 @@ export const CourseCards = ({ courses }: { courses: CourseInterface[] }) => {
                     </div>
                   </CardContent>
                 </Card>
-              </Link>
+              </Tag>
             );
           })}
         </div>
       ) : (
         <div
           className="flex flex-col items-center justify-center py-16 px-4"
-          data-aos="fade"
+          {...(animation &&
+            !isFromDashboard && {
+              "data-aos": "fade-up",
+              "data-aos-duration": 600,
+            })}
           key={isCoursesAvailable ? courses.length : 0}
         >
           <div className="flex flex-col items-center gap-4 max-w-md">
@@ -136,5 +191,39 @@ export const CourseCards = ({ courses }: { courses: CourseInterface[] }) => {
         </div>
       )}
     </>
+  );
+};
+
+const Dropdown = ({ course }: { course: CourseInterface }) => {
+  return (
+    <div className="absolute top-3 right-3">
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="secondary" size="icon">
+            <MoreVertical className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start">
+          <DropdownMenuItem asChild>
+            <Link href={`${pageLink.dashboardCourses}/${course.id}`}>
+              <Eye className="mr-2 h-4 w-4" />
+              View Details
+            </Link>
+          </DropdownMenuItem>
+          {/* <DropdownMenuItem asChild>
+            <Link href={`${pageLink.dashboardCourses}/${course.id}`}>
+              <Edit className="mr-2 h-4 w-4" />
+              Edit Course
+            </Link>
+          </DropdownMenuItem> */}
+          <AlertDialogTrigger asChild>
+            <DropdownMenuItem className="text-destructive focus:text-destructive cursor-pointer">
+              <Trash2 className="mr-2 h-4 w-4" />
+              Delete Course
+            </DropdownMenuItem>
+          </AlertDialogTrigger>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   );
 };

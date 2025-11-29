@@ -1,6 +1,5 @@
 "use client";
 
-import { courses } from "@/constant/staticCourse";
 import { CourseInterface } from "@/store/interfaces";
 import { Container } from "@/components/ui/Container";
 import { use, useEffect, useState } from "react";
@@ -11,6 +10,7 @@ import { InstructorCard } from "@/components/courses/InstructorCard";
 import { ReviewsCard } from "@/components/courses/ReviewsCard";
 import { CourseSidebar } from "@/components/courses/CourseSidebar";
 import NotFound from "@/app/not-found";
+import useAppConfigStore from "@/store/appConfigStore";
 
 interface CourseViewPageProps {
   params: Promise<{
@@ -22,12 +22,14 @@ export default function CourseViewPage({ params }: CourseViewPageProps) {
   const { courseName } = use(params);
   const [course, setCourse] = useState<CourseInterface | undefined>(undefined);
   const [mounted, setMounted] = useState(false);
+  const { courses: coursesObject } = useAppConfigStore();
+  const courses = Object.values(coursesObject || {});
 
   useEffect(() => {
     setMounted(true);
     const foundCourse = findCourseBySlug(courseName, courses);
     setCourse(foundCourse);
-  }, [courseName]);
+  }, [courseName, courses]);
 
   if (!mounted) {
     return null; // Prevent hydration mismatch
@@ -39,7 +41,12 @@ export default function CourseViewPage({ params }: CourseViewPageProps) {
 
   // Check if course is disabled
   if (!course.isEnabled) {
-    return <NotFound courseName={courseName} disabledReason={course.disabledReason} />;
+    return (
+      <NotFound
+        courseName={courseName}
+        disabledReason={course.disabledReason}
+      />
+    );
   }
 
   return (

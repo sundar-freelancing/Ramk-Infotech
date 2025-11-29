@@ -8,37 +8,35 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
-import { updateAppConfigStatus } from "@/firebase/firebaseService";
+import { updateAppStatus } from "@/firebase/firebaseService";
 import useAppConfigStore from "@/store/appConfigStore";
 import { AppIcon } from "@/components/ui/Icon";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import UseAdminDataStore from "@/store/adminDataStore";
+import { DashboardHeaders } from "./dashboardHelpers/DashboardHeaders";
 
 export default function DashboardPage() {
-  const { id, appStatus, toggleAppStatus } = useAppConfigStore();
+  const { appStatus, toggleAppStatus } = useAppConfigStore();
   const { userData } = UseAdminDataStore();
 
   const handleToggleAppStatus = async () => {
     toggleAppStatus();
-    await updateAppConfigStatus(id, {
+    await updateAppStatus({
       enabled: !appStatus.enabled,
       reason: !appStatus.enabled
         ? "Admin made the app inactive due to some reason"
-        : "",
+        : appStatus.reason,
     });
   };
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground">
-          Welcome back{userData?.email ? `, ${userData.email.split("@")[0]}` : ""}! Manage your application settings and monitor status.
-        </p>
-      </div>
-
-      <Separator />
+      <DashboardHeaders
+        title="Dashboard"
+        description={`Welcome back${
+          userData?.email ? `, ${userData.email.split("@")[0]}` : ""
+        }! Manage your application settings and monitor status.`}
+      />
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {/* Application Status Card */}

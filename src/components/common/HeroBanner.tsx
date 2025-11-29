@@ -16,10 +16,12 @@ import Image from "next/image";
 import { images } from "@/constant/images";
 import Typewriter, { TypewriterClass } from "typewriter-effect";
 import { PrimaryButton } from "../ui/button";
-import { courses } from "@/constant/staticCourse";
 import { createCourseSlug } from "@/lib/courseUtils";
+import useAppConfigStore from "@/store/appConfigStore";
 
 export const HeroBanner = () => {
+  const { courses: coursesObject } = useAppConfigStore();
+  const courses = Object.values(coursesObject || {});
   const pathname = usePathname();
   const courseName = pathname.includes("/courses/")
     ? pathname.split("/")[2]
@@ -53,10 +55,10 @@ export const HeroBanner = () => {
         </div>
       </Container>
       <div className="absolute top-1/2 -translate-y-1/2 left-0" data-aos="fade">
-        <Image 
-          src={images.shape6} 
-          alt="shape2" 
-          width={50} 
+        <Image
+          src={images.shape6}
+          alt="shape2"
+          width={50}
           className="w-10"
           loading="lazy"
           fetchPriority="low"

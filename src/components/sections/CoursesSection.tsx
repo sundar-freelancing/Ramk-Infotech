@@ -1,11 +1,15 @@
-import { courses } from "@/constant/staticCourse";
 import { Container } from "../ui/Container";
 import { Title1, Title2 } from "../helper/Titles";
 import { CourseCards } from "../helper/CourseCards";
+import useAppConfigStore from "@/store/appConfigStore";
 
 export const CoursesSection = () => {
   // Filter only enabled courses and take first 9
-  const enabledCourses = courses.filter(course => course.isEnabled);
+
+  const { courses: coursesObject } = useAppConfigStore();
+  const courses = Object.values(coursesObject || {});
+
+  const enabledCourses = courses.filter((course) => course.isEnabled);
   const firstNineCourses = enabledCourses.slice(0, 9);
   return (
     <Container>

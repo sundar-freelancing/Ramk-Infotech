@@ -10,11 +10,11 @@ import {
 } from "@/components/ui/popover";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
-import { courses } from "@/constant/staticCourse";
 import { useEffect, useState, useMemo, useRef, useCallback, memo } from "react";
 import { cn } from "@/lib/utils";
 import { AppIcon } from "@/components/ui/Icon";
 import { useSearchParams, useRouter } from "next/navigation";
+import useAppConfigStore from "@/store/appConfigStore";
 
 // Memoized category item component to prevent unnecessary re-renders
 interface CategoryItemProps {
@@ -96,11 +96,16 @@ AllOption.displayName = "AllOption";
 export default function Courses() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  
+
+  const { courses: coursesObject } = useAppConfigStore();
+  const courses = Object.values(coursesObject || {});
+
   // Filter only enabled courses
-  const enabledCourses = useMemo(() => courses.filter(course => course.isEnabled), []);
-  
-  const [courseData, setCourseData] = useState(enabledCourses);
+  const enabledCourses = useMemo(
+    () => courses.filter((course) => course.isEnabled),
+    [courses]
+  );
+
   const [searchQuery, setSearchQuery] = useState("");
 
   // Initialize selectedCategories from URL params or default to empty (show all)
@@ -124,7 +129,9 @@ export default function Courses() {
 
   // Extract unique categories from enabled courses - memoized
   const categories = useMemo(() => {
-    return Array.from(new Set(enabledCourses.map((course) => course.category))).sort();
+    return Array.from(
+      new Set(enabledCourses.map((course) => course.category))
+    ).sort();
   }, [enabledCourses]);
 
   // Filter selectedCategories to only include valid categories
@@ -229,11 +236,6 @@ export default function Courses() {
     });
   }, [validSelectedCategories, searchQuery, enabledCourses]);
 
-  // Update courseData only when filteredCourses changes
-  useEffect(() => {
-    setCourseData(filteredCourses);
-  }, [filteredCourses]);
-
   // Memoized display text for dropdown button
   const dropdownButtonText = useMemo(() => {
     if (validSelectedCategories.length === 0) return "All";
@@ -254,7 +256,7 @@ export default function Courses() {
           >
             {/* Results Count - Left */}
             <div className="text-gray-700 dark:text-gray-300 font-medium">
-              Showing 1-{courseData.length} of {courses.length} results
+              Showing 1-{filteredCourses.length} of {courses.length} results
             </div>
 
             {/* Filters - Right */}
@@ -344,7 +346,7 @@ export default function Courses() {
             </div>
           )}
         </div>
-        <CourseCards courses={courseData} />
+        <CourseCards courses={filteredCourses} />
       </Container>
     </>
   );

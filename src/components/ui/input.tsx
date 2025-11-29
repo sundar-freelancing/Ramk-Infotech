@@ -15,7 +15,7 @@ function Input({
   const inputType = isPassword && showPassword ? "text" : type;
 
   return (
-    <div className="relative w-full">
+    <div className="relative">
       <input
         type={inputType}
         data-slot="input"
