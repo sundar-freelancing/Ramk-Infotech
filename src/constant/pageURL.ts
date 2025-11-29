@@ -19,6 +19,16 @@ export const pageLink = {
   studentSupport: "/support",
   careerGuidance: "/career-guidance",
   dashboard: "/dashboard",
+  dashboardAnalytics: "/dashboard/analytics",
+  dashboardCourses: "/dashboard/courses",
+  dashboardCourseDetails: "/dashboard/courses/:id",
+  dashboardTrainers: "/dashboard/trainers",
+  dashboardTrainerDetails: "/dashboard/trainers/:id",
+  dashboardContact: "/dashboard/contact",
+  dashboardContactDetails: "/dashboard/contact/:id",
+  dashboardCollegeStudents: "/dashboard/college-students",
+  dashboardCollegeStudentDetails: "/dashboard/college-students/:id",
+  dashboardNotFound: "/dashboard/not-found",
 };
 
 export const pageURL: Record<

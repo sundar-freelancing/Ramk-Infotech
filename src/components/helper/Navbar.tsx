@@ -12,7 +12,6 @@ import {
   NavigationMenuContent,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { courses as staticCourses } from "@/constant/staticCourse";
 import { pageURL } from "@/constant/pageURL";
 import { navbarLinks, publicPageURL } from "@/constant/public_PageURL";
 import { Button, buttonVariants } from "../ui/button";
@@ -34,10 +33,11 @@ import { AppLogo } from "./AppLogo";
 import { usePathname, useRouter } from "next/navigation";
 import { createCourseSlug } from "@/lib/courseUtils";
 import { CourseSearchBar } from "./CourseSearchBar";
+import useAppConfigStore from "@/store/appConfigStore";
 
 // Types
 interface Course {
-  id: number;
+  id: string;
   name: string;
   duration: string;
   level: string;
@@ -142,6 +142,9 @@ export const Navbar = () => {
     setIsOpen(false);
   }, []);
 
+  const { courses: coursesObject } = useAppConfigStore();
+  const courses = Object.values(coursesObject || {});
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 200) {
@@ -198,20 +201,20 @@ export const Navbar = () => {
                             <div className="grid gap-3 p-4 w-[400px] md:w-[900px]">
                               <div
                                 className={`grid gap-3 ${
-                                  staticCourses.length > 8
+                                  courses.length > 8
                                     ? "grid-cols-3"
                                     : "grid-cols-2"
                                 }`}
                               >
-                                {staticCourses.length > 0 &&
-                                  staticCourses.map((course) => (
+                                {courses.length > 0 &&
+                                  courses.map((course) => (
                                     <CourseItem
                                       key={course.id}
                                       course={course}
                                       pathname={pathname}
                                     />
                                   ))}
-                                {staticCourses.length === 0 && (
+                                {courses.length === 0 && (
                                   <div className="col-span-2">
                                     <p className="text-sm text-muted-foreground">
                                       No courses available

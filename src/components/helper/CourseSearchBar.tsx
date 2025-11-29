@@ -14,11 +14,11 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { AppIcon } from "../ui/Icon";
-import { courses as staticCourses } from "@/constant/staticCourse";
 import { pageURL } from "@/constant/pageURL";
 import { createCourseSlug } from "@/lib/courseUtils";
 import { CourseInterface } from "@/store/interfaces";
 import { cn } from "@/lib/utils";
+import useAppConfigStore from "@/store/appConfigStore";
 
 interface CourseSearchBarProps {
   className?: string;
@@ -65,20 +65,25 @@ export const CourseSearchBar: React.FC<CourseSearchBarProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
 
+  const { courses: coursesObject } = useAppConfigStore();
+  const courses = Object.values(coursesObject || {});
+
   // Extract unique categories from enabled courses
   const courseCategories = useMemo(() => {
-    const enabledCourses = staticCourses.filter((course) => course.isEnabled);
+    const enabledCourses = courses.filter((course) => course.isEnabled);
     const uniqueCategories = Array.from(
       new Set(enabledCourses.map((course) => course.category))
     ).sort();
     return ["All Categories", ...uniqueCategories];
-  }, []);
+  }, [courses]);
 
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
 
   // Filter courses based on category and search query
   const filteredCourses = useMemo(() => {
-    let filtered = staticCourses.filter((course: CourseInterface) => course.isEnabled);
+    let filtered = courses.filter(
+      (course: CourseInterface) => course.isEnabled
+    );
 
     // Filter by category if not "All Categories"
     if (selectedCategory !== "All Categories") {
@@ -100,7 +105,7 @@ export const CourseSearchBar: React.FC<CourseSearchBarProps> = ({
     }
 
     return filtered.slice(0, 8); // Limit to 8 suggestions
-  }, [selectedCategory, searchQuery]);
+  }, [selectedCategory, searchQuery, courses]);
 
   // Handle search input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -18,8 +18,8 @@ import { Input } from "../ui/input";
 import { PrimaryButton } from "../ui/button";
 import Link from "next/link";
 import { AppLogo } from "./AppLogo";
-import { courses } from "@/constant/staticCourse";
 import { createCourseSlug } from "@/lib/courseUtils";
+import useAppConfigStore from "@/store/appConfigStore";
 
 const FooterSupport = ({
   data,
@@ -71,6 +71,9 @@ export const Footer = () => {
   ];
 
   const contactInfo = [phoneNumberData, emailData, addressData];
+
+  const { courses: coursesObject } = useAppConfigStore();
+  const courses = Object.values(coursesObject || {});
 
   const footerCourses = courses
     .sort(() => Math.random() - 0.5) // shuffle array randomly

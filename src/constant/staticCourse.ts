@@ -2,7 +2,7 @@ import { CourseInterface } from "@/store/interfaces";
 
 export const courses: CourseInterface[] = [
   {
-    id: 1,
+    id: "1",
     name: "SAP Modules – ABAP | SD | MM | EWM | FICO | BASIS | SAC",
     category: "SAP",
     image:
@@ -39,7 +39,7 @@ export const courses: CourseInterface[] = [
     trainerKey: "SAP Expert",
   },
   {
-    id: 2,
+    id: "2",
     name: "Data Science (AI & ML)",
     category: "Data Science",
     image:
@@ -73,7 +73,7 @@ export const courses: CourseInterface[] = [
     trainerKey: "Data Science Specialist",
   },
   {
-    id: 3,
+    id: "3",
     name: "Cyber Security",
     category: "Cybersecurity",
     image:
@@ -106,7 +106,7 @@ export const courses: CourseInterface[] = [
     trainerKey: "Cyber Security Expert",
   },
   {
-    id: 4,
+    id: "4",
     name: "DevOps & Cloud Engineer",
     category: "DevOps",
     image:
@@ -142,7 +142,7 @@ export const courses: CourseInterface[] = [
     trainerKey: "DevOps & Cloud Specialist",
   },
   {
-    id: 5,
+    id: "5",
     name: "Blockchain Developer",
     category: "Blockchain",
     image:
@@ -177,7 +177,7 @@ export const courses: CourseInterface[] = [
     trainerKey: "Blockchain Developer",
   },
   {
-    id: 6,
+    id: "6",
     name: "AR/VR Developer",
     category: "AR/VR",
     image:
@@ -215,7 +215,7 @@ export const courses: CourseInterface[] = [
     trainerKey: "AR/VR Developer",
   },
   {
-    id: 7,
+    id: "7",
     name: "Full-Stack Development",
     category: "Web Development",
     image:
@@ -251,7 +251,7 @@ export const courses: CourseInterface[] = [
     trainerKey: "Full-Stack Developer",
   },
   {
-    id: 8,
+    id: "8",
     name: "IT Support Engineer",
     category: "IT Support",
     image:
@@ -285,7 +285,7 @@ export const courses: CourseInterface[] = [
     trainerKey: "IT Support Engineer",
   },
   {
-    id: 9,
+    id: "9",
     name: "Software Testing",
     category: "Testing",
     image:
@@ -319,7 +319,7 @@ export const courses: CourseInterface[] = [
     trainerKey: "QA Specialist",
   },
   {
-    id: 10,
+    id: "10",
     name: "Business Intelligence",
     category: "Business Intelligence",
     image:
@@ -354,7 +354,7 @@ export const courses: CourseInterface[] = [
     trainerKey: "Business Intelligence Analyst",
   },
   {
-    id: 11,
+    id: "11",
     name: "Medical Billing & Coding",
     category: "Healthcare",
     image:
@@ -388,7 +388,7 @@ export const courses: CourseInterface[] = [
     trainerKey: "Healthcare Specialist",
   },
   {
-    id: 12,
+    id: "12",
     name: "SQL & Snowflake Developer",
     category: "Database",
     image:
@@ -423,7 +423,7 @@ export const courses: CourseInterface[] = [
     trainerKey: "Database Developer",
   },
   {
-    id: 13,
+    id: "13",
     name: "Salesforce Developer",
     category: "CRM",
     image:

@@ -1,13 +1,13 @@
 // Define the structure of your instructor
-interface InstructorInterface {
+export interface InstructorInterface {
   name: string;
   avatar: string;
-  fullImage?: string;
+  fullImage?: string | undefined;
 }
 
 // Define the structure of your course
 export interface CourseInterface {
-  id: number;
+  id: string; // Firebase document key used as ID
   name: string;
   category: string;
   image: string;
@@ -23,6 +23,7 @@ export interface CourseInterface {
   isEnabled: boolean;
   disabledReason?: string;
   createdTimeStamp: string;
+  updatedTimeStamp?: string;
   disabledTimeStamp?: string;
   trainerKey?: string;
 }

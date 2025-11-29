@@ -6,7 +6,7 @@ import { AppIcon } from "../ui/Icon";
 import Link from "next/link";
 import { Card } from "../ui/card";
 import { useMemo } from "react";
-import { courses } from "@/constant/staticCourse";
+import useAppConfigStore from "@/store/appConfigStore";
 
 const CategoriesCard = ({
   title,
@@ -52,8 +52,10 @@ const CategoriesCard = ({
   );
 };
 
-
 export const CategoriesSection = () => {
+  const { courses: coursesObject } = useAppConfigStore();
+  const courses = Object.values(coursesObject || {});
+
   const courseCategories = useMemo(() => {
     const enabledCourses = courses.filter((course) => course.isEnabled);
     // Get unique categories
@@ -72,9 +74,27 @@ export const CategoriesSection = () => {
     return shuffled.slice(0, 8).map((category) => ({
       category,
     }));
-  }, []);
-  const icons = ["briefcase", "rocket", "heart", "shield", "palette", "code", "dollar-sign", "camera"];
-  const iconColors = ["#8B5CF6", "#10B981", "#3B82F6", "#EF4444", "#F59E0B", "#3B82F6", "#EF4444", "#F59E0B"];
+  }, [courses]);
+  const icons = [
+    "briefcase",
+    "rocket",
+    "heart",
+    "shield",
+    "palette",
+    "code",
+    "dollar-sign",
+    "camera",
+  ];
+  const iconColors = [
+    "#8B5CF6",
+    "#10B981",
+    "#3B82F6",
+    "#EF4444",
+    "#F59E0B",
+    "#3B82F6",
+    "#EF4444",
+    "#F59E0B",
+  ];
   return (
     <Container>
       <div className="flex lg:items-center flex-col lg:flex-row justify-between mb-12 gap-3 lg:gap-0">

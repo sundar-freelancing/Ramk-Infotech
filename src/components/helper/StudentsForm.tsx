@@ -29,8 +29,8 @@ import {
 } from "@/services/googleSheetService";
 import Image from "next/image";
 import { images } from "@/constant/images";
-import { courses } from "@/constant/staticCourse";
 import { CourseInterface } from "@/store/interfaces";
+import useAppConfigStore from "@/store/appConfigStore";
 
 const dancingScript = Dancing_Script({
   subsets: ["latin"],
@@ -82,8 +82,11 @@ interface FormData {
   updatedAt: string;
 }
 
-// Extract unique categories from enabled courses
-const courseCategories = () => {
+// Hook to get course categories - must be called inside a component
+const useCourseCategories = () => {
+  const { courses: coursesObject } = useAppConfigStore();
+  const courses = Object.values(coursesObject || {});
+
   const enabledCourses = courses.filter(
     (course: CourseInterface) => course.isEnabled
   );
@@ -96,7 +99,8 @@ const courseCategories = () => {
   }));
 };
 
-const selectOptions = {
+// Static select options (without interest which needs to be computed dynamically)
+const staticSelectOptions = {
   purpose: [
     { value: "learn-skills", label: "I want to learn new tech skills" },
     { value: "job-courses", label: "I'm looking for job-oriented courses" },
@@ -109,7 +113,6 @@ const selectOptions = {
     { value: "google-search", label: "Google Search" },
     { value: "posters-events", label: "Posters / Events" },
   ],
-  interest: [...courseCategories()],
   timeline: [
     { value: "immediately", label: "Immediately" },
     { value: "within-month", label: "Within 1 month" },
@@ -173,6 +176,15 @@ const QuizFormLogic = ({
   const [errors, setErrors] = useState<Partial<FormData>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  
+  // Get course categories using hook (must be called inside component)
+  const courseCategories = useCourseCategories();
+  
+  // Combine static options with dynamic course categories
+  const selectOptions = {
+    ...staticSelectOptions,
+    interest: courseCategories,
+  };
 
   useEffect(() => {
     setFormData(initializeFormData());
